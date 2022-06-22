@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using _Excel = Microsoft.Office.Interop.Excel;
 
@@ -9,10 +10,10 @@ namespace combinate_file
     class ServiceExcel
     {
         string path = "";
-        public _Application excel = new _Excel.Application();
+        private _Application excel = new _Excel.Application();
 
-        public Workbook wb;
-        public Worksheet ws;
+        private Workbook wb;
+        private Worksheet ws;
         public ServiceExcel(string path, int Sheet)
         {
             this.path = path;
@@ -22,9 +23,7 @@ namespace combinate_file
 
         public void ProtectWorkbook(string password)
         {
-            //wb.Protect(password);
             wb.Password = password;
-            Console.WriteLine("Se protegio el archivo");
             wb.Save();
 
         }
@@ -33,19 +32,18 @@ namespace combinate_file
             wb.Close();
         }
 
-        public String nameSheet()
+        public  String nameSheet()
         {
             return ws.Name;
         }
 
-        public List<string> getCodeBrand()
+        public static List<string> getCodeBrand()
         {
             List<string> codeBrandList = new List<string>();
             var rangeExcel = ws.UsedRange;
             if (rangeExcel != null)
             {
                 int numbreRows = rangeExcel.Rows.Count;
-                int numbreColumns = rangeExcel.Columns.Count;
                 for (int initRow = 1; initRow <= numbreRows; initRow++)
                 {
                     var codeBrand = ws.Cells[initRow, 2].Value;
@@ -111,15 +109,16 @@ namespace combinate_file
                 wb.Save();
                 wb.Close();
                 excel.Quit();
-            }
-            catch {
+            }catch (IOException e)
+            {
+                Logs.LogWrite(path + @"\log_bot\combiar_archivos.txt", "Se combiono el archivo: " + e.ToString());
                 wb.Close(false);
                 excel.Quit();
             }
 
         }
 
-        public Dictionary<string, object> countDataList(List<string> listData)
+        public static Dictionary<string, object> countDataList(List<string> listData)
         {
             Dictionary<string, object> resultData = new Dictionary<string, object>();
            var dataCounting =  listData
@@ -134,22 +133,11 @@ namespace combinate_file
             return resultData;
         }
 
-        public void generateReport(List<string> codeBrandList, string pathReporte)
+        public static void generateReport(List<string> codeBrandList, string pathReporte)
         {
-            /*
-            ServiceManagerTime timeManager = new ServiceManagerTime();
-            Dictionary<string, string> timeExecute = timeManager.getTime();
-            */
-            var result = codeBrandList
-            .GroupBy(x => x)
-            .ToDictionary(y => y.Key, y => y.Count())
-            .OrderByDescending(z => z.Value);
-
-            foreach (var x in result)
-            {
-                Console.WriteLine(x.Key + ":" + x.Value);
-            }
-
+            codeBrandList.GroupBy(x => x)
+                .ToDictionary(y => y.Key, y => y.Count())
+                .OrderByDescending(z => z.Value);
         }
         public List<string> getDataCanceladas()
         {

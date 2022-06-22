@@ -37,22 +37,20 @@ namespace combinate_file
 
                 //Guadar la información en el archivo de excel
                 ServiceExcel wbMacro = new ServiceExcel(pathReportMacro, 2);
-                Console.WriteLine("Filas en \t");
-                Console.WriteLine("Boletinadas: "+dataExcelBoletindas.Count.ToString()+"\t");
-                Console.WriteLine("Yobsidiam: "+dataExcelYobsidiam.Count.ToString());
+
 
                 //Las cuentas boletinadas tinen una cabcera por tanto debe empezar en 2
                 int initWriteBoletinadas = (wbMacro.initRowWrite(pathReportMacro,2)+1);
-                Console.WriteLine("Boletinadas: " + initWriteBoletinadas.ToString());
+
                 wbMacro.insertDataExcel(pathReportMacro, dataExcelBoletindas,2, initWriteBoletinadas);
                 int initWriteYobsidiam = wbMacro.initRowWrite(pathReportMacro, 1);
-                Console.WriteLine("Yobsidiam: " + initWriteYobsidiam.ToString());
+
 
                 wbMacro.insertDataExcel(pathReportMacro, dataExcelYobsidiam, 1, initWriteYobsidiam);
                 
                 //Ejecutar la macro
                 ServiceExcel wbMacroConsolidado = new ServiceExcel(pathReportMacro, 2);
-                Console.WriteLine("Ejecutando la macro");
+
                 wbMacroConsolidado.executeMacro(pathReportMacro, "Macro5");
                 
 
@@ -65,13 +63,9 @@ namespace combinate_file
 
                 //Fin del tiempode proceso
                 timeMeasure.Stop();
-                Console.WriteLine($"Tiempo: {Math.Round((timeMeasure.Elapsed.TotalMilliseconds / 1000),2)} s");
 
 
-            }
-            else
-            {
-                Console.WriteLine("Los argumentos no son validos");
+
             }
 
         }

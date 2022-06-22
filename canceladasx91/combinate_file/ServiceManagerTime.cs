@@ -10,7 +10,7 @@ namespace combinate_file
     class ServiceManagerTime
     {
 
-        public Dictionary<string, string> getTime()
+        public static Dictionary<string, string> getTime()
         {
             Dictionary<string, string> executeTime = new Dictionary<string, string>();
             String hourMinute = DateTime.Now.ToString("HH:mm");

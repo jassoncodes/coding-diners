@@ -12,16 +12,17 @@ def chance_status_all(params):
     
     try:
         with xw.App(visible=False) as app:
-            book = app.books.open(r''+path_config, editable=True)
-            sheet_brand = book.sheets[sheet_name]
-            sheet_records = sheet_brand.range(range_activate).value
-            for index, value_cell in enumerate(sheet_records):
-                cell_brand = ""
-                cell_brand = str(cell_init)+str(index+2)
-                if sheet_brand[cell_brand].value:
-                    sheet_brand[cell_brand].value = status
-            book.save()
-            book.close()
+            with app.books.open(r''+path_config, editable=True) as book:
+                sheet_brand = book.sheets[sheet_name]
+                sheet_records = sheet_brand.range(range_activate).value
+                for index, value_cell in enumerate(sheet_records):
+                    cell_brand = ""
+                    cell_brand = str(cell_init)+str(index+2)
+                    if sheet_brand[cell_brand].value:
+                        sheet_brand[cell_brand].value = status
+                        value_cell + " "  
+                book.save()
+                book.close()
             
     except IOError as error:
         except_info = sys.exc_info()

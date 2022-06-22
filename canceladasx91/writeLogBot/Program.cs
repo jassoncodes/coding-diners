@@ -27,10 +27,6 @@ namespace writeLogBot
                         sw.WriteLine(logWrite);
                     }
                 }
-                else
-                {
-                    Console.WriteLine("Los argumentos no sson validos");
-                }
             }
 
 

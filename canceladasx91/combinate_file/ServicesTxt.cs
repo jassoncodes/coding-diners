@@ -9,11 +9,12 @@ namespace combinate_file
 {
     class ServicesTxt
     {
-        public List<string> accountBoletinadas = new List<string>();
-        public List<string> accountYobsidiam = new List<string>();
+        private List<string> accountBoletinadas = new List<string>();
+        private List<string> accountYobsidiam = new List<string>();
 
 
-        public List<string> getDataFile(string pathReport,List<string> dataExcel)
+
+        public static List<string> getDataFile(string pathReport,List<string> dataExcel)
         {
             String line;
             if (File.Exists(pathReport))
@@ -21,24 +22,30 @@ namespace combinate_file
                 try
                 {
                     //Pass the file path and file name to the StreamReader constructor
-                    StreamReader sr = new StreamReader(pathReport);
-                    //Read the first line of text
-                    line = sr.ReadLine();
-                    //Continue to read until you reach end of file
-                    while (line != null)
+                    using (StreamReader sr = new StreamReader(pathReport))  // OK
                     {
-                        //write the line to console window
-                        dataExcel.Add(line);
-                        //Read the next line
                         line = sr.ReadLine();
+                        //Read the first line of text
+
+                        //Continue to read until you reach end of file
+                        while (line != null)
+                        {
+                            //write the line to console window
+                            dataExcel.Add(line);
+                            //Read the next line
+                            line = sr.ReadLine();
+                        }
+                        //close the file
+                        sr.Close();
                     }
-                    //close the file
-                    sr.Close();
+                    //Read the first line of text
+
 
                 }
-                catch (Exception e)
+                catch (IOException e)
                 {
-                    Console.WriteLine("Exception: " + e.Message);
+
+                    Logs.LogWrite(pathReport + @"\log_bot\combiar_archivos.txt", "Se combiono el archivo: "+e.ToString());
                 }
 
 
