@@ -1,3 +1,13 @@
 # RPA_Fraudes_CDI
 
-Scripts usuados para el los proyectos de RPa para el área de Fraudes
+Scripts usuados para el los proyectos de RPA para el área de Fraudes.
+
+
+Para la generación de los programas auxiliares desarrollados con lenguaje PYTHON, seguir los siguientes pasos:
+
+1. Abrir el terminal, crear el entorno virtual, digitar el siguiente comando:
+   1. python -m venv venv
+2. Una vez abierto el proyecto y ejecutas el siguiente comando en Windows
+   1. [ ] source venv/Script/activate.
+   2. [ ] pip install pyinstaller.
+   3. [ ] pyinstaller --onefile --windowed archivo principal.py
