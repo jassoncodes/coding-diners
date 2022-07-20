@@ -37,7 +37,6 @@ def put_log(mensaje:str, marca:str, script:str, pat_log:str ="senderEmail.txt"):
         file.close()
 
 #Debe limpiar la ruta que ingresa para sistemas operativos Windows
-#Debe limpiar la ruta que ingresa para sistemas operativos Windows
 def clear_folder_path(path: str):
     try:
         path = path.replace('\\\\', '/')
@@ -51,22 +50,7 @@ def clear_folder_path(path: str):
         put_log(s_message,"--","senderEmail/helpers")
 
 
-def hide_columns_from_vbscript(path):
-    vbs = win.Dispatch("ScriptControl")
-    vbs.Language = "vbscript"
-    scode = """
-    Function hideColumns(path)
-        Set objExcel = CreateObject("Excel.Application")
-        Set objWorkbook = objExcel.Workbooks.Open(path)
-        Set objSheet = objExcel.ActiveWorkbook.Worksheets("Hoja2")
-        objSheet.Columns("O:R").EntireColumn.Hidden = True
-        objWorkbook.Save
-        objWorkbook.Close
-        objExcel.Quit
-        End Function
-    """
-    vbs.AddCode(scode)
-    vbs.Run("hideColumns", path)
+
     
 #Funcion debe leer un archivo de json
 def read_json(path_json:str):
@@ -78,8 +62,6 @@ def read_json(path_json:str):
         return data
     except IOError as error:
         put_log(error, "Lectura", "senderEmail:helper.py")
-    
-    
     
 def validate_date(date_text):
     try:

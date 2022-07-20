@@ -1,6 +1,6 @@
 import time, json
 import helpers
-from datetime import datetime, timedelta,date
+from datetime import datetime
 
 
 #Debe obtern las horas de diferencia

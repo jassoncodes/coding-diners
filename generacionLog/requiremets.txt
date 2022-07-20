@@ -1,0 +1,8 @@
+secure-smtplib
+xlwings
+requests
+munch
+pyinstaller
+uuid
+pytest
+coverage
