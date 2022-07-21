@@ -22,3 +22,14 @@ def test_get_body_request(get_uuid):
     expected_results = ConnectApi.get_body()
     assert expected_results == body_mock
     get_uuid.assert_called_once()
+    
+#Should generate uuid automatic
+@mock.patch("api.ConnectApi.uuid.uuid4")
+def test_get_uuid(mock_uuid4):
+    uuid_mock = "773684d0-02b6-11ed-b939-0242ac120003"
+    mock_uuid4.return_value = uuid_mock
+    expected = ConnectApi.get_uuid()
+    assert expected == uuid_mock
+    mock_uuid4.assert_called_once()
+    
+    

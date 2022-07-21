@@ -18,6 +18,6 @@ def get_body():
     }
     return body_data
 #Should get a uuid code
-def get_uuid()->str:
+def get_uuid():
     my_uuid = uuid.uuid4()
     return str(my_uuid)
