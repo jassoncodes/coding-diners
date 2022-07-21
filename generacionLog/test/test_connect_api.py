@@ -20,5 +20,5 @@ def test_get_body_request(get_uuid):
         }
     }
     expected_results = ConnectApi.get_body()
-    get_uuid.assert_called_once()
     assert expected_results == body_mock
+    get_uuid.assert_called_once()
