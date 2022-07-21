@@ -2,6 +2,7 @@ import requests
 import socket
 from requests.exceptions import HTTPError
 import uuid
+import time 
 
 #Should connect with microservice send body       
 def connect():
@@ -30,3 +31,9 @@ def get_ip():
     host_name = socket.gethostname()
     ip = socket.gethostbyname(host_name)
     return ip
+
+#Should get la fecha de creacion
+def get_date():
+    now = time.localtime()
+    T_stamp = time.strftime("%Y-%m-%d %H:%M:%S", now) 
+    return str(T_stamp)

@@ -40,7 +40,7 @@ def test_get_uuid(mock_uuid4):
     mock_uuid4.assert_called_once()
     
 
-#Sould get ip del host
+#Should get ip del host
 @patch("api.ConnectApi.socket.gethostbyname")
 def test_get_ip(mock_gethostbyname):
     mock_ip = "10.100.68.168"
@@ -48,5 +48,18 @@ def test_get_ip(mock_gethostbyname):
     expected = ConnectApi.get_ip()
     assert mock_ip == expected
     mock_gethostbyname.assert_called_once()
+    
+    
+#Should get la fecha de creacion
+@patch("api.ConnectApi.time.localtime")
+@patch("api.ConnectApi.time.strftime")
+def test_get_fecha(mock_time, mock_localtime):
+    fecha_mock = "2022-07-01 00:00:00"
+    mock_time.return_value = fecha_mock
+    expected = ConnectApi.get_date()
+    assert fecha_mock == expected
+    mock_time.assert_called_once()
+    mock_localtime.assert_called_once()
+
     
     
