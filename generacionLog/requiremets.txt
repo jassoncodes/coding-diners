@@ -6,3 +6,5 @@ pyinstaller
 uuid
 pytest
 coverage
+socket
+pytest-mock
