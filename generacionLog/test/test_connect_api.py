@@ -8,26 +8,38 @@ def test_connect_api():
     assert results == {}
     
 #Should create body request used in microservice
+@patch("api.ConnectApi.get_date")
 @patch("api.ConnectApi.get_ip")
 @patch("api.ConnectApi.get_uuid")
-def test_get_body_request(mock_get_uuid, mock_get_ip):
+def test_get_body_request(mock_get_uuid, mock_get_ip, mock_get_date):
     uuid_mock = "773684d0-02b6-11ed-b939-0242ac120003"
     mock_ip ="10.100.68.168"
+    fecha_mock = "2022-07-01 00:00:00"
+    
     mock_get_uuid.return_value = uuid_mock
     mock_get_ip.return_value = mock_ip
+    mock_get_date.return_value = fecha_mock
 
+    params_query_score = {
+            "fechaConsulta": "2022-07-01",
+            "horaInicio": "12.12",
+            "horaFin": "13.13"
+        }
     body_mock = { 
         "dinHeader": {
             "aplicacionId": "RPA",
             "canalId": "RPA",
             "uuid": uuid_mock,
-            "ip": mock_ip
-        }
+            "ip": mock_ip,
+            "horaTransaccion": fecha_mock
+        },
+        "dinBody": params_query_score
     }
-    expected_results = ConnectApi.get_body()
+    expected_results = ConnectApi.get_body(params_query_score)
     assert  body_mock == expected_results
     mock_get_uuid.assert_called_once()
     mock_get_ip.assert_called_once()
+    mock_get_date.assert_called_once()
     
     
 #Should generate uuid automatic

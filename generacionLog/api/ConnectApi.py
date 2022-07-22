@@ -9,16 +9,19 @@ def connect():
     return {}
 
 #Should return a structure of data  used in microservice
-def get_body():
+def get_body(params_query):
     uuid_app = get_uuid()
     ip_host = get_ip()
+    date_query = get_date()
     body_data = {
         "dinHeader": {
             "aplicacionId": "RPA",
             "canalId": "RPA",
             "uuid": uuid_app,
-            "ip": ip_host
-        }
+            "ip": ip_host,
+            "horaTransaccion": date_query
+        },
+        "dinBody": params_query
     }
     return body_data
 #Should get a uuid code
