@@ -8,3 +8,4 @@ pytest
 coverage
 socket
 pytest-mock
+pywin32

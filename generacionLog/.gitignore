@@ -2,4 +2,4 @@ venv
 htmlcov
 .pytest_cache
 .vscode
-./*__init__.py
+log_bot

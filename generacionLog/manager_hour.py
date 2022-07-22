@@ -1,9 +1,8 @@
-import time, json
 import helpers
 from datetime import datetime
 
 
-#Debe obtern las horas de diferencia
+#Debe obtener las horas de diferencia
 def get_diference_hour(minute_load_data, hour_init, date_calc):
     now_system = datetime.now()
     hour_now = now_system.strftime("%H:%M:%S")
