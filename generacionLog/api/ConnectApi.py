@@ -5,8 +5,13 @@ import uuid
 import time 
 
 #Should connect with microservice send body       
-def connect():
-    return {}
+def connect(end_point, params_query_score):
+    body_query = get_body(params_query_score)
+    response = requests.post(end_point, json=body_query)
+    if int(response.status_code) == 200:
+        return response.json()
+    else:
+        return {}
 
 #Should return a structure of data  used in microservice
 def get_body(params_query):

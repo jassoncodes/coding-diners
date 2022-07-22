@@ -1,12 +1,59 @@
 from unittest.mock import patch
+from unittest import mock
 from api import ConnectApi
 
-#Should connect with microservice 
-def test_connect_api():
-    params_mock = {}
-    results = ConnectApi.connect()
-    assert results == {}
+#Should connect with microservice success
+@patch("api.ConnectApi.requests.post")
+@patch("api.ConnectApi.get_body")
+def test_connect_api_success(mock_body, mock_request_post):
+    end_point = "ruta_microservicio"
+    params_query_score = {
+            "fechaConsulta": "2022-07-01",
+            "horaInicio": "12.12",
+            "horaFin": "13.13"
+    }
+    mock_body_values = {
+        "dinHeader": {}, 
+        "dinBody": params_query_score
+    }
     
+    mock_body.return_value = mock_body_values
+    mock_response = {"datos": "lista_marcas"}
+    mock_request_post.return_value = mock.Mock(
+        **{"status_code": 200, "json.return_value": mock_response})
+    
+    expected = ConnectApi.connect(end_point, params_query_score)
+    assert mock_response == expected
+    mock_body.assert_called_with(params_query_score)
+    mock_request_post.assert_called_once_with(end_point, json=mock_body_values)
+
+
+#Should connect with microservice fail
+@patch("api.ConnectApi.requests.post")
+@patch("api.ConnectApi.get_body")
+def test_connect_api_fail(mock_body, mock_request_post):
+    end_point = "ruta_microservicio"
+    params_query_score = {
+            "fechaConsulta": "2022-07-01",
+            "horaInicio": "12.12",
+            "horaFin": "13.13"
+    }
+    mock_body_values = {
+        "dinHeader": {}, 
+        "dinBody": params_query_score
+    }
+    
+    mock_body.return_value = mock_body_values
+    mock_response = {}
+    mock_request_post.return_value = mock.Mock(
+        **{"status_code": 300, "json.return_value": mock_response})
+    
+    expected = ConnectApi.connect(end_point, params_query_score)
+    assert mock_response == expected
+    mock_body.assert_called_with(params_query_score)
+    mock_request_post.assert_called_once_with(end_point, json=mock_body_values)
+
+
 #Should create body request used in microservice
 @patch("api.ConnectApi.get_date")
 @patch("api.ConnectApi.get_ip")
