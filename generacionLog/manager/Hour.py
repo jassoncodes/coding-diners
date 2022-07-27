@@ -1,3 +1,4 @@
+from ntpath import join
 import HoockUtilities as helpers
 from datetime import datetime
 
@@ -43,6 +44,16 @@ def get_time_search(date_calc, minute_load_data, now_time):
     day = int(date_calc.day)
 
     date_complet_now = datetime(year, mouth, day, int(now_time[0]), int(now_time[1]), 00)
-    
     time_search = helpers.rest_minute(date_complet_now, minute_load_data)
     return time_search
+
+#Should return time and date
+def get_execute_time():
+    time_search = datetime.now()
+    #Delay de disponibilidad de información en la base de datos de Riesgos
+    minutes = 4
+    time_init = helpers.rest_minute(time_search, minutes)
+    hour_time = time_init["hour_minor"].replace(":", ".").split(".")
+    return {
+        "hour_init":hour_time[0]+"."+hour_time[1]
+    }

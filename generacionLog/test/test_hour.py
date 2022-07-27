@@ -51,3 +51,15 @@ def test_get_time_search():
         "hour_minor": "11:30:00"
     }
     assert results_time == expected_results
+    
+#Should return time and date
+@freeze_time()
+@patch("manager.Hour.datetime.now")
+def test_get_execute_time(mock_now):
+    mock_now.return_value = datetime.datetime(2022,7,1, 17,4,0)
+    expected = {
+        "hour_init": "17.00"
+    }
+    results = Hour.get_execute_time()
+    assert expected == results
+    mock_now.assert_called_once()
