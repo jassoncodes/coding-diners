@@ -63,3 +63,16 @@ def test_get_execute_time(mock_now):
     results = Hour.get_execute_time()
     assert expected == results
     mock_now.assert_called_once()
+    
+
+#Should return date_calc
+@freeze_time()
+@patch("manager.Hour.datetime.now")
+def test_date_calc(mock_now):
+    mock_date_calc = datetime.datetime(2022, 7, 27)
+    mock_now.return_value = mock_date_calc
+    expected = {"date_calc": mock_date_calc}
+    results = Hour.get_date_calc()
+    assert expected == results
+    mock_now.assert_called_once()
+    

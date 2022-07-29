@@ -1,7 +1,7 @@
+from munch import DefaultMunch
 from ntpath import join
 import HoockUtilities as helpers
 from datetime import datetime
-
 #Should to obtain params necesary that used in query microservice
 def get_diference_hour(minute_load_data, hour_init, date_calc):
     results = {}
@@ -29,7 +29,7 @@ def get_diference_hour(minute_load_data, hour_init, date_calc):
         "hour_execute": str(hour_now)
     }
     
-    return results
+    return DefaultMunch.fromDict(results)
 
 #Should rto response with hour of system
 def get_hour():
@@ -54,6 +54,14 @@ def get_execute_time():
     minutes = 4
     time_init = helpers.rest_minute(time_search, minutes)
     hour_time = time_init["hour_minor"].replace(":", ".").split(".")
-    return {
+    date_execute_time = {
         "hour_init":hour_time[0]+"."+hour_time[1]
     }
+    return DefaultMunch.fromDict(date_execute_time)
+    
+#Should return date_calc
+def get_date_calc():
+    date_calc = {
+        "date_calc": datetime.now()
+    }
+    return DefaultMunch.fromDict(date_calc)
