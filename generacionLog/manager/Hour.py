@@ -1,20 +1,18 @@
-from munch import DefaultMunch
+
 from ntpath import join
 import HoockUtilities as helpers
 from datetime import datetime
 #Should to obtain params necesary that used in query microservice
 def get_diference_hour(minute_load_data, hour_init, date_calc):
     results = {}
-
     hour_now = get_hour()
     now_time = hour_init.strip().split(".")
 
     if hour_init.strip().split(".")[0] == "00"  and int(hour_init.strip().split(".")[1]) < 30:
         now_time[0] = 00
         now_time[1] = 00
-
+        
     time_search = get_time_search(date_calc, minute_load_data, now_time)
-    
     hour_ = time_search["hour_minor"].replace(":", ".").split(".")
     
     if hour_init.strip().split(".")[0] == "00" and int(hour_init.strip().split(".")[1]) < 30:
@@ -29,7 +27,7 @@ def get_diference_hour(minute_load_data, hour_init, date_calc):
         "hour_execute": str(hour_now)
     }
     
-    return DefaultMunch.fromDict(results)
+    return helpers.dictToObject(results)
 
 #Should rto response with hour of system
 def get_hour():
@@ -57,11 +55,31 @@ def get_execute_time():
     date_execute_time = {
         "hour_init":hour_time[0]+"."+hour_time[1]
     }
-    return DefaultMunch.fromDict(date_execute_time)
+    return helpers.dictToObject(date_execute_time)
     
 #Should return date_calc
 def get_date_calc():
     date_calc = {
         "date_calc": datetime.now()
     }
-    return DefaultMunch.fromDict(date_calc)
+    return helpers.dictToObject(date_calc)
+
+
+def get_name_mouth(number_mouth):
+    mouth = [
+        '', "ENERO", "FEBRERO", "MARZO",
+        'ABRIL', "MAYO", "JUNIO", "JULIO",
+        'AGOSTO', "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE",
+        'DICIEMBRE'
+    ]
+    return mouth[int(number_mouth)]
+    
+def get_date_report():
+    now_system = datetime.now()
+    year = now_system.year
+    mouth = get_name_mouth(now_system.month)
+    date_report = {
+        "year": year,
+        "month_name": mouth
+    }
+    return helpers.dictToObject(date_report)

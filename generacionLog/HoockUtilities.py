@@ -50,7 +50,8 @@ def clear_folder_path(path: str):
 def read_json(path_json:str):
     try:
         data = []
-        with open(path_json) as json_file:
+        path_clear = clear_folder_path(path_json)
+        with open(path_clear) as json_file:
             data = json.load(json_file)
     
         return data
@@ -92,4 +93,17 @@ def params_config(ruta_file_json):
     path_json_config = ruta_file_json
     path_json = clear_folder_path(path_json_config)
     config_email = read_json(path_json)
-    return DefaultMunch.fromDict(config_email)
+    return dictToObject(config_email)
+
+#Should Dict convert to in Object
+def dictToObject(objectParms):
+    return DefaultMunch.fromDict(objectParms)
+    
+#obtener la fecha
+def get_date_complete():
+    now_system = datetime.now()
+    year = now_system.year
+    mouth = format_time(now_system.month)
+    day = format_time(now_system.day)
+    date_complete = str(year)+"-"+str(mouth)+"-"+str(day)
+    return date_complete

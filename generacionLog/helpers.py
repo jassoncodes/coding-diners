@@ -58,7 +58,6 @@ def read_json(path_json:str):
         data = []
         with open(path_json) as json_file:
             data = json.load(json_file)
-    
         return data
     except IOError as error:
         put_log(error, "Lectura", "senderEmail:helper.py")

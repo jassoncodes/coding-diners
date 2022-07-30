@@ -4,7 +4,6 @@ import requests
 import socket
 import uuid
 import time
-import os
 import sys
 
 #Should connect with microservice send body       
