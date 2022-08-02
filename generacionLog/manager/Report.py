@@ -1,3 +1,4 @@
+from turtle import position
 import xlwings as xw
 from xlwings import Range, constants
 import HoockUtilities as helpers
@@ -53,8 +54,8 @@ def create_report(params):
     except IOError as error:
         except_info = sys.exc_info()
         s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-        # helpers.put_log(s_message,"--","manager_brand", "change_status.txt")
-        # print('Giskard: ', 'existe un error al cambiar el status en el manager_brand')
+        helpers.put_log(s_message,"--","manager_brand", "change_status.txt")
+
 
 def get_last_row_book(book, sheet_book):
     ultima_fila = sheet_book.range('A' + str(book.sheets[0].cells.last_cell.row)).end('up').row
@@ -71,3 +72,35 @@ def close_report(book):
     
 def write_row(sheet_book, position, value_data):
     sheet_book[position].value = value_data
+
+def read_cell(sheet_book, position):
+    return sheet_book[position].value
+
+#Cambio de estatus
+
+def chance_status(brand_search:str, config:str, status:str):
+    try:
+        config = read_config(config)
+        path_config = helpers.dictToObject(config)
+        template_report = str(path_config.principal)+"configuracion.xlsx"
+        path_config = helpers.clear_folder_path(template_report)
+        
+        with xw.App(visible=False) as app:
+            book = app.books.open(r''+path_config, editable=True)
+            sheet_book = get_sheet_name(book, "marcas")
+            last_row = get_last_row_book(book, sheet_book)
+            next_row_write = int(last_row+1)
+            
+            for index in range(2, next_row_write):
+                position = "C"+str(index)
+                brand = read_cell(sheet_book, position)
+                if brand == brand_search.upper():
+                    position = "B"+str(index)    
+                    write_row(sheet_book, position, status)
+                    
+            save_report(book)
+            close_report(book)
+    except IOError as error:
+        except_info = sys.exc_info()
+        s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
+        helpers.put_log(s_message,"--","manager_brand", "change_status.txt")

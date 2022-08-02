@@ -27,13 +27,23 @@ results = ConnectApi.connect(end_point, params_query_score)
 if "datos" in results["dinBody"]:
     execution_records = results["dinBody"]["datos"]
     for execution_record in execution_records:
+        
+        if int(execution_record["registros"]) == 0:
+            observation = "Se recomienda hacer un proceso Manual"
+            print('Giskard: enviar la notificacion', execution_record)
+            Report.chance_status(execution_record["marca"], config, "desactivate")
+            
+        else:
+            observation = results["dinError"]["mensaje"]
+            
         execution_record["fecha_ejecucion"] = str(query_score.date_search)
         execution_record["hour_init"] = query_score.hour_init
         execution_record["hour_end"] = query_score.hour_end
         execution_record["hour_execute"] = query_score.hour_execute
         execution_record["year"] = date_report.year
         execution_record["month"] = date_report.month_name
-        execution_record["observations"] = "observaciones"
+        execution_record["observations"] = observation
+
         
         
 params_report = {
