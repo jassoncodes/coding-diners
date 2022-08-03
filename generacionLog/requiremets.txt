@@ -10,3 +10,4 @@ socket
 pytest-mock
 pywin32
 freezegun
+email-to
