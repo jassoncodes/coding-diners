@@ -1,7 +1,7 @@
 
 from api import ConnectApi
-from manager import Hour
-from manager import Report
+from manager import Hour, Report, Email
+
 
 hour = Hour.get_execute_time()
 date = Hour.get_date_calc()
@@ -31,6 +31,11 @@ if "datos" in results["dinBody"]:
         if int(execution_record["registros"]) == 0:
             observation = "Se recomienda hacer un proceso Manual"
             print('Giskard: enviar la notificacion', execution_record)
+            email_sender = {
+                "subject": "Notificación de Proceso Manual",
+                "content": "Se recomienda realizar un proceso manaul para la marca: "+execution_record["marca"]+" "
+            }
+            Email.sender_email(config, email_sender)
             Report.chance_status(execution_record["marca"], config, "desactivate")
             
         else:

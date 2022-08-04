@@ -57,7 +57,11 @@ def read_json(path_json:str):
         return data
     except IOError as error:
         put_log(error, "Lectura", "read_json")
-    
+ 
+def get_data_json(path_json):
+    data_json = read_json(path_json)
+    return dictToObject(data_json) 
+   
 def validate_date(date_text):
     try:
         datetime.strptime(date_text, '%Y-%m-%d')

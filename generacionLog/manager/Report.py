@@ -12,13 +12,20 @@ def read_config(config_path):
 
 #Should copy File path principal to move other path
 def copy_template(path_config):
-    config = read_config(path_config)
-    date_execute = helpers.get_date_complete()
-    path_config = helpers.dictToObject(config)
-    template_report = str(path_config.principal)+"reporte_ejecucion.xlsx"
-    path_final = str(path_config.ruta_reporte)+"reporte_ejecucion_"+date_execute+".xlsx"
-    helpers.copy_file(template_report,path_final)
-    return path_final
+    try:
+        config = read_config(path_config)
+        date_execute = helpers.get_date_complete()
+        path_config = helpers.dictToObject(config)
+
+        if path_config:
+            template_report = str(path_config.principal)+"reporte_ejecucion.xlsx"
+            path_final = str(path_config.ruta_reporte)+"reporte_ejecucion_"+date_execute+".xlsx"
+            helpers.copy_file(template_report,path_final)
+            return path_final
+    except IOError as error:
+        except_info = sys.exc_info()
+        s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
+        helpers.put_log(s_message,"--","Report", "log_bot/Report.txt")
 
 
 #Should change status of activate
@@ -54,7 +61,7 @@ def create_report(params):
     except IOError as error:
         except_info = sys.exc_info()
         s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-        helpers.put_log(s_message,"--","manager_brand", "change_status.txt")
+        helpers.put_log(s_message,"--","Report", "log_bot/Report.txt")
 
 
 def get_last_row_book(book, sheet_book):
@@ -103,4 +110,4 @@ def chance_status(brand_search:str, config:str, status:str):
     except IOError as error:
         except_info = sys.exc_info()
         s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-        helpers.put_log(s_message,"--","manager_brand", "change_status.txt")
+        helpers.put_log(s_message,"--","Report", "log_bot/Report.txt")
