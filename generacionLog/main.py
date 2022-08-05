@@ -7,8 +7,8 @@ hour = Hour.get_execute_time()
 date = Hour.get_date_calc()
 
 minute_load_data = 30
-end_point = "https://msd-fra-mtf-scorefraudes-dev-dinersclub-migracion-dev.apps.din-ros-can-dev.9gqx.p1.openshiftapps.com/fraude/v1/marcas/consultar"
-config = "F:\\AsistenteLogScoreFraude\\config\\config_reportes.json"
+end_point = "http://10.10.176.150:8299/ms-gestion-financiera-riesgos/dev/marcas/consultar"
+config = "E:\\AsistenteLogScoreFraude\\config\\config_reportes.json"
 
 ruta_final= Report.copy_template(config)
 query_score = Hour.get_diference_hour(minute_load_data, hour.hour_init, date.date_calc)
@@ -21,7 +21,7 @@ params_query_score = {
     "horaFin": query_score.hour_end
 }
 results = ConnectApi.connect(end_point, params_query_score)
-
+print('Giskard: ', results)
 
 
 if "datos" in results["dinBody"]:
@@ -33,7 +33,7 @@ if "datos" in results["dinBody"]:
             print('Giskard: enviar la notificacion', execution_record)
             email_sender = {
                 "subject": "Notificación de Proceso Manual",
-                "content": "Se recomienda realizar un proceso manaul para la marca: "+execution_record["marca"]+" "
+                "content": "Se recomienda realizar un proceso manual para la marca: "+execution_record["marca"]+" "
             }
             Email.sender_email(config, email_sender)
             Report.chance_status(execution_record["marca"], config, "desactivate")

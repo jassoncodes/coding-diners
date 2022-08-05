@@ -33,22 +33,27 @@ def sender_email(config_path, email_sender):
 
         for email_to in receiver_address:
             message['To'] = email_to
-            # context = ssl.create_default_context()
-            # with smtplib.SMTP(sender_host, sender_port) as server:
-            #     server.ehlo()  # Can be omitted
-            #     server.starttls(context=context)
-            #     server.ehlo()  # Can be omitted
-            #     email_message = message.as_string()
-            #     server.login(sender_address, sender_password)
-            #     server.sendmail(sender_address, email_to, email_message)
-            sender_context = ssl.create_default_context()
-            with smtplib.SMTP_SSL(sender_host, sender_port, context=sender_context) as session:
+            context = ssl.create_default_context()
+            with smtplib.SMTP(sender_host, sender_port) as server:
+                # server.ehlo()  # Can be omitted
+                server.starttls(context=context)
+                # server.ehlo()  # Can be omitted
                 email_message = message.as_string()
-                session.sendmail(sender_address, email_to, email_message)
-                session.quit()
+                # server.login(sender_address, sender_password)
                 time_process = str(round((time.time() - start_time),2))
+                
                 s_message = "Mensaje enviado: "+time_process+" "
+                server.sendmail(sender_address, email_to, email_message)
                 helpers.put_log(s_message,"--","Email", "log_bot/Email.txt")
+                                
+            # sender_context = ssl.create_default_context()
+            # with smtplib.SMTP_SSL(sender_host, sender_port, context=sender_context) as session:
+            #     email_message = message.as_string()
+            #     session.sendmail(sender_address, email_to, email_message)
+            #     session.quit()
+            #     time_process = str(round((time.time() - start_time),2))
+            #     s_message = "Mensaje enviado: "+time_process+" "
+            #     helpers.put_log(s_message,"--","Email", "log_bot/Email.txt")
 
         
     except ValueError  as error:
