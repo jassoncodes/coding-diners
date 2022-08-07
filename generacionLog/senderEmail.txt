@@ -1,0 +1,6 @@
+2022-08-04 09:57:52.229111;Script - read_json.py;[Errno 13] Permission denied: 'E:/AsistenteLogScoreFraude/config/config_reportes.json';Marca: Lectura
+2022-08-04 09:57:52.759728;Script - read_json.py;[Errno 13] Permission denied: 'E:/AsistenteLogScoreFraude/config/config_reportes.json';Marca: Lectura
+2022-08-04 10:32:17.979148;Script - read_json.py;[Errno 13] Permission denied: 'E:/AsistenteLogScoreFraude/config/config_reportes.json';Marca: Lectura
+2022-08-04 10:32:18.582342;Script - read_json.py;[Errno 13] Permission denied: 'E:/AsistenteLogScoreFraude/config/config_reportes.json';Marca: Lectura
+2022-08-04 10:32:56.008421;Script - read_json.py;[Errno 13] Permission denied: 'E:/AsistenteLogScoreFraude/config/config_reportes.json';Marca: Lectura
+2022-08-04 10:33:09.959692;Script - read_json.py;[Errno 13] Permission denied: 'E:/AsistenteLogScoreFraude/config/config_reportes.json';Marca: Lectura
