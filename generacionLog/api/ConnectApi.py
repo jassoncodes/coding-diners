@@ -6,7 +6,7 @@ import uuid
 import time
 import sys
 
-log_bot = "E:\\AsistenteLogScoreFraude\\"
+log_bot = "F:\\AsistenteLogScoreFraude\\"
 #Should connect with microservice send body       
 def connect(end_point, params_query_score):
     body_query = get_body(params_query_score)

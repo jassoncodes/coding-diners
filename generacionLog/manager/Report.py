@@ -4,7 +4,7 @@ from xlwings import Range, constants
 import HoockUtilities as helpers
 import sys
 
-log_bot = "E:\\AsistenteLogScoreFraude\\"
+log_bot = "F:\\AsistenteLogScoreFraude\\"
 #Should read config from json
 def read_config(config_path):
     config = helpers.read_json(config_path)

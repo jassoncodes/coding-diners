@@ -9,10 +9,10 @@ date = Hour.get_date_calc()
 
 minute_load_data = 30
 end_point = "http://10.10.176.150:8299/ms-gestion-financiera-riesgos/dev/marcas/consultar"
-config = "E:\\AsistenteLogScoreFraude\\config\\config_reportes.json"
+config = "F:\\AsistenteLogScoreFraude\\config\\config_reportes.json"
 
 try:
-    log_bot = "E:\\AsistenteLogScoreFraude\\"
+    log_bot = "F:\\AsistenteLogScoreFraude\\"
     # if(len(sys.argv)>1):
     if(True):
         
@@ -33,7 +33,7 @@ try:
             "horaFin": query_score.hour_end
         }
         results = ConnectApi.connect(end_point, params_query_score)
-        print('Giskard: ', results)
+        # print('Giskard: ', results)
 
 
         if "datos" in results["dinBody"]:
@@ -47,7 +47,7 @@ try:
                         "subject": "Notificación de Proceso Manual",
                         "content": "Se recomienda realizar un proceso manual para la marca: "+execution_record["marca"]+" "
                     }
-                    # Email.sender_email(config, email_sender)
+                    Email.sender_email(config, email_sender)
                     Report.chance_status(execution_record["marca"], config, "desactivate")
                     
                 else:

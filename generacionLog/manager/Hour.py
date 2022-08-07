@@ -2,7 +2,7 @@ from ntpath import join
 import HoockUtilities as helpers
 from datetime import datetime
 
-log_bot = "E:\\AsistenteLogScoreFraude\\"
+log_bot = "F:\\AsistenteLogScoreFraude\\"
 #Should to obtain params necesary that used in query microservice
 def get_diference_hour(minute_load_data, hour_init, date_calc):
     results = {}
