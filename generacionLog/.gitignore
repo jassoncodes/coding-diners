@@ -1,1 +1,7 @@
 venv
+htmlcov
+.pytest_cache
+.vscode
+log_bot
+dist
+build

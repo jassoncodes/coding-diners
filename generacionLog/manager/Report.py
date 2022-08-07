@@ -4,10 +4,10 @@ from xlwings import Range, constants
 import HoockUtilities as helpers
 import sys
 
-
+log_bot = "E:\\AsistenteLogScoreFraude\\"
 #Should read config from json
 def read_config(config_path):
-    config= helpers.read_json(config_path)
+    config = helpers.read_json(config_path)
     return config
 
 #Should copy File path principal to move other path
@@ -25,7 +25,7 @@ def copy_template(path_config):
     except IOError as error:
         except_info = sys.exc_info()
         s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-        helpers.put_log(s_message,"--","Report", "log_bot/Report.txt")
+        helpers.put_log(s_message,"--","Report", log_bot+"/Report.txt")
 
 
 #Should change status of activate
@@ -61,7 +61,7 @@ def create_report(params):
     except IOError as error:
         except_info = sys.exc_info()
         s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-        helpers.put_log(s_message,"--","Report", "log_bot/Report.txt")
+        helpers.put_log(s_message,"--","Report", log_bot+"/Report.txt")
 
 
 def get_last_row_book(book, sheet_book):
@@ -110,4 +110,4 @@ def chance_status(brand_search:str, config:str, status:str):
     except IOError as error:
         except_info = sys.exc_info()
         s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-        helpers.put_log(s_message,"--","Report", "log_bot/Report.txt")
+        helpers.put_log(s_message,"--","Report", log_bot+"/Report.txt")

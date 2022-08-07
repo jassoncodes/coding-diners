@@ -5,7 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import HoockUtilities as helpers
 
-
+log_bot = "E:\\AsistenteLogScoreFraude\\"
 def sender_email(config_path, email_sender):
     try:
         email = helpers.dictToObject(email_sender)
@@ -44,7 +44,7 @@ def sender_email(config_path, email_sender):
                 
                 s_message = "Mensaje enviado: "+time_process+" "
                 server.sendmail(sender_address, email_to, email_message)
-                helpers.put_log(s_message,"--","Email", "log_bot/Email.txt")
+                helpers.put_log(s_message,"--","Email", log_bot+"/Email.txt")
                                 
             # sender_context = ssl.create_default_context()
             # with smtplib.SMTP_SSL(sender_host, sender_port, context=sender_context) as session:
@@ -59,4 +59,4 @@ def sender_email(config_path, email_sender):
     except ValueError  as error:
         except_info = sys.exc_info()
         s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-        helpers.put_log(s_message,"--","Email", "log_bot/Email.txt")
+        helpers.put_log(s_message,"--","Email", log_bot+"/Email.txt")
