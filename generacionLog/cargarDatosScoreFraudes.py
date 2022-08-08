@@ -14,10 +14,15 @@ date_report = hour_utilities.date_report
 
 cnx_microservice = connect_api(config, query_score)
 cnx_microservice.connect(end_point)
-query_reults = cnx_microservice.results
-
+query_results = cnx_microservice.results
 
 report_execution = execution_report(config)
-report_execution.proccess_data(query_reults, query_score, date_report)
-report_execution_config = report_execution.results
-report_execution.create_report(report_execution_config)
+if query_results:
+    print('RPA-GenarciónLogScore: ', 'seguir')
+    report_execution.proccess_data(query_results, query_score, date_report)
+    report_execution_config = report_execution.results
+    report_execution.create_report(report_execution_config)
+else:
+    print('RPA-GenarciónLogScore: ', 'microservicio no disponible')
+    report_execution.chance_status_all("desactivate")
+

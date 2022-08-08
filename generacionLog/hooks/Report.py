@@ -116,3 +116,28 @@ class Report(hoock_utilities):
             except_info = sys.exc_info()
             s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
             self.put_log(s_message,"--","Report", self.log+"/Report.txt")
+
+    def chance_status_all(self, status:str):
+        try:
+            path_config = self.configuration
+            template_report = str(path_config.principal)+"configuracion.xlsx"
+            path_config_file = self.clear_folder_path(template_report)
+            
+            with xw.App(visible=False) as app:
+                book = app.books.open(r''+path_config_file, editable=True)
+                sheet_book = self.get_sheet_name(book, "marcas")
+                last_row = self.get_last_row_book(book, sheet_book)
+                next_row_write = int(last_row+1)
+                
+                for index in range(2, next_row_write):
+                    position = "C"+str(index)
+                    if True:
+                        position = "B"+str(index)    
+                        self.write_row(sheet_book, position, status)
+                        
+                self.save_report(book)
+                self.close_report(book)
+        except IOError as error:
+            except_info = sys.exc_info()
+            s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
+            self.put_log(s_message,"--","Report", self.log+"/Report.txt")
