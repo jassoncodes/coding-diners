@@ -1,5 +1,4 @@
 from HoockUtilities import hoock_utilities
-from requests.exceptions import HTTPError
 import requests
 import socket
 import uuid
