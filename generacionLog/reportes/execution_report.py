@@ -26,6 +26,7 @@ class execution_report(Report):
                     
                 else:
                     observation = query_reults["dinError"]["mensaje"]
+                    self.chance_status(execution_record["marca"], "activate")
                     
                 execution_record["fecha_ejecucion"] = str(query_score.date_search)
                 execution_record["hour_init"] = query_score.hour_init
