@@ -1,0 +1,13 @@
+secure-smtplib
+xlwings
+requests
+munch
+pyinstaller
+uuid
+pytest
+coverage
+socket
+pytest-mock
+pywin32
+freezegun
+email-to
