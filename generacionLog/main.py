@@ -1,6 +1,6 @@
 
 from api import ConnectApi
-from manager import Hour, Report, Email
+from helpers import Hour, Report, Email
 import sys
 import os
 
