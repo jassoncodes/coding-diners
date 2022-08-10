@@ -1,4 +1,3 @@
-import time
 import sys
 import smtplib, ssl
 from email.mime.multipart import MIMEMultipart
@@ -28,7 +27,7 @@ class Email(hoock_utilities):
                 sender_port = int(self.configuration_email.port)
                 with smtplib.SMTP(sender_host, sender_port) as server:
                     email_message = message.as_string()
-                    # server.login(sender_address, sender_password)
+                    s_message = "Se envió se correo: "+email_message
                     server.starttls()
                     server.sendmail(self.configuration_email.username, email_to, email_message)
                     self.put_log(s_message,"--","Email", self.log+"/Email.txt")
