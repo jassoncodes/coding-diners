@@ -3,65 +3,38 @@ import sys
 import smtplib, ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import HoockUtilities as helpers
+from HoockUtilities import hoock_utilities
 
-log_bot = "F:\\AsistenteLogScoreFraude\\"
-def sender_email(config_path, email_sender):
-    try:
-        email = helpers.dictToObject(email_sender)
-        config_email = helpers.get_data_json(config_path)
-        path_email = config_email.email_config
-        params_config = helpers.get_data_json(path_email)
-        sender_address = params_config.username
-        sender_password = params_config.password
-        sender_host =  params_config.host
-        sender_port = int(params_config.port)
-        email_list = helpers.get_data_json(config_email.email_list)
 
-        receiver_address = email_list.listEmail
-
-        #Setup the MIME
+class Email(hoock_utilities):
+    def __init__(self, config):
+        super(Email, self).__init__(config)
+        self.configuration = self.get_data_json(config)
+        self.log = str(self.configuration.log)
+        self.configuration_email = self.get_data_json(self.configuration.email_config)
+        self.receivers = self.get_data_json(self.configuration.email_list)
+    
+    def sender_email(self, subject, content):
         message = MIMEMultipart()
-        start_time = time.time()
-
-        message['Subject'] = str(email.subject)  #The subject line
-        mail_content = str(email.content)
-
-        message['From'] = sender_address
-
+        message['Subject'] = str(subject)  #The subject line
+        mail_content = str(content)
+        message['From'] = self.configuration_email.username
         message.attach(MIMEText(mail_content, 'html'))
-
-        for email_to in receiver_address:
-            message['To'] = email_to
-            context = ssl.create_default_context()
-            with smtplib.SMTP(sender_host, sender_port) as server:
-                # server.ehlo()  # Can be omitted
-                server.starttls(context=context)
-                # server.ehlo()  # Can be omitted
-                email_message = message.as_string()
-                # server.login(sender_address, sender_password)
-                time_process = str(round((time.time() - start_time),2))
-                
-                s_message = "Mensaje enviado: "+time_process+" "
-                server.sendmail(sender_address, email_to, email_message)
-                
-                print('Giskard envió mensaje: ', s_message)
-                
-                helpers.put_log(s_message,"--","Email", log_bot+"/Email.txt")
-                                
-            # sender_context = ssl.create_default_context()
-            # with smtplib.SMTP_SSL(sender_host, sender_port, context=sender_context) as session:
-            #     email_message = message.as_string()
-            #     session.sendmail(sender_address, email_to, email_message)
-            #     session.quit()
-            #     time_process = str(round((time.time() - start_time),2))
-            #     s_message = "Mensaje enviado: "+time_process+" "
-            #     helpers.put_log(s_message,"--","Email", "log_bot/Email.txt")
-
         
-    except ValueError  as error:
-        except_info = sys.exc_info()
-        s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-        
-        print('Giskard: ', s_message)
-        helpers.put_log(s_message,"--","Email", log_bot+"/Email.txt")
+        try:
+            for email_to in self.receivers.listEmail:
+                message['To'] = email_to
+                sender_host = self.configuration_email.host
+                sender_port = int(self.configuration_email.port)
+                with smtplib.SMTP(sender_host, sender_port) as server:
+                    email_message = message.as_string()
+                    # server.login(sender_address, sender_password)
+                    server.starttls()
+                    server.sendmail(self.configuration_email.username, email_to, email_message)
+                    self.put_log(s_message,"--","Email", self.log+"/Email.txt")
+                    server.quit()
+
+        except IOError as error:
+            except_info = sys.exc_info()
+            s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
+            self.put_log(s_message,"--","Email", self.log+"/Email.txt")
