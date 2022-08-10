@@ -1,9 +1,10 @@
 
 from hooks.Report import Report
-
+from hooks.Email import Email
 class execution_report(Report):
     def __init__(self, config):
         super(execution_report, self).__init__(config)
+        self.config = config
         self.configuration = self.get_data_json(config)
         self.log = str(self.configuration.log)
         self.results = {}
@@ -16,16 +17,14 @@ class execution_report(Report):
                 
                 if int(execution_record["registros"]) == 0:
                     observation = "Se recomienda hacer un proceso Manual"
-                    # print('Giskard: enviar la notificacion', execution_record)
-                    email_sender = {
-                        "subject": "Notificación de Proceso Manual",
-                        "content": "Se recomienda realizar un proceso manual para la marca: "+execution_record["marca"]+" "
-                    }
-                    # Email.sender_email(config, email_sender)
+                    subject = "Notificación de Proceso Manual"
+                    content ="Se recomienda realizar un proceso manual para la marca: "+execution_record["marca"]+" "
+                    Email(self.config).sender_email(subject, content)
                     self.chance_status(execution_record["marca"], "desactivate")
                     
                 else:
                     observation = query_reults["dinError"]["mensaje"]
+                    self.chance_status(execution_record["marca"], "activate")
                     
                 execution_record["fecha_ejecucion"] = str(query_score.date_search)
                 execution_record["hour_init"] = query_score.hour_init
