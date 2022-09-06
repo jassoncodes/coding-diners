@@ -6,22 +6,24 @@ import time
 import sys
 
 
-class connect_api(hoock_utilities):
+class ConnectApi(hoock_utilities):
     def __init__(self,config, query_parms):
         super().__init__(config)
         self.configuration = self.get_data_json(config)
         self.log = str(self.configuration.log)
         self.results = {}
         self.params_query_score = self.map_query(query_parms)
+
         
     #Should map query
     def map_query(self, query_parms):
+        query_parms = self.dictToObject(query_parms)
         params_query_score = {
             "fechaConsulta": query_parms.date_search,
             "horaInicio": query_parms.hour_init,
             "horaFin": query_parms.hour_end
         }
-        self.params_query_score = params_query_score
+        return params_query_score
         
     #Should connect with microservice send body       
     def connect(self, end_point):
@@ -29,12 +31,9 @@ class connect_api(hoock_utilities):
         body_query = self.get_body(params_query_score)
         try:
             response = requests.post(end_point, json=body_query)
-            if int(response.status_code) == 200:
-                self.results = response.json()
-                s_message = self.results
-                self.put_log(s_message,"--","ConnectApi", self.log+"/connectApi.txt")
-            else:
-                self.results = {}
+            self.results = response.json()
+            s_message = self.results
+            self.put_log(s_message,"--","ConnectApi", self.log+"/connectApi.txt")  
         except IOError as error:
             except_info = sys.exc_info()
             s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
@@ -55,6 +54,8 @@ class connect_api(hoock_utilities):
             },
             "dinBody": params_query
         }
+        s_message = body_data
+        self.put_log(s_message,"--","ConnectApi", self.log+"/connectApi.txt")
         return body_data
     #Should get a uuid code
     def get_uuid(self):
