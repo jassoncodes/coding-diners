@@ -32,15 +32,18 @@ try:
             "horaInicio": query_score.hour_init,
             "horaFin": query_score.hour_end
         }
+        
+        print('Giskard: ', params_query_score)
         results = ConnectApi.connect(end_point, params_query_score)
         # print('Giskard: ', results)
-
+        #Revisar  el proceso de los casos 400 y 500
 
         if "datos" in results["dinBody"]:
             execution_records = results["dinBody"]["datos"]
             for execution_record in execution_records:
                 
                 if int(execution_record["registros"]) == 0:
+                    
                     observation = "Se recomienda hacer un proceso Manual"
                     print('Giskard: enviar la notificacion', execution_record)
                     email_sender = {
@@ -49,10 +52,11 @@ try:
                     }
                     Email.sender_email(config, email_sender)
                     Report.chance_status(execution_record["marca"], config, "desactivate")
-                    
+                    observation = "Sin Registros"
                 else:
-                    observation = results["dinError"]["mensaje"]
-                    
+                    # observation = results["dinError"]["mensaje"]
+                     observation = "Satisfactorio"
+                     
                 execution_record["fecha_ejecucion"] = str(query_score.date_search)
                 execution_record["hour_init"] = query_score.hour_init
                 execution_record["hour_end"] = query_score.hour_end
