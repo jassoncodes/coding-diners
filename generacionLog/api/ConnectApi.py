@@ -62,7 +62,7 @@ class ConnectApi(hoock_utilities):
         my_uuid = uuid.uuid4()
         return str(my_uuid)
 
-    #Should ip del euipo
+    #Should ip del equipo
     def get_ip(self):
         host_name = socket.gethostname()
         ip = socket.gethostbyname(host_name)

@@ -6,18 +6,13 @@ from hooks.Email import Email
 import sys
 
 
-# minute_load_data = 30
-# end_point = "http://10.10.176.150:8299/ms-gestion-financiera-riesgos/gsf/marcas/consultar"
-# config = "F:\\AsistenteLogScoreFraude\\config\\config_reportes.json"
-
 try:
-    log_bot = "E:\\AsistenteLogScoreFraude\\"
     if(len(sys.argv)>1):
-    # if(True):
-        minute_load_data = int(sys.argv[1])
+        config = str(sys.argv[1])
         end_point = str(sys.argv[2])
-        config = str(sys.argv[3])
+        minute_load_data = int(sys.argv[3])
         
+
         
         date_object = Hour(config)
         report_object = Report(config)
@@ -65,7 +60,7 @@ try:
                     report_object.chance_status(execution_record["marca"], "desactivate")
                     observation = "Sin Registros"
                 else:
-                    # observation = results["dinError"]["mensaje"]
+                    
                      observation = "Satisfactorio"
                      
                 execution_record["fecha_ejecucion"] = str(query_score.date_search)
@@ -87,7 +82,6 @@ try:
 
 
             report_object.create_report(params_report)
-            print('Giskard: correcto ', transaction_data["dinError"]["mensaje"])
             
     
         else:
@@ -96,7 +90,7 @@ try:
                 "content": "Se recomienda realizar un proceso manual, los parámetros de la consulta no son los correctos "
             }
             email_object.sender_email(config, email_sender)
-            print('Giskard: error ', transaction_data["dinError"]["mensaje"])
+
     
     
         
@@ -104,4 +98,4 @@ try:
 except IOError as error:
     except_info = sys.exc_info()
     s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-    report_object.helpers.put_log(s_message,"--","main",  str(log_bot)+"/main.txt")
+    report_object.helpers.put_log(s_message,"--","main",  str(config)+"/main.txt")
