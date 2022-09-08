@@ -4,6 +4,7 @@ import socket
 import uuid
 import time
 import sys
+from hooks.Email import Email
 
 
 class ConnectApi(hoock_utilities):
@@ -13,6 +14,7 @@ class ConnectApi(hoock_utilities):
         self.log = str(self.configuration.log)
         self.results = {}
         self.params_query_score = self.map_query(query_parms)
+        self.senderEmail = Email(config)
 
         
     #Should map query
@@ -31,9 +33,19 @@ class ConnectApi(hoock_utilities):
         body_query = self.get_body(params_query_score)
         try:
             response = requests.post(end_point, json=body_query)
-            self.results = response.json()
-            s_message = self.results
-            self.put_log(s_message,"--","ConnectApi", self.log+"/connectApi.txt")  
+            code_status = response.status_code
+            if int(code_status) == 200:
+                self.results = response.json()
+                s_message = self.results
+                self.put_log(s_message,"--","ConnectApi", self.log+"/connectApi.txt")
+            else:
+                email_sender = {
+                        "subject": "Notificación de Proceso Manual",
+                        "content": "Error en la comunicación con la API de Consulta de Riesgos, se recomienda ejecutar el proceso de manera manual"
+                    }
+                self.senderEmail.sender_email(email_sender["subject"], email_sender["content"])
+                self.results = {}
+                
         except IOError as error:
             except_info = sys.exc_info()
             s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
