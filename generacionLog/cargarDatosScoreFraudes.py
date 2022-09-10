@@ -54,20 +54,23 @@ try:
         
         if not isNullTransaction and  "datos" in transaction_data["dinBody"]:
             execution_records = transaction_data["dinBody"]["datos"]
+            
+            data_report = []
+            
             for execution_record in execution_records:
                 
                 if int(execution_record["registros"]) == 0 and  not (execution_record["marca"] == "TOTAL"):
                     observation = "Se recomienda hacer un proceso Manual"
                     email_sender = {
                         "subject": "Notificación de Proceso Manual",
-                        "content": "Se recomienda realizar un proceso manual para la marca: "+execution_record["marca"]+",  "
+                        "content": "Se recomienda realizar un proceso manual para la marca: "+execution_record["marca"]+" "
                     }
                     email_object.sender_email(email_sender["subject"], email_sender["content"])
                     report_object.chance_status(execution_record["marca"], "desactivate")
                     observation = "Sin Registros"
                     print('RPA-GENERACIÓN DE LOG SCORE: Envió de notificación: ', email_sender["content"])
                 else:
-                     observation = "Satisfactorio"
+                    observation = "Satisfactorio"
                 
                 #Depuracion la marca Total no pude entrar y la 
                 if not (execution_record["marca"] == "TOTAL"):
@@ -78,23 +81,21 @@ try:
                     execution_record["year"] = date_report.year
                     execution_record["month"] = date_report.month_name
                     execution_record["observations"] = observation
-                else:
-                    print('RPA-GENERACIÓN DE LOG SCORE: marca  ', execution_record["marca"])
-                    
-                    del execution_record
+                    data_report.append(execution_record)
+
 
                 
                 
             params_report = {
                 "path": ruta_final,
-                "data": execution_records,
+                "data": data_report,
                 "sheet_name": "report",
                 "cell_init_write": "A"
             }
 
 
             report_object.create_report(params_report)
-            print('RPA-GENERACIÓN DE LOG SCORE: Registrando Datos en el Reporte de ejecución: ', params_report)
+            print('RPA-GENERACIÓN DE LOG SCORE: Registrando Datos en el Reporte de ejecución: ', str(params_report))
             
             
     
