@@ -6,18 +6,14 @@ from hooks.Email import Email
 import sys
 
 
-# minute_load_data = 30
-# end_point = "http://10.10.176.150:8299/ms-gestion-financiera-riesgos/gsf/marcas/consultar"
-# config = "F:\\AsistenteLogScoreFraude\\config\\config_reportes.json"
-
 try:
-    log_bot = "E:\\AsistenteLogScoreFraude\\"
     if(len(sys.argv)>1):
-    # if(True):
-        minute_load_data = int(sys.argv[1])
+        config = str(sys.argv[1])
         end_point = str(sys.argv[2])
-        config = str(sys.argv[3])
+        minute_load_data = int(sys.argv[3])
+        print('RPA-GENERACIÓN DE LOG SCORE: Consultando a mircoservicio', str(end_point))
         
+
         
         date_object = Hour(config)
         report_object = Report(config)
@@ -37,13 +33,18 @@ try:
             "hour_init": query_score.hour_init,
             "hour_end": query_score.hour_end
         }
+        print('RPA-GENERACIÓN DE LOG SCORE: Parámetros de consulta calculado:', str(params_query_score))
+        
         
         #Pruebas
         params_query_score = {
             "date_search": "2022-08-24",
-            "hour_init": "00.00",
-            "hour_end": "01.00"
+            "hour_init": query_score.hour_init,
+            "hour_end": query_score.hour_end
         }
+        
+        print('RPA-GENERACIÓN DE LOG SCORE: Parámetros de consulta Pruebas: ', str(params_query_score))
+        
         
 
         conecct_object = ConnectApi(config, params_query_score)
@@ -53,50 +54,58 @@ try:
         
         if not isNullTransaction and  "datos" in transaction_data["dinBody"]:
             execution_records = transaction_data["dinBody"]["datos"]
+            
+            data_report = []
+            
             for execution_record in execution_records:
                 
-                if int(execution_record["registros"]) == 0:
+                if int(execution_record["registros"]) == 0 and  not (execution_record["marca"] == "TOTAL"):
                     observation = "Se recomienda hacer un proceso Manual"
                     email_sender = {
                         "subject": "Notificación de Proceso Manual",
                         "content": "Se recomienda realizar un proceso manual para la marca: "+execution_record["marca"]+" "
                     }
-                    email_object.sender_email(config, email_sender)
+                    email_object.sender_email(email_sender["subject"], email_sender["content"])
                     report_object.chance_status(execution_record["marca"], "desactivate")
                     observation = "Sin Registros"
+                    print('RPA-GENERACIÓN DE LOG SCORE: Envió de notificación: ', email_sender["content"])
                 else:
-                    # observation = results["dinError"]["mensaje"]
-                     observation = "Satisfactorio"
-                     
-                execution_record["fecha_ejecucion"] = str(query_score.date_search)
-                execution_record["hour_init"] = query_score.hour_init
-                execution_record["hour_end"] = query_score.hour_end
-                execution_record["hour_execute"] = query_score.hour_execute
-                execution_record["year"] = date_report.year
-                execution_record["month"] = date_report.month_name
-                execution_record["observations"] = observation
+                    observation = "Satisfactorio"
+                
+                #Depuracion la marca Total no pude entrar y la 
+                if not (execution_record["marca"] == "TOTAL"):
+                    execution_record["fecha_ejecucion"] = str(query_score.date_search)
+                    execution_record["hour_init"] = query_score.hour_init
+                    execution_record["hour_end"] = query_score.hour_end
+                    execution_record["hour_execute"] = query_score.hour_execute
+                    execution_record["year"] = date_report.year
+                    execution_record["month"] = date_report.month_name
+                    execution_record["observations"] = observation
+                    data_report.append(execution_record)
+
 
                 
                 
             params_report = {
                 "path": ruta_final,
-                "data": execution_records,
+                "data": data_report,
                 "sheet_name": "report",
                 "cell_init_write": "A"
             }
 
 
             report_object.create_report(params_report)
-            print('Giskard: correcto ', transaction_data["dinError"]["mensaje"])
+            print('RPA-GENERACIÓN DE LOG SCORE: Registrando Datos en el Reporte de ejecución: ', str(params_report))
+            
             
     
         else:
-            email_sender = {
-                "subject": "Notificación de Proceso Manual",
-                "content": "Se recomienda realizar un proceso manual, los parámetros de la consulta no son los correctos "
-            }
-            email_object.sender_email(config, email_sender)
-            print('Giskard: error ', transaction_data["dinError"]["mensaje"])
+            report_object.chance_status_all("desactivate")
+            print('RPA-GENERACIÓN DE LOG SCORE: Envió de notificación: ')
+            print('RPA-GENERACIÓN DE LOG SCORE: Se cambió el status del archivo de ejecuión de macro ')
+            
+            
+
     
     
         
@@ -104,4 +113,4 @@ try:
 except IOError as error:
     except_info = sys.exc_info()
     s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-    report_object.helpers.put_log(s_message,"--","main",  str(log_bot)+"/main.txt")
+    report_object.helpers.put_log(s_message,"--","main",  str(report_object.log)+"/main.txt")
