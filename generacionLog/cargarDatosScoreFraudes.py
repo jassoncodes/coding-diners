@@ -1,45 +1,116 @@
-import sys
-from api.ConnectApi import connect_api
-from hooks.Hour import Hour 
-from reportes.execution_report import execution_report
+from api.ConnectApi import ConnectApi
+from hooks.Hour import Hour
+from hooks.Report import  Report
 from hooks.Email import Email
 
-# config = "E:\\AsistenteLogScoreFraude\\config\\config_reportes.json"
-# minute_load_data = 30
-# end_point = "http://10.10.176.150:8299/ms-gestion-financiera-riesgos/dev/marcas/consultar"
+import sys
 
 
 try:
     if(len(sys.argv)>1):
-        config = sys.argv[1]
-        end_point = sys.argv[2]
+        config = str(sys.argv[1])
+        end_point = str(sys.argv[2])
         minute_load_data = int(sys.argv[3])
-        print('Giskard: parametros de entrada ', config, end_point, str(minute_load_data), type(minute_load_data))
-
-        hour_utilities = Hour(config)
-        hour_utilities.get_query_params(minute_load_data)
-        query_score = hour_utilities.results
-        date_report = hour_utilities.date_report
-
-        cnx_microservice = connect_api(config, query_score)
-        cnx_microservice.connect(end_point)
-        query_results = cnx_microservice.results
-
-        report_execution = execution_report(config)
+        print('RPA-GENERACIÓN DE LOG SCORE: Consultando a mircoservicio', str(end_point))
         
-        if query_results:
-            print('RPA-GenarciónLogScore: ', 'seguir')
-            report_execution.proccess_data(query_results, query_score, date_report)
-            report_execution_config = report_execution.results
-            report_execution.create_report(report_execution_config)
+
+        
+        date_object = Hour(config)
+        report_object = Report(config)
+        email_object = Email(config)
+        date = date_object.get_date_calc()
+        hour = date_object.get_execute_time()
+        
+        
+
+        ruta_final = report_object.copy_template(config)
+        query_score = date_object.get_diference_hour(minute_load_data, hour.hour_init, date.date_calc)
+        date_report = date_object.get_date_report()
+
+
+        params_query_score = {
+            "date_search": query_score.date_search,
+            "hour_init": query_score.hour_init,
+            "hour_end": query_score.hour_end
+        }
+        print('RPA-GENERACIÓN DE LOG SCORE: Parámetros de consulta calculado:', str(params_query_score))
+        
+        
+        #Pruebas
+        params_query_score = {
+            "date_search": "2022-08-24",
+            "hour_init": query_score.hour_init,
+            "hour_end": query_score.hour_end
+        }
+        
+        print('RPA-GENERACIÓN DE LOG SCORE: Parámetros de consulta Pruebas: ', str(params_query_score))
+        
+        
+
+        conecct_object = ConnectApi(config, params_query_score)
+        results = conecct_object.connect(end_point)
+        transaction_data = conecct_object.results
+        isNullTransaction = transaction_data["dinBody"] is None
+        
+        if not isNullTransaction and  "datos" in transaction_data["dinBody"]:
+            execution_records = transaction_data["dinBody"]["datos"]
+            
+            data_report = []
+            
+            for execution_record in execution_records:
+                
+                if int(execution_record["registros"]) == 0 and  not (execution_record["marca"] == "TOTAL"):
+                    observation = "Se recomienda hacer un proceso Manual"
+                    email_sender = {
+                        "subject": "Notificación de Proceso Manual",
+                        "content": "Se recomienda realizar un proceso manual para la marca: "+execution_record["marca"]+" "
+                    }
+                    email_object.sender_email(email_sender["subject"], email_sender["content"])
+                    report_object.chance_status(execution_record["marca"], "desactivate")
+                    observation = "Sin Registros"
+                    print('RPA-GENERACIÓN DE LOG SCORE: Envió de notificación: ', email_sender["content"])
+                else:
+                    observation = "Satisfactorio"
+                
+                #Depuracion la marca Total no pude entrar y la 
+                if not (execution_record["marca"] == "TOTAL"):
+                    execution_record["fecha_ejecucion"] = str(query_score.date_search)
+                    execution_record["hour_init"] = query_score.hour_init
+                    execution_record["hour_end"] = query_score.hour_end
+                    execution_record["hour_execute"] = query_score.hour_execute
+                    execution_record["year"] = date_report.year
+                    execution_record["month"] = date_report.month_name
+                    execution_record["observations"] = observation
+                    data_report.append(execution_record)
+
+
+                
+                
+            params_report = {
+                "path": ruta_final,
+                "data": data_report,
+                "sheet_name": "report",
+                "cell_init_write": "A"
+            }
+
+
+            report_object.create_report(params_report)
+            print('RPA-GENERACIÓN DE LOG SCORE: Registrando Datos en el Reporte de ejecución: ', str(params_report))
+            
+            
+    
         else:
-            print('RPA-GenarciónLogScore: ', 'microservicio no disponible')
-            subject = "Notificación de Proceso Manual"
-            content ="Se recomienda realizar un proceso manual, microservicio no está disponible "
-            Email(config).sender_email(subject, content)    
-            report_execution.chance_status_all("desactivate")
+            report_object.chance_status_all("desactivate")
+            print('RPA-GENERACIÓN DE LOG SCORE: Envió de notificación: ')
+            print('RPA-GENERACIÓN DE LOG SCORE: Se cambió el status del archivo de ejecuión de macro ')
+            
+            
+
+    
+    
         
+
 except IOError as error:
     except_info = sys.exc_info()
     s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-    hour_utilities.put_log(s_message,"--","CargarDatosScoreFraudes", hour_utilities.log+"/CargarDatosScoreFraudes.txt")
+    report_object.helpers.put_log(s_message,"--","main",  str(report_object.log)+"/main.txt")

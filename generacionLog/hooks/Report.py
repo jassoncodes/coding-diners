@@ -104,7 +104,7 @@ class Report(hoock_utilities):
                 next_row_write = int(last_row+1)
                 
                 for index in range(2, next_row_write):
-                    position = "C"+str(index)
+                    position = "D"+str(index)
                     brand = self.read_cell(sheet_book, position)
                     if brand == brand_search.upper():
                         position = "B"+str(index)    
@@ -130,10 +130,8 @@ class Report(hoock_utilities):
                 next_row_write = int(last_row+1)
                 
                 for index in range(2, next_row_write):
-                    position = "C"+str(index)
-                    if True:
-                        position = "B"+str(index)    
-                        self.write_row(sheet_book, position, status)
+                    position = "B"+str(index)    
+                    self.write_row(sheet_book, position, status)
                         
                 self.save_report(book)
                 self.close_report(book)
