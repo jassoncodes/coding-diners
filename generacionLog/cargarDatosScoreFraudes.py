@@ -2,25 +2,21 @@ from api.ConnectApi import ConnectApi
 from hooks.Hour import Hour
 from hooks.Report import  Report
 from hooks.Email import Email
-
 import sys
-
 
 try:
     if(len(sys.argv)>1):
         config = str(sys.argv[1])
         end_point = str(sys.argv[2])
         minute_load_data = int(sys.argv[3])
-        print('RPA-GENERACIÓN DE LOG SCORE: Consultando a mircoservicio', str(end_point))
-        
 
-        
         date_object = Hour(config)
         report_object = Report(config)
         email_object = Email(config)
         date = date_object.get_date_calc()
         hour = date_object.get_execute_time()
         
+        data_report = []
         
 
         ruta_final = report_object.copy_template(config)
@@ -33,29 +29,19 @@ try:
             "hour_init": query_score.hour_init,
             "hour_end": query_score.hour_end
         }
-        print('RPA-GENERACIÓN DE LOG SCORE: Parámetros de consulta calculado:', str(params_query_score))
+      
         
-        
-        #Pruebas
-        params_query_score = {
-            "date_search": "2022-08-24",
-            "hour_init": query_score.hour_init,
-            "hour_end": query_score.hour_end
-        }
-        
-        print('RPA-GENERACIÓN DE LOG SCORE: Parámetros de consulta Pruebas: ', str(params_query_score))
-        
-        
-
         conecct_object = ConnectApi(config, params_query_score)
         results = conecct_object.connect(end_point)
         transaction_data = conecct_object.results
-        isNullTransaction = transaction_data["dinBody"] is None
+
+        if "dinBody" in transaction_data["dinBody"]:
+            isNullTransaction = transaction_data["dinBody"] is None
+        else:
+            isNullTransaction = False
         
         if not isNullTransaction and  "datos" in transaction_data["dinBody"]:
             execution_records = transaction_data["dinBody"]["datos"]
-            
-            data_report = []
             
             for execution_record in execution_records:
                 
@@ -68,7 +54,7 @@ try:
                     email_object.sender_email(email_sender["subject"], email_sender["content"])
                     report_object.chance_status(execution_record["marca"], "desactivate")
                     observation = "Sin Registros"
-                    print('RPA-GENERACIÓN DE LOG SCORE: Envió de notificación: ', email_sender["content"])
+
                 else:
                     observation = "Satisfactorio"
                 
@@ -95,15 +81,10 @@ try:
 
 
             report_object.create_report(params_report)
-            print('RPA-GENERACIÓN DE LOG SCORE: Registrando Datos en el Reporte de ejecución: ', str(params_report))
-            
-            
-    
+
         else:
             report_object.chance_status_all("desactivate")
-            print('RPA-GENERACIÓN DE LOG SCORE: Envió de notificación: ')
-            print('RPA-GENERACIÓN DE LOG SCORE: Se cambió el status del archivo de ejecuión de macro ')
-            
+
             
 
     
