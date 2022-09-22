@@ -71,6 +71,7 @@ try:
                     print('RPA-GENERACIÓN DE LOG SCORE: Envió de notificación: ', email_sender["content"])
                 else:
                     observation = "Satisfactorio"
+                    report_object.chance_status(execution_record["marca"], "activate")
                 
                 #Depuracion la marca Total no pude entrar y la 
                 if not (execution_record["marca"] == "TOTAL"):
