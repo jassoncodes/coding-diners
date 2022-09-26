@@ -27,16 +27,20 @@ class Hour(hoock_utilities):
         hour_now = self.get_hour()
         now_time = hour_init.strip().split(".")
 
-        if hour_init.strip().split(".")[0] == "00"  and int(hour_init.strip().split(".")[1]) < 30:
+        isLastTurn = (hour_init.strip().split(".")[0] == "00")  and (int(hour_init.strip().split(".")[1]) < 30)
+
+        if isLastTurn:
             now_time[0] = 00
             now_time[1] = 00
-            
-        time_search = self.get_time_search(date_calc, minute_load_data, now_time)
-        hour_ = time_search["hour_minor"].replace(":", ".").split(".")
-        
-        if hour_init.strip().split(".")[0] == "00" and int(hour_init.strip().split(".")[1]) < 30:
             hour_init="24.00"
-            time_search["day_minor"] = date_calc.strftime("%Y-%m-%d")
+
+        #Should get Parameters to use in the Fraud API   
+        time_search = self.get_time_search(date_calc, minute_load_data, now_time)
+
+        hour_ = time_search["hour_minor"].replace(":", ".").split(".")
+
+        if isLastTurn:
+            time_search["day_minor"] = self.sustract_day(date_calc, 1)
         
         
         results = {
