@@ -32,6 +32,7 @@ class ConnectApi(hoock_utilities):
         params_query_score = self.params_query_score
         body_query = self.get_body(params_query_score)
         try:
+            self.put_log(body_query,"Envio de parametros: "+str(end_point),"ConnectApi", self.log+"/connectApi.txt")
             response = requests.post(end_point, json=body_query)
             code_status = response.status_code
             if int(code_status) == 200:
@@ -40,8 +41,8 @@ class ConnectApi(hoock_utilities):
                 self.put_log(s_message,"--","ConnectApi", self.log+"/connectApi.txt")
             else:
                 email_sender = {
-                        "subject": "Notificación de Proceso Manual",
-                        "content": "Error en la comunicación con la API de Consulta de Riesgos, se recomienda ejecutar el proceso de manera manual"
+                        "subject": "Fallo en generación de información  Generar Información Manualmente desde la WEB",
+                        "content": "<p>Error al generar información. Intentar generar la información manualmente desde la WEB. </p> <p>Comuníquese con el Área de Riesgos para notificar la novedad y que aseguren que los servicios estén operativos.</p> "
                     }
                 self.senderEmail.sender_email(email_sender["subject"], email_sender["content"])
                 self.results = {}
