@@ -102,7 +102,6 @@ try:
                 print('RPA-GENERACIÓN DE LOG SCORE: Se cambió el status del archivo de ejecuión de macro ')
         else:
             report_object.chance_status_all("desactivate")
-            print('RPA-GENERACIÓN DE LOG SCORE: Se desact: ')
             print('RPA-GENERACIÓN DE LOG SCORE: Se cambió el status del archivo de ejecuión de macro ')                    
             
     

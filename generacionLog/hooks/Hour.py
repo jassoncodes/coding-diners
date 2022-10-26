@@ -39,13 +39,11 @@ class Hour(hoock_utilities):
 
         hour_ = time_search["hour_minor"].replace(":", ".").split(".")
 
-        if isLastTurn:
-            time_search["day_minor"] = self.sustract_day(date_calc, 1)
         
         
         results = {
-            "hour_init": hour_[0]+"."+hour_[1],
-            "hour_end": hour_init.strip(),
+            "hour_init": str(hour_[0]+"."+hour_[1]),
+            "hour_end": str(hour_init.strip()),
             "date_search": str(time_search["day_minor"]),
             "hour_execute": str(hour_now)
         }

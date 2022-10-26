@@ -31,6 +31,7 @@ class ConnectApi(hoock_utilities):
     def connect(self, end_point):
         params_query_score = self.params_query_score
         body_query = self.get_body(params_query_score)
+        self.results = {}
         try:
             self.put_log(body_query,"Envio de parametros: "+str(end_point),"ConnectApi", self.log+"/connectApi.txt")
             response = requests.post(end_point, json=body_query)
