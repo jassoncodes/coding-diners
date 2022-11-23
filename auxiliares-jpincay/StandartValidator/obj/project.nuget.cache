@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "HXs1S5Jv0wZdJk9UEpd7UhJkKFNogVbK5w9V+Cl89I0uy1A5evPglAsX+Ie1jUejtxLlgqf+RyDLo+2WIAHDIQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Jay\\Coding\\diners\\StandartValidator\\StandartValidator\\StandartValidator.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Jay\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\Jay\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
+    "C:\\Users\\Jay\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
