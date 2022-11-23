@@ -1,0 +1,2 @@
+C:\Users\Jay\Coding\diners\StandartValidator\release\StandartValidator.pdb
+C:\Users\Jay\Coding\diners\StandartValidator\release\StandartValidator.exe
