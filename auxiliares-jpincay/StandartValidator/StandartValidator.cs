@@ -172,9 +172,6 @@ namespace StandartValidator
             string[] standart = { "accion", "identificacion", "perfil a asignar", "usuario", "nombres", "correo" };
             List<DataEstandar> datToWrite = new List<DataEstandar>();
 
-            int validados = 0;
-            int noValidados = 0;
-
             foreach (String item in dataList)
             {
 
@@ -184,28 +181,21 @@ namespace StandartValidator
 
                 DataEstandar dataEstandar = new DataEstandar();
 
-                foreach (string e in standart)
-                {
-                    if (item.Contains(e))
-                        c++;
-                }
-
                 //guarda ticket
                 dataEstandar.ticket = values.SkipWhile(x => x != "ticket").Skip(1).DefaultIfEmpty(values[0]).FirstOrDefault();
 
                 //guarda numero rf
                 dataEstandar.numerorf = values.SkipWhile(x => x != "rf").Skip(1).DefaultIfEmpty(values[0]).FirstOrDefault();
 
-                if (c != 6)
-                {
-                    dataEstandar.estandar = "MANUAL";
-                    noValidados++;
-                }
-                else
-                {
-                    validados++;
-                    dataEstandar.estandar = "SI";
 
+                foreach (string e in standart)
+                { 
+                    if(item.Contains(e))
+                      c++;
+                }
+
+                if (c == standart.Length)
+                {
                     if (item.Contains("accion"))
                     {
                         string accion = dataEstandar.GetDataBetween(item, "accion", "identificacion");
@@ -215,26 +205,55 @@ namespace StandartValidator
                             dataEstandar.operacion = "crear";
                         if (accion == "a")
                             dataEstandar.operacion = "modificar";
-
+                        c++;
                     }
 
                     if (item.Contains("perfil a asignar"))
+                    {
                         dataEstandar.perfil = dataEstandar.GetDataBetween(item, "perfil a asignar", "usuario");
+                        c++;
+                    }
 
                     if (item.Contains("usuario"))
+                    {
                         dataEstandar.usuario = dataEstandar.GetDataBetween(item, "usuario", "nombres");
+                        c++;
+                    }
 
                     if (item.Contains("identificacion"))
+                    {
                         dataEstandar.identificacion = dataEstandar.GetDataBetween(item, "identificacion", "perfil a asignar");
+                        c++;
+                    }
 
                     if (item.Contains("nombres"))
+                    {
                         dataEstandar.nombres = dataEstandar.GetDataBetween(item, "nombres", "correo");
+                        c++;
+                    }
 
                     if (item.Contains("correo"))
+                    {
                         dataEstandar.correo = dataEstandar.GetDataBetween(item, "correo", "rf");
+                        c++;
+                    }
 
+                    if (!dataEstandar.Compare(dataEstandar, item.Substring(0, item.IndexOf(" rf "))))
+                    {
+                        dataEstandar.estandar = "MANUAL";
+                    }
+                    else
+                    {
+                        dataEstandar.estandar = "SI";
+                    }
                 }
+                else
+                {
+                    dataEstandar.estandar = "MANUAL";
+                }
+                
 
+                
                 datToWrite.Add(dataEstandar);
 
             }
@@ -300,28 +319,28 @@ namespace StandartValidator
 
 
             //recorrer lista de objetos DataEstandar
-            for (int r = 1; r <= dataToWrite.Count; r++) {
-                for(int c = 1; c <= cabeceraFinal.Count; c++)
+            for (int r = 0; r < dataToWrite.Count; r++) {
+                for(int c = 1; c < cabeceraFinal.Count; c++)
                 {
-                    if (dataToWrite[r - 1].estandar == "SI")
+                    if (dataToWrite[ r ].estandar == "SI")
                     {
-                        var value = dataToWrite[ r - 1 ].GetIndexFieldValue(c-1).ToUpper();
-                        xlWorksheet.Cells[r + 1, c] = value;
-                        xlWorksheet.Cells[r + 1, c].NumberFormat = "@";
+                        var value = dataToWrite[ r ].GetIndexFieldValue(c-1).ToUpper();
+                        xlWorksheet.Cells[r + 2, c] = value;
+                        xlWorksheet.Cells[r + 2, c].NumberFormat = "@";
                     }
                     else
                     {
-                        xlWorksheet.Cells[r + 1, 2] = dataToWrite[r].ticket;
-                        xlWorksheet.Cells[r + 1, 2].NumberFormat = "@";
+                        xlWorksheet.Cells[r + 2, 2] = dataToWrite[r].ticket;
+                        xlWorksheet.Cells[r + 2, 2].NumberFormat = "@";
 
-                        xlWorksheet.Cells[r + 1, 10] = dataToWrite[r].numerorf;
-                        xlWorksheet.Cells[r + 1, 10].NumberFormat = "@";
+                        xlWorksheet.Cells[r + 2, 10] = dataToWrite[r].numerorf;
+                        xlWorksheet.Cells[r + 2, 10].NumberFormat = "@";
 
-                        xlWorksheet.Cells[r + 1 , 11] = dataToWrite[r].estandar;
-                        xlWorksheet.Cells[r + 1 , 11].NumberFormat = "@";
+                        xlWorksheet.Cells[r + 2 , 11] = dataToWrite[r].estandar;
+                        xlWorksheet.Cells[r + 2 , 11].NumberFormat = "@";
                     }
                 }
-                dataToWrite[r-1].PrintDataEstandar();
+                dataToWrite[ r ].PrintDataEstandar();
             }
 
             xlWorkbook.SaveAs(outputPath+"ArchivoFinal.xls", Excel.XlFileFormat.xlWorkbookNormal);
@@ -342,8 +361,6 @@ namespace StandartValidator
             List<DataEstandar> dataToWrite = app.ParseData(dataList);
 
             app.WriteFile(dataToWrite);
-
-            //dataToWrite.ForEach(d => d.PrintDataEstandar());
 
             Console.WriteLine("\n\n**** Registros con estandar {0} *****\n", app.ContarEstandarSi(dataToWrite));
             Console.WriteLine("**** Registros sin estandar {0} *****\n", app.ContarEstandarNo(dataToWrite));

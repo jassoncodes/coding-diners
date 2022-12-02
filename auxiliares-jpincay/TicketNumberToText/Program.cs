@@ -96,7 +96,10 @@ class Program
     static void Main(String[] args) { 
 
         Program app = new Program();
+
         Console.Clear();
+
+        //convierte a texto las filas de identificacion y no de ticekt 
         app.ConvertToText("\\\\67fb1s2\\ct\\crudas\\");
 
     }

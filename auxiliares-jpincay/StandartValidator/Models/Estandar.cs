@@ -78,5 +78,46 @@ namespace StandartValidator.Models
             return value;
         }
 
+        private string StringDataToCompare(DataEstandar dataToString)
+        {
+            string dataString = "";
+            string operacion = "";
+
+            if (dataToString.operacion == "modificar")
+                operacion = "a";
+            if (dataToString.operacion == "borrar")
+                operacion = "b";
+            if (dataToString.operacion == "crear")
+                operacion = "c";
+
+            List<string> data = new List<string>();
+            
+            data.Add( ("accion " + operacion).Trim());
+            data.Add( ("identificacion " + dataToString.identificacion).Trim());
+            data.Add( ("perfil a asignar " + dataToString.perfil).Trim());
+            data.Add( ("usuario " + dataToString.usuario).Trim());
+            data.Add( ("nombres " + dataToString.nombres).Trim());
+            data.Add( ("correo " + dataToString.correo).Trim()); 
+
+            dataString = string.Join(" ", data);
+
+
+            return dataString;
+        }
+
+
+        public bool Compare(DataEstandar dataEstandar, string data)
+        {
+            bool compare = false;
+            string compareData = StringDataToCompare(dataEstandar);
+            
+            if (compareData == data)
+            {
+                compare = true;
+            }
+
+            return compare;
+        }
+
     }
 }

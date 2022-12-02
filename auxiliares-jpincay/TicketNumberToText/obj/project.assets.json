@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jay\\Coding\\diners\\TicknumberToTexT\\TicknumberToTexT\\IdAndTicketNumberToTexT.csproj",
+      "projectUniqueName": "C:\\Users\\Jay\\Coding\\diners\\RPA_Fraudes_CDI\\auxiliares-jpincay\\TicketNumberToText\\IdAndTicketNumberToTexT.csproj",
       "projectName": "IdAndTicketNumberToTexT",
-      "projectPath": "C:\\Users\\Jay\\Coding\\diners\\TicknumberToTexT\\TicknumberToTexT\\IdAndTicketNumberToTexT.csproj",
+      "projectPath": "C:\\Users\\Jay\\Coding\\diners\\RPA_Fraudes_CDI\\auxiliares-jpincay\\TicketNumberToText\\IdAndTicketNumberToTexT.csproj",
       "packagesPath": "C:\\Users\\Jay\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jay\\Coding\\diners\\TicknumberToTexT\\TicknumberToTexT\\obj\\",
+      "outputPath": "C:\\Users\\Jay\\Coding\\diners\\RPA_Fraudes_CDI\\auxiliares-jpincay\\TicketNumberToText\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Jay\\AppData\\Roaming\\NuGet\\NuGet.Config",
