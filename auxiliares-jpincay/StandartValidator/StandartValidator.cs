@@ -363,6 +363,7 @@ namespace StandartValidator
             //ejecuta funcion para escribir output
             app.WriteFile(dataToWrite);
 
+            //print resultados
             Console.WriteLine("\n\n**** Registros con estandar {0} *****\n", app.ContarEstandarSi(dataToWrite));
             Console.WriteLine("**** Registros sin estandar {0} *****\n", app.ContarEstandarNo(dataToWrite));
             Console.WriteLine("***** Registros procesados: {0} *****\n", dataToWrite.Count);
