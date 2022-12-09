@@ -61,12 +61,12 @@ namespace StandartValidator.Models
             {
                 ///data.ForEach(e => { Console.WriteLine(e.ToString()); });
                 Console.WriteLine(string.Format("{0}", string.Join(" ", data)));
-                Log.Information(string.Format("{0}", string.Join(" ", data)));
+                Log.Information("Escribiendo: " + string.Format("{0}", string.Join(" ", data)));
             }
             else
             {
                 Console.WriteLine("{0} {1} {2}", this.numerorf, this.ticket, this.estandar);
-                Log.Information("{0} {1} {2}", this.numerorf, this.ticket, this.estandar);
+                Log.Information("Escribiendo: " + "{0} {1} {2}", this.numerorf, this.ticket, this.estandar);
             }
         }
 

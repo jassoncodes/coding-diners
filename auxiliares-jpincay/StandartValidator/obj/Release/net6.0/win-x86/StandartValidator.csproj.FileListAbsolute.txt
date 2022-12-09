@@ -480,3 +480,6 @@ C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\obj\Release\net6.0\win-x86\StandartValidator.pdb
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\obj\Release\net6.0\win-x86\StandartValidator.genruntimeconfig.cache
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\obj\Release\net6.0\win-x86\ref\StandartValidator.dll
+C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\win-x86\Serilog.dll
+C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\win-x86\Serilog.Sinks.Console.dll
+C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\win-x86\Serilog.Sinks.File.dll

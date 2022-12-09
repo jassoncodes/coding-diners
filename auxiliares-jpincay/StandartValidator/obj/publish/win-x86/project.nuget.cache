@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "5uUKB0REsVi983c9hHAWi3Hyd0GvA52ySKypDdq9dLve+eo41UDE01g/0nDLcjqfxvMLPaGa9JZK1splOjFtUg==",
+  "dgSpecHash": "iSpyhjIGtlwFzBlKQQiA3nYddIyvPxyRosyk6kGnt97GPyBjnecVHVsjqgB9AdA0EDHqi2/MGjOGexsfvshmJg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Jay\\Coding\\diners\\RPA_Fraudes_CDI\\auxiliares-jpincay\\StandartValidator\\StandartValidator.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Jay\\.nuget\\packages\\serilog\\2.12.0\\serilog.2.12.0.nupkg.sha512",
+    "C:\\Users\\Jay\\.nuget\\packages\\serilog.sinks.console\\4.1.0\\serilog.sinks.console.4.1.0.nupkg.sha512",
+    "C:\\Users\\Jay\\.nuget\\packages\\serilog.sinks.file\\5.0.0\\serilog.sinks.file.5.0.0.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",

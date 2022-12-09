@@ -24,6 +24,9 @@ C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\StandartValidator.runtimeconfig.json
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\StandartValidator.dll
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\StandartValidator.pdb
+C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\Serilog.dll
+C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\Serilog.Sinks.Console.dll
+C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\Serilog.Sinks.File.dll
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\System.Text.Encodings.Web.dll
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\System.Text.Json.dll
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
@@ -40,6 +43,3 @@ C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\obj\Release\net6.0\StandartValidator.pdb
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\obj\Release\net6.0\StandartValidator.genruntimeconfig.cache
 C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\obj\Release\net6.0\ref\StandartValidator.dll
-C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\Serilog.dll
-C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\Serilog.Sinks.Console.dll
-C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\bin\Release\net6.0\Serilog.Sinks.File.dll
