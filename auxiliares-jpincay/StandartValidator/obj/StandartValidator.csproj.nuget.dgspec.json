@@ -43,6 +43,18 @@
             "System.Text.Json": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "serilog": {
+              "target": "Package",
+              "version": "[2.12.0, )"
+            },
+            "serilog.sinks.console": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "serilog.sinks.file": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             }
           },
           "imports": [

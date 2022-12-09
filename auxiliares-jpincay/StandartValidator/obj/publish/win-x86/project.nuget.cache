@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BF5JwFV2mmn6qGp5NnV41uFjYnDeALJ3k8iLQf+jQlqnGGfCumAPJyevLljuTHt8AJMHuD+FogAwvd2noCNDLw==",
+  "dgSpecHash": "5uUKB0REsVi983c9hHAWi3Hyd0GvA52ySKypDdq9dLve+eo41UDE01g/0nDLcjqfxvMLPaGa9JZK1splOjFtUg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Jay\\Coding\\diners\\StandartValidator\\StandartValidator\\StandartValidator.csproj",
+  "projectFilePath": "C:\\Users\\Jay\\Coding\\diners\\RPA_Fraudes_CDI\\auxiliares-jpincay\\StandartValidator\\StandartValidator.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jay\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",

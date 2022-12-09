@@ -262,11 +262,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jay\\Coding\\diners\\StandartValidator\\StandartValidator\\StandartValidator.csproj",
+      "projectUniqueName": "C:\\Users\\Jay\\Coding\\diners\\RPA_Fraudes_CDI\\auxiliares-jpincay\\StandartValidator\\StandartValidator.csproj",
       "projectName": "StandartValidator",
-      "projectPath": "C:\\Users\\Jay\\Coding\\diners\\StandartValidator\\StandartValidator\\StandartValidator.csproj",
+      "projectPath": "C:\\Users\\Jay\\Coding\\diners\\RPA_Fraudes_CDI\\auxiliares-jpincay\\StandartValidator\\StandartValidator.csproj",
       "packagesPath": "C:\\Users\\Jay\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jay\\Coding\\diners\\StandartValidator\\StandartValidator\\obj\\publish\\win-x86\\",
+      "outputPath": "C:\\Users\\Jay\\Coding\\diners\\RPA_Fraudes_CDI\\auxiliares-jpincay\\StandartValidator\\obj\\publish\\win-x86\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Jay\\AppData\\Roaming\\NuGet\\NuGet.Config",

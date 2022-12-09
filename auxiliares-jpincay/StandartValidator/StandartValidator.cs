@@ -19,6 +19,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using static System.Net.Mime.MediaTypeNames;
+using Serilog;
 
 namespace StandartValidator
 {
@@ -29,11 +30,11 @@ namespace StandartValidator
 
     internal class StandartValidator
     {
-        //String inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\3 StandartValidator Test Files\\input\\";
-        String inputPath = "E:\\RECURSOS ROBOT\\DATA\\MESA_SERVICIO\\GESTIONDEUSUARIOS\\AUXILIAR\\";
+        String inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\3 StandartValidator Test Files\\input\\";
+        //String inputPath = "E:\\RECURSOS ROBOT\\DATA\\MESA_SERVICIO\\GESTIONDEUSUARIOS\\AUXILIAR\\";
 
-        //String outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\3 StandartValidator Test Files\\output";
-        String outputPath = "E:\\RECURSOS ROBOT\\DATA\\MESA_SERVICIO\\GESTIONDEUSUARIOS\\ARCHIVOFINAL\\";
+        String outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\3 StandartValidator Test Files\\output";
+        //String outputPath = "E:\\RECURSOS ROBOT\\DATA\\MESA_SERVICIO\\GESTIONDEUSUARIOS\\ARCHIVOFINAL\\";
 
         List<String> cabeceraFinal = new List<string>() { "operacion", "ticket", "perfil", "banco", "usuario", "identificacion", "nombres apellidos", "correo", "area", "numero", "estandar" };
 
@@ -294,12 +295,14 @@ namespace StandartValidator
         {
             
             string folderName = DateTime.Now.ToString("yyyy-M-d");
-            string outputPath = this.outputPath + "\\" + folderName+"\\";
+
+            string outputPath = this.outputPath + "\\" + folderName;
 
             bool folderOutput = System.IO.Directory.Exists(outputPath);
             if(!folderOutput)
                 System.IO.Directory.CreateDirectory(outputPath);
 
+            Console.WriteLine(outputPath);
 
             //new instance excel app
             Excel.Application xlApp = new Excel.Application();
@@ -343,7 +346,7 @@ namespace StandartValidator
                 dataToWrite[ r ].PrintDataEstandar();
             }
 
-            xlWorkbook.SaveAs(outputPath+"ArchivoFinal.xls", Excel.XlFileFormat.xlWorkbookNormal);
+            xlWorkbook.SaveAs(outputPath+"\\ArchivoFinal.xls", Excel.XlFileFormat.xlWorkbookNormal);
             xlWorkbook.Close(true);
             KillExcelProccess();
 
@@ -351,20 +354,38 @@ namespace StandartValidator
 
 
         static void Main(String[] args) {
-
+            
             Console.Clear();
-
+            
             StandartValidator app = new StandartValidator();          
             
             List<string> dataList = app.GetData(app.inputPath);
-
             List<DataEstandar> dataToWrite = app.ParseData(dataList);
 
-            app.WriteFile(dataToWrite);
+            try
+            {
+                String logFolderName = "log-"+DateTime.Now.ToString("yyyy-M-d");
+                Log.Logger = new LoggerConfiguration()
+                    .WriteTo.File(System.IO.Directory.GetCurrentDirectory().ToString() + logFolderName+"\\"+ logFolderName+"_StandartValidator.log",
+                        rollingInterval: RollingInterval.Day,
+                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+                    .CreateLogger();
 
-            Console.WriteLine("\n\n**** Registros con estandar {0} *****\n", app.ContarEstandarSi(dataToWrite));
-            Console.WriteLine("**** Registros sin estandar {0} *****\n", app.ContarEstandarNo(dataToWrite));
-            Console.WriteLine("***** Registros procesados: {0} *****\n", dataToWrite.Count);
+                app.WriteFile(dataToWrite);
+
+                Console.WriteLine("\n\n**** Registros con estandar {0} *****\n", app.ContarEstandarSi(dataToWrite));
+                Console.WriteLine("**** Registros sin estandar {0} *****\n", app.ContarEstandarNo(dataToWrite));
+                Console.WriteLine("***** Registros procesados: {0} *****\n", dataToWrite.Count);
+
+                Console.ReadLine();
+
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex.ToString());
+                throw;
+            }
+
 
         }
     }
