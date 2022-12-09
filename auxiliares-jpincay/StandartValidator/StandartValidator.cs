@@ -19,6 +19,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using static System.Net.Mime.MediaTypeNames;
+using Serilog;
 
 namespace StandartValidator
 {
@@ -292,80 +293,120 @@ namespace StandartValidator
 
         public void WriteFile(List<DataEstandar> dataToWrite)
         {
-            
+
             string folderName = DateTime.Now.ToString("yyyy-M-d");
-            string outputPath = this.outputPath + "\\" + folderName+"\\";
+
+            string outputPath = this.outputPath + folderName + "\\";
 
             bool folderOutput = System.IO.Directory.Exists(outputPath);
-            if(!folderOutput)
+            if (!folderOutput)
                 System.IO.Directory.CreateDirectory(outputPath);
 
-
-            //new instance excel app
-            Excel.Application xlApp = new Excel.Application();
-            xlApp.Visible = false;
-
-            //new workbook
-            Workbook xlWorkbook = xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
-
-            //new worksheet
-            Worksheet xlWorksheet = (Worksheet)xlWorkbook.Worksheets.get_Item(1);
-
-            foreach(String cabecera in cabeceraFinal)
+            try
             {
-               xlWorksheet.Cells[1, cabeceraFinal.IndexOf(cabecera)+1] = cabecera.ToUpper();
-               xlWorksheet.Cells[1, cabeceraFinal.Count].EntireRow.Font.Bold = true;
-            }
+                //new instance excel app
+                Excel.Application xlApp = new Excel.Application();
+                xlApp.Visible = false;
 
+                Log.Information("Instanciando Excel App: " + xlApp.Path.ToString());
 
-            //recorrer lista de objetos DataEstandar
-            for (int r = 0; r < dataToWrite.Count; r++) {
-                for(int c = 1; c < cabeceraFinal.Count; c++)
+                //new workbook
+                Workbook xlWorkbook = xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
+
+                Log.Information("Nuevo archivo excel: " + xlWorkbook.Name.ToString());
+
+                //new worksheet
+                Worksheet xlWorksheet = (Worksheet)xlWorkbook.Worksheets.get_Item(1);
+
+                Log.Information("Nueva hoja de excel: " + xlWorksheet.Name.ToString()); ;
+
+                foreach (String cabecera in cabeceraFinal)
                 {
-                    if (dataToWrite[ r ].estandar == "SI")
-                    {
-                        var value = dataToWrite[ r ].GetIndexFieldValue(c-1).ToUpper();
-                        xlWorksheet.Cells[r + 2, c] = value;
-                        xlWorksheet.Cells[r + 2, c].NumberFormat = "@";
-                    }
-                    else
-                    {
-                        xlWorksheet.Cells[r + 2, 2] = dataToWrite[r].ticket;
-                        xlWorksheet.Cells[r + 2, 2].NumberFormat = "@";
-
-                        xlWorksheet.Cells[r + 2, 10] = dataToWrite[r].numerorf;
-                        xlWorksheet.Cells[r + 2, 10].NumberFormat = "@";
-
-                        xlWorksheet.Cells[r + 2 , 11] = dataToWrite[r].estandar;
-                        xlWorksheet.Cells[r + 2 , 11].NumberFormat = "@";
-                    }
+                    xlWorksheet.Cells[1, cabeceraFinal.IndexOf(cabecera) + 1] = cabecera.ToUpper();
+                    xlWorksheet.Cells[1, cabeceraFinal.Count].EntireRow.Font.Bold = true;
                 }
-                dataToWrite[ r ].PrintDataEstandar();
+
+
+                //recorrer lista de objetos DataEstandar
+                for (int r = 0; r < dataToWrite.Count; r++)
+                {
+                    for (int c = 1; c < cabeceraFinal.Count; c++)
+                    {
+                        if (dataToWrite[r].estandar == "SI")
+                        {
+                            var value = dataToWrite[r].GetIndexFieldValue(c - 1).ToUpper();
+                            xlWorksheet.Cells[r + 2, c] = value;
+                            xlWorksheet.Cells[r + 2, c].NumberFormat = "@";
+                        }
+                        else
+                        {
+                            xlWorksheet.Cells[r + 2, 2] = dataToWrite[r].ticket;
+                            xlWorksheet.Cells[r + 2, 2].NumberFormat = "@";
+
+                            xlWorksheet.Cells[r + 2, 10] = dataToWrite[r].numerorf;
+                            xlWorksheet.Cells[r + 2, 10].NumberFormat = "@";
+
+                            xlWorksheet.Cells[r + 2, 11] = dataToWrite[r].estandar;
+                            xlWorksheet.Cells[r + 2, 11].NumberFormat = "@";
+                        }
+                    }
+                    dataToWrite[r].PrintDataEstandar();
+                }
+
+                Log.Information("Guardando archivo: " + outputPath + "ArchivoFinal.xls");
+
+                xlWorkbook.SaveAs(outputPath + "ArchivoFinal.xls", Excel.XlFileFormat.xlWorkbookNormal);
+                xlWorkbook.Close(true);
+                KillExcelProccess();
+
+
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+                throw;
             }
 
-            xlWorkbook.SaveAs(outputPath+"ArchivoFinal.xls", Excel.XlFileFormat.xlWorkbookNormal);
-            xlWorkbook.Close(true);
-            KillExcelProccess();
 
         }
 
 
         static void Main(String[] args) {
-
+            
             Console.Clear();
-
+            
             StandartValidator app = new StandartValidator();          
             
             List<string> dataList = app.GetData(app.inputPath);
-
             List<DataEstandar> dataToWrite = app.ParseData(dataList);
 
-            //ejecuta funcion para escribir output
-            app.WriteFile(dataToWrite);
+            try
+            {
+                String logFolderName = "StandartValidatorLog-"+DateTime.Now.ToString("yyyy-M-d");
+                
+                String logPath = System.IO.Directory.GetCurrentDirectory().ToString() + "\\" + logFolderName;
 
-            Console.WriteLine("\n\n**** Registros con estandar {0} *****\n", app.ContarEstandarSi(dataToWrite));
-            Console.WriteLine("**** Registros sin estandar {0} *****\n", app.ContarEstandarNo(dataToWrite));
-            Console.WriteLine("***** Registros procesados: {0} *****\n", dataToWrite.Count);
+                System.IO.Directory.CreateDirectory(logPath);
+
+                Log.Logger = new LoggerConfiguration()
+                    .WriteTo.File(logPath+"\\"+"StandartValidator_"+".log",
+                        rollingInterval: RollingInterval.Day,
+                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+                    .CreateLogger();
+
+                app.WriteFile(dataToWrite);
+
+                Console.WriteLine("\n\n**** Registros con estandar {0} *****\n", app.ContarEstandarSi(dataToWrite));
+                Console.WriteLine("**** Registros sin estandar {0} *****\n", app.ContarEstandarNo(dataToWrite));
+                Console.WriteLine("***** Registros procesados: {0} *****\n", dataToWrite.Count);
+
+            }
+            catch(Exception e)
+            {
+                Log.Error(e.ToString());
+                throw;
+            }
+
 
         }
     }
