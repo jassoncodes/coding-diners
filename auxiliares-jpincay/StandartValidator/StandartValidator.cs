@@ -375,7 +375,7 @@ namespace StandartValidator
             
             Console.Clear();
             
-            StandartValidator app = new StandartValidator();          
+            StandartValidator app = new StandartValidator();
             
             List<string> dataList = app.GetData(app.inputPath);
             List<DataEstandar> dataToWrite = app.ParseData(dataList);
@@ -384,13 +384,14 @@ namespace StandartValidator
             {
                 String logFolderName = "StandartValidatorLog-"+DateTime.Now.ToString("yyyy-M-d");
                 
-                String logPath = System.IO.Directory.GetCurrentDirectory().ToString() + "\\" + logFolderName;
+                //variable de ruta de ejecución
+                String logPath = "E:\\" + logFolderName;
 
                 System.IO.Directory.CreateDirectory(logPath);
 
                 Log.Logger = new LoggerConfiguration()
                     .WriteTo.File(logPath+"\\"+"StandartValidator_"+".log",
-                        rollingInterval: RollingInterval.Day,
+                        rollingInterval: RollingInterval.Hour,
                         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
                     .CreateLogger();
 
