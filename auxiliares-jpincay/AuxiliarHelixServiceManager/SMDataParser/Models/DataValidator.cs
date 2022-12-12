@@ -8,9 +8,24 @@ using System.Collections.Generic;
 namespace SMDataParser.Models
 {
 
+    class KillProcess{
+
+        //kill excel process
+        public void KillExcelProccess()
+        {
+            foreach (System.Diagnostics.Process proc in System.Diagnostics.Process.GetProcessesByName("EXCEL"))
+            {
+                proc.Kill();
+            }
+        }
+
+    }
+
     class DataValidator
     {
-        
+
+        public KillProcess KillProcess;
+
         public String inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\3 StandartValidator Test Files\\input\\";
         //public String inputPath = "E:\\RECURSOS ROBOT\\DATA\\MESA_SERVICIO\\GESTIONDEUSUARIOS\\AUXILIAR\\";
 
@@ -21,16 +36,6 @@ namespace SMDataParser.Models
 
         //quita las tildes de una cadena
         static string NormalizeString(string cadena) => Regex.Replace(cadena.Normalize(NormalizationForm.FormD), @"[^a-zA-z0-9 ]+", "");
-
-
-        //kill excel process
-        private void KillExcelProccess()
-        {
-            foreach (System.Diagnostics.Process proc in System.Diagnostics.Process.GetProcessesByName("EXCEL"))
-            {
-                proc.Kill();
-            }
-        }
 
 
         //obtiene email de una cadena
@@ -77,9 +82,11 @@ namespace SMDataParser.Models
         }
 
 
-
+        //lee input y obtiene las tramas a procesar y las devuelve como lista
         private List<string> GetData(string filePath)
         {
+            KillProcess k = new KillProcess();
+
 
             List<String> data = new List<String>();
 
@@ -121,14 +128,14 @@ namespace SMDataParser.Models
                     }
                 }
 
-                KillExcelProccess();
+                KillProcess.KillExcelProccess();
 
                 return data;
 
             }
             catch (Exception)
             {
-                KillExcelProccess();
+                KillProcess.KillExcelProccess();
                 throw;
 
             }
@@ -139,6 +146,9 @@ namespace SMDataParser.Models
 
     class DataParser
     {
+
+
+        public KillProcess KillProcess;
 
         public List<Estandar> ParseData(List<string> dataList)
         {
@@ -303,7 +313,7 @@ namespace SMDataParser.Models
 
                 xlWorkbook.SaveAs(outputPath + "ArchivoFinal.xls", Excel.XlFileFormat.xlWorkbookNormal);
                 xlWorkbook.Close(true);
-                KillExcelProccess();
+                KillProcess.KillExcelProccess();
 
 
             }
@@ -311,6 +321,7 @@ namespace SMDataParser.Models
             {
                 Log.Error(e.ToString());
                 throw;
+                KillProcess.KillExcelProccess();
             }
 
 

@@ -7,11 +7,16 @@ namespace SMDataParser
     {
 
 
-
         static void Main(string[] args)
         {
+            try
+            {
 
-            Console.WriteLine("Hello, World!");
+            }
+            catch
+            {
+
+            }
         }
     }
 }
