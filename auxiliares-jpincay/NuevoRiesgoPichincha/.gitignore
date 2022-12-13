@@ -1,5 +1,5 @@
 .vs
-RiesgoPichinchaQuoteParser/.csproj.user
+RiesgoPichinchaQuoteParser/*.csproj.user
 RiesgoPichinchaQuoteParser/bin/
 RiesgoPichinchaQuoteParser/release/.pdb
 RiesgoPichinchaQuoteParser/obj/*
