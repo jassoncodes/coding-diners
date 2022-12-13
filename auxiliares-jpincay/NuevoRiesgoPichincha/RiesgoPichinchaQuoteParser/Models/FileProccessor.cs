@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO.MemoryMappedFiles;
 using System.Linq;
@@ -11,12 +12,14 @@ namespace RiesgoPichinchaQuoteParser.Models
 {
     public class FileTarget {
         public string name;
-        public string[] textContent;
+        public ArrayList textContent;
+        //public string[] textContent;
         public string outPath;
         public string outFileName;
         public string fullOutPathName;
 
-        public FileTarget(string name, string[] textContent, string path) {
+        //public FileTarget(string name, string[] textContent, string path) {
+        public FileTarget(string name, ArrayList textContent, string path) {
             this.name = name;
             this.textContent = textContent;
             this.outPath = path;
@@ -26,7 +29,8 @@ namespace RiesgoPichinchaQuoteParser.Models
 
         public FileTarget(){
             this.name = "";
-            this.textContent = Array.Empty<string>();
+            this.textContent = new ArrayList();
+            //this.textContent = Array.Empty<string>();
             this.outPath = "";
             this.outFileName = "";
             this.fullOutPathName = "";
@@ -58,14 +62,14 @@ namespace RiesgoPichinchaQuoteParser.Models
 
     public class FileProccessor
     {
-        public string inputPath = "E:\\NUEVO RIESGO PICHINCHA\\Exportaciones.ILB\\";
-        //public string inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\5 NuevoRiesgoPichincha\\Exportaciones.ILB\\";
+        //public string inputPath = "E:\\NUEVO RIESGO PICHINCHA\\Exportaciones.ILB\\";
+        public string inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\5 NuevoRiesgoPichincha\\Exportaciones.ILB\\";
 
-        public string outputPath = "E:\\NUEVO RIESGO PICHINCHA\\Archivos fuente.ILB\\";
-        //public string outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\5 NuevoRiesgoPichincha\\Archivos fuente.ILB\\";
+        //public string outputPath = "E:\\NUEVO RIESGO PICHINCHA\\Archivos fuente.ILB\\";
+        public string outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\5 NuevoRiesgoPichincha\\Archivos fuente.ILB\\";
 
-        public string logPath = "E:\\RECURSOS ROBOT\\LOGS\\NUEVORIESGO_CTLINT\\";
-        //public string logPath = "C:\\Users\\Jay\\Desktop\\Diners\\5 NuevoRiesgoPichincha\\Archivos fuente.ILB\\";
+        //public string logPath = "E:\\RECURSOS ROBOT\\LOGS\\NUEVORIESGO_CTLINT\\";
+        public string logPath = "C:\\Users\\Jay\\Desktop\\Diners\\5 NuevoRiesgoPichincha\\Archivos fuente.ILB\\";
 
 
         public void ReadFiles(string directoryPath)
@@ -84,9 +88,42 @@ namespace RiesgoPichinchaQuoteParser.Models
 
                 foreach (string file in files)
                 {
+                    ArrayList fileArrayList = new ArrayList();
+                    Log.Information($"Procesando archivo: {file}");
 
-                    Log.Information($"Leyendo contenido de archivo: {file}");
+                    //obteniendo nombre de archivo
+                    string fileName = System.IO.Path.GetFileNameWithoutExtension(file);
+                    Log.Information($"\tConfigurando nuevo nombre de archivo {fileName}");
 
+                    //configurando nuevo nombre de archivo
+                    if (fileName.Contains("PICHINCHA_L"))
+                    {
+                        fileName = fileName.Replace("PICHINCHA_L", "").Trim();
+                    }
+                    else if (fileName.Contains("_L"))
+                    {
+                        fileName = fileName.Replace("_L", "").Trim();
+                    }
+
+
+                    Log.Information($"\tLeyendo contenido de archivo: {file}");
+                    //aproach 3
+                    using (StreamReader fileReader = new StreamReader(file))
+                    {
+                        int counter = 0;
+                        string ln;
+                        while ((ln = fileReader.ReadLine())!= null)
+                        {
+                            ln = ln.Replace(@"""", String.Empty).Trim();
+                            fileArrayList.Add(ln);
+                            counter++;
+                        }
+
+                        filesList.Add(new FileTarget(fileName, fileArrayList, this.outputPath));
+                    }
+
+                    /*
+                     * approach 2
                     string[] textFromFile = File.ReadAllLines(file);
                     string[] textToFile = new string[textFromFile.Length];
 
@@ -94,7 +131,10 @@ namespace RiesgoPichinchaQuoteParser.Models
                     {
                         textToFile[i] = textFromFile[i].Replace(@"""", String.Empty).Trim();
                     }
-                    
+                    *
+                    */
+
+
                     //uniendo las lineas
                     //string textProccessed = string.Join(" ", textFromFile);
 
@@ -108,23 +148,11 @@ namespace RiesgoPichinchaQuoteParser.Models
                     //text = text.Replace(@"""", String.Empty).Trim();
                     */
 
-
-                    //obteniendo nombre de archivo
-                    string fileName = System.IO.Path.GetFileNameWithoutExtension(file);
-                    Log.Information($"Configurando nuevo nombre de archivo {fileName}");
-
-
-                    //configurando nuevo nombre de archivo
-                    if (fileName.Contains("PICHINCHA_L")){
-                        fileName = fileName.Replace("PICHINCHA_L", "").Trim();
-                    }
-                    else if (fileName.Contains("_L")){
-                        fileName = fileName.Replace("_L", "").Trim();
-                    }
-
-                    //agrega a lista de archivos a generar
+                    //agrega a lista de archivos a generar aproach 1
                     //filesList.Add(new FileTarget(fileName,text,this.outputPath));
-                    filesList.Add(new FileTarget(fileName, textToFile,this.outputPath));
+
+                    //agrega a lista de archivos a generar aproach 2
+                    //filesList.Add(new FileTarget(fileName, textToFile,this.outputPath));
                     Log.Information($"{filesList.Count} archivos procesados...");
                     
                     
@@ -147,12 +175,25 @@ namespace RiesgoPichinchaQuoteParser.Models
             {
 
                 Log.Information($"Creando archivo txt {file.fullOutPathName}");
+
+                //approach 3
+                using (TextWriter tw = new StreamWriter(file.fullOutPathName, true))
+                {
+
+                    for(int i = 0;i < file.textContent.Count; i++)
+                    {
+                        tw.WriteLine(file.textContent[i]);
+                    }
+                }
+
+                /* approach 2
                 using FileStream fs = File.Create(file.fullOutPathName);
                 using var sr = new StreamWriter(fs);
                 for(int i = 0;i < file.textContent.Length; i++)
                 {
                     sr.WriteLine(file.textContent[i]);
                 }
+                */
 
                 /*
                  * approach 1
