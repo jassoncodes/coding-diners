@@ -1,7 +1,7 @@
 .vs
-bin/
-obj/*
-obj/Debug/*
-obj/publish/*
-obj/Release/*
-Properties/
+RiesgoPichinchaQuoteParser/bin/
+RiesgoPichinchaQuoteParser/obj/*
+RiesgoPichinchaQuoteParser/obj/Debug/*
+RiesgoPichinchaQuoteParser/obj/publish/*
+/obj/Release/*
+RiesgoPichinchaQuoteParser/Properties/
