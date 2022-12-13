@@ -13,8 +13,6 @@ namespace RiesgoPichinchaQuoteParser.Models
 
         public void configureLog(string logPath)
         {
-            Log.Information("Configurando log...");
-
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
                 .WriteTo.File(logPath + System.AppDomain.CurrentDomain.FriendlyName + "_" + ".log",

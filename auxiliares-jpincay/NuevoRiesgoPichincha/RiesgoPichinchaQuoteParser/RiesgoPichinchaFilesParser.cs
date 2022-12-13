@@ -31,7 +31,7 @@ namespace RiesgoPichinchaQuoteParser
                 {
                     fileProccessor.ParseFile(filesPath[i]);
                 }
-
+                Log.Information($"Proceso terminado con éxito: {filesPath.LongLength.ToString()} archivos procesados....");
             }
             catch (Exception e)
             {
