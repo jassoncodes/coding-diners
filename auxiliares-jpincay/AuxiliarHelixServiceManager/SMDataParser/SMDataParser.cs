@@ -7,11 +7,18 @@ namespace SMDataParser
     {
 
 
-
         static void Main(string[] args)
         {
+            try
+            {
+                DataValidator dataValidator = new DataValidator();
 
-            Console.WriteLine("Hello, World!");
+                dataValidator.inputPath= args[0];
+            }
+            catch
+            {
+
+            }
         }
     }
 }
