@@ -11,7 +11,9 @@ namespace SMDataParser
         {
             try
             {
+                DataValidator dataValidator = new DataValidator();
 
+                dataValidator.inputPath= args[0];
             }
             catch
             {
