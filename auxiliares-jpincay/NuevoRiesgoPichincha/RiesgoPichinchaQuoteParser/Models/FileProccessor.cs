@@ -151,8 +151,10 @@ namespace RiesgoPichinchaQuoteParser.Models
 
                     WriteFile(file);
 
+                    //code in dev-jpincay branch
                     //Log.Information($"Creando archivo txt {file.outFileName}");
                     //System.IO.File.WriteAllText(System.IO.Path.Combine(file.outPath, file.outFileName),file.textContent);
+
                 }
                 Log.Information("Proceso terminado...");
             }
