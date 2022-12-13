@@ -117,13 +117,42 @@ namespace RiesgoPichinchaQuoteParser.Models
 
         }
 
+        private void WriteFile(FileTarget file)
+        {
+            try
+            {
+
+                Log.Information($"Creando archivo txt {file.outFileName}");
+                
+                using (System.IO.FileStream fs = System.IO.File.Create(System.IO.Path.Combine(file.outPath, file.outFileName)))
+                {
+                    byte[] byteArr = Encoding.ASCII.GetBytes(file.textContent);
+
+                    for (byte i = 0; i < byteArr.Length; i++)
+                    {
+                        fs.WriteByte(i);
+                    }
+                }
+
+                Log.Information("Proceso terminado...");
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+            }
+
+        }
+
         private void WriteFilesProccessed(List<FileTarget> filesList)
         {
             try {
                 foreach(FileTarget file in filesList)
                 {
-                    Log.Information($"Creando archivo txt {file.outFileName}");
-                    System.IO.File.WriteAllText(System.IO.Path.Combine(file.outPath, file.outFileName),file.textContent);
+
+                    WriteFile(file);
+
+                    //Log.Information($"Creando archivo txt {file.outFileName}");
+                    //System.IO.File.WriteAllText(System.IO.Path.Combine(file.outPath, file.outFileName),file.textContent);
                 }
                 Log.Information("Proceso terminado...");
             }
