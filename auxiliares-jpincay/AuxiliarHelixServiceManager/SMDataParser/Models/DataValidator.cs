@@ -64,192 +64,194 @@ namespace SMDataParser.Models
 
 
 
-    class DataParser
-    {
-
-
-        public KillProcess KillProcess;
-
-        public List<Estandar> ParseData(List<string> dataList)
+        class DataParser
         {
-            string[] standart = { "accion", "identificacion", "perfil a asignar", "usuario", "nombres", "correo" };
-            List<Estandar> datToWrite = new List<Estandar>();
 
-            foreach (String item in dataList)
+
+            public KillProcess KillProcess;
+
+            public List<Estandar> ParseData(List<string> dataList)
             {
+                string[] standart = { "accion", "identificacion", "perfil a asignar", "usuario", "nombres", "correo" };
+                List<Estandar> datToWrite = new List<Estandar>();
 
-                int c = 0;
-
-                List<string> values = item.Split().ToList();
-
-                Estandar dataEstandar = new Estandar();
-
-                //guarda ticket
-                dataEstandar.ticket = values.SkipWhile(x => x != "ticket").Skip(1).DefaultIfEmpty(values[0]).FirstOrDefault();
-
-                //guarda numero rf
-                dataEstandar.numerorf = values.SkipWhile(x => x != "rf").Skip(1).DefaultIfEmpty(values[0]).FirstOrDefault();
-
-
-                foreach (string e in standart)
+                foreach (String item in dataList)
                 {
-                    if (item.Contains(e))
-                        c++;
-                }
 
-                if (c == standart.Length)
-                {
-                    if (item.Contains("accion"))
+                    int c = 0;
+
+                    List<string> values = item.Split().ToList();
+
+                    Estandar dataEstandar = new Estandar();
+
+                    //guarda ticket
+                    dataEstandar.ticket = values.SkipWhile(x => x != "ticket").Skip(1).DefaultIfEmpty(values[0]).FirstOrDefault();
+
+                    //guarda numero rf
+                    dataEstandar.numerorf = values.SkipWhile(x => x != "rf").Skip(1).DefaultIfEmpty(values[0]).FirstOrDefault();
+
+
+                    foreach (string e in standart)
                     {
-                        string accion = dataEstandar.GetDataBetween(item, "accion", "identificacion");
-                        if (accion == "b")
-                            dataEstandar.operacion = "borrar";
-                        if (accion == "c")
-                            dataEstandar.operacion = "crear";
-                        if (accion == "a")
-                            dataEstandar.operacion = "modificar";
-                        c++;
+                        if (item.Contains(e))
+                            c++;
                     }
 
-                    if (item.Contains("perfil a asignar"))
+                    if (c == standart.Length)
                     {
-                        dataEstandar.perfil = dataEstandar.GetDataBetween(item, "perfil a asignar", "usuario");
-                        c++;
-                    }
-
-                    if (item.Contains("usuario"))
-                    {
-                        dataEstandar.usuario = dataEstandar.GetDataBetween(item, "usuario", "nombres");
-                        c++;
-                    }
-
-                    if (item.Contains("identificacion"))
-                    {
-                        dataEstandar.identificacion = dataEstandar.GetDataBetween(item, "identificacion", "perfil a asignar");
-                        c++;
-                    }
-
-                    if (item.Contains("nombres"))
-                    {
-                        dataEstandar.nombres = dataEstandar.GetDataBetween(item, "nombres", "correo");
-                        c++;
-                    }
-
-                    if (item.Contains("correo"))
-                    {
-                        dataEstandar.correo = dataEstandar.GetDataBetween(item, "correo", "rf");
-                        c++;
-                    }
-
-                    if (!dataEstandar.Compare(dataEstandar, item.Substring(0, item.IndexOf(" rf "))))
-                    {
-                        dataEstandar.estandar = "MANUAL";
-                    }
-                    else
-                    {
-                        dataEstandar.estandar = "SI";
-                    }
-                }
-                else
-                {
-                    dataEstandar.estandar = "MANUAL";
-                }
-
-
-
-                datToWrite.Add(dataEstandar);
-
-            }
-
-            return datToWrite;
-
-        }
-
-        public void WriteFile(List<Estandar> dataToWrite)
-        {
-            String outPath = new DataValidator().outputPath;
-            List<String> cabeceraFinal = new DataValidator().cabeceraFinal;
-
-            string folderName = DateTime.Now.ToString("yyyy-M-d");
-
-            string outputPath = outPath + folderName + "\\";
-
-            bool folderOutput = System.IO.Directory.Exists(outputPath);
-            if (!folderOutput)
-                System.IO.Directory.CreateDirectory(outputPath);
-
-            try
-            {
-                //new instance excel app
-                Excel.Application xlApp = new Excel.Application();
-                xlApp.Visible = false;
-
-                Log.Information("Instanciando Excel App: " + xlApp.Path.ToString());
-
-                //new workbook
-                Workbook xlWorkbook = xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
-
-                Log.Information("Nuevo archivo excel: " + xlWorkbook.Name.ToString());
-
-                //new worksheet
-                Worksheet xlWorksheet = (Worksheet)xlWorkbook.Worksheets.get_Item(1);
-
-                Log.Information("Nueva hoja de excel: " + xlWorksheet.Name.ToString()); ;
-
-                foreach (String cabecera in cabeceraFinal)
-                {
-                    xlWorksheet.Cells[1, cabeceraFinal.IndexOf(cabecera) + 1] = cabecera.ToUpper();
-                    xlWorksheet.Cells[1, cabeceraFinal.Count].EntireRow.Font.Bold = true;
-                }
-
-
-                //recorrer lista de objetos DataEstandar
-                for (int r = 0; r < dataToWrite.Count; r++)
-                {
-                    for (int c = 1; c < cabeceraFinal.Count; c++)
-                    {
-                        if (dataToWrite[r].estandar == "SI")
+                        if (item.Contains("accion"))
                         {
-                            var value = dataToWrite[r].GetIndexFieldValue(c - 1).ToUpper();
-                            xlWorksheet.Cells[r + 2, c] = value;
-                            xlWorksheet.Cells[r + 2, c].NumberFormat = "@";
+                            string accion = dataEstandar.GetDataBetween(item, "accion", "identificacion");
+                            if (accion == "b")
+                                dataEstandar.operacion = "borrar";
+                            if (accion == "c")
+                                dataEstandar.operacion = "crear";
+                            if (accion == "a")
+                                dataEstandar.operacion = "modificar";
+                            c++;
+                        }
+
+                        if (item.Contains("perfil a asignar"))
+                        {
+                            dataEstandar.perfil = dataEstandar.GetDataBetween(item, "perfil a asignar", "usuario");
+                            c++;
+                        }
+
+                        if (item.Contains("usuario"))
+                        {
+                            dataEstandar.usuario = dataEstandar.GetDataBetween(item, "usuario", "nombres");
+                            c++;
+                        }
+
+                        if (item.Contains("identificacion"))
+                        {
+                            dataEstandar.identificacion = dataEstandar.GetDataBetween(item, "identificacion", "perfil a asignar");
+                            c++;
+                        }
+
+                        if (item.Contains("nombres"))
+                        {
+                            dataEstandar.nombres = dataEstandar.GetDataBetween(item, "nombres", "correo");
+                            c++;
+                        }
+
+                        if (item.Contains("correo"))
+                        {
+                            dataEstandar.correo = dataEstandar.GetDataBetween(item, "correo", "rf");
+                            c++;
+                        }
+
+                        if (!dataEstandar.Compare(dataEstandar, item.Substring(0, item.IndexOf(" rf "))))
+                        {
+                            dataEstandar.estandar = "MANUAL";
                         }
                         else
                         {
-                            xlWorksheet.Cells[r + 2, 2] = dataToWrite[r].ticket;
-                            xlWorksheet.Cells[r + 2, 2].NumberFormat = "@";
-
-                            xlWorksheet.Cells[r + 2, 10] = dataToWrite[r].numerorf;
-                            xlWorksheet.Cells[r + 2, 10].NumberFormat = "@";
-
-                            xlWorksheet.Cells[r + 2, 11] = dataToWrite[r].estandar;
-                            xlWorksheet.Cells[r + 2, 11].NumberFormat = "@";
+                            dataEstandar.estandar = "SI";
                         }
                     }
-                    dataToWrite[r].PrintDataEstandar();
+                    else
+                    {
+                        dataEstandar.estandar = "MANUAL";
+                    }
+
+
+
+                    datToWrite.Add(dataEstandar);
+
                 }
 
-                Log.Information("Guardando archivo: " + outputPath + "ArchivoFinal.xls");
-
-                xlWorkbook.SaveAs(outputPath + "ArchivoFinal.xls", Excel.XlFileFormat.xlWorkbookNormal);
-                xlWorkbook.Close(true);
-                KillProcess.KillExcelProccess();
-
+                return datToWrite;
 
             }
-            catch (Exception e)
+
+            public void WriteFile(List<Estandar> dataToWrite)
             {
-                Log.Error(e.ToString());
-                throw;
-                KillProcess.KillExcelProccess();
+                String outPath = new DataValidator().outputPath;
+                List<String> cabeceraFinal = new DataValidator().cabeceraFinal;
+
+                string folderName = DateTime.Now.ToString("yyyy-M-d");
+
+                string outputPath = outPath + folderName + "\\";
+
+                bool folderOutput = System.IO.Directory.Exists(outputPath);
+                if (!folderOutput)
+                    System.IO.Directory.CreateDirectory(outputPath);
+
+                try
+                {
+                    //new instance excel app
+                    Excel.Application xlApp = new Excel.Application();
+                    xlApp.Visible = false;
+
+                    Log.Information("Instanciando Excel App: " + xlApp.Path.ToString());
+
+                    //new workbook
+                    Workbook xlWorkbook = xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
+
+                    Log.Information("Nuevo archivo excel: " + xlWorkbook.Name.ToString());
+
+                    //new worksheet
+                    Worksheet xlWorksheet = (Worksheet)xlWorkbook.Worksheets.get_Item(1);
+
+                    Log.Information("Nueva hoja de excel: " + xlWorksheet.Name.ToString()); ;
+
+                    foreach (String cabecera in cabeceraFinal)
+                    {
+                        xlWorksheet.Cells[1, cabeceraFinal.IndexOf(cabecera) + 1] = cabecera.ToUpper();
+                        xlWorksheet.Cells[1, cabeceraFinal.Count].EntireRow.Font.Bold = true;
+                    }
+
+
+                    //recorrer lista de objetos DataEstandar
+                    for (int r = 0; r < dataToWrite.Count; r++)
+                    {
+                        for (int c = 1; c < cabeceraFinal.Count; c++)
+                        {
+                            if (dataToWrite[r].estandar == "SI")
+                            {
+                                var value = dataToWrite[r].GetIndexFieldValue(c - 1).ToUpper();
+                                xlWorksheet.Cells[r + 2, c] = value;
+                                xlWorksheet.Cells[r + 2, c].NumberFormat = "@";
+                            }
+                            else
+                            {
+                                xlWorksheet.Cells[r + 2, 2] = dataToWrite[r].ticket;
+                                xlWorksheet.Cells[r + 2, 2].NumberFormat = "@";
+
+                                xlWorksheet.Cells[r + 2, 10] = dataToWrite[r].numerorf;
+                                xlWorksheet.Cells[r + 2, 10].NumberFormat = "@";
+
+                                xlWorksheet.Cells[r + 2, 11] = dataToWrite[r].estandar;
+                                xlWorksheet.Cells[r + 2, 11].NumberFormat = "@";
+                            }
+                        }
+                        dataToWrite[r].PrintDataEstandar();
+                    }
+
+                    Log.Information("Guardando archivo: " + outputPath + "ArchivoFinal.xls");
+
+                    xlWorkbook.SaveAs(outputPath + "ArchivoFinal.xls", Excel.XlFileFormat.xlWorkbookNormal);
+                    xlWorkbook.Close(true);
+                    KillProcess.KillExcelProccess();
+
+
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e.ToString());
+                    throw;
+                    KillProcess.KillExcelProccess();
+                }
+
+
             }
 
 
         }
 
 
+
     }
-
-
 
 }
