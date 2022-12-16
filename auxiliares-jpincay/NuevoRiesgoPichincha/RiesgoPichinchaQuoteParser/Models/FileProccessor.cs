@@ -74,10 +74,7 @@ namespace RiesgoPichinchaQuoteParser.Models
 
                     for (int i = 0; i < fileToWrite.textContent.Count; i++)
                     {
-                        if (fileToWrite.textContent[i].ToString().Contains("ñ") == true)
-                            Log.Information($"Writing {fileToWrite.textContent[i].ToString()}");
-
-                        tw.WriteLine(fileToWrite.textContent[i].ToString());
+                        tw.WriteLine(fileToWrite.textContent[i]);
                     }
                 }
 
