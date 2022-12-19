@@ -12,13 +12,45 @@ namespace SMDataParser.Config
         public AppConfig() { }
 
         //public string inputPath = "E:\\NUEVO RIESGO PICHINCHA\\Exportaciones.ILB\\";
-        public string inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\5 NuevoRiesgoPichincha\\Exportaciones.ILB\\";
+        public string inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
 
         //public string outputPath = "E:\\NUEVO RIESGO PICHINCHA\\Archivos fuente.ILB\\";
-        public string outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\5 NuevoRiesgoPichincha\\Archivos fuente.ILB\\";
+        public string outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\output\\";
 
         //public string logPath = "E:\\RECURSOS ROBOT\\LOGS\\NUEVORIESGO_CTLINT\\";
-        public string logPath = "C:\\Users\\Jay\\Desktop\\Diners\\5 NuevoRiesgoPichincha\\Archivos fuente.ILB\\";
+        public string logPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
+
+        public string inputFileName = "export.csv";
+
+        /*
+         * Acción: C
+         * Identificación: 1727010496
+         * Perfil a asignar:   PERFIL 6
+         * Usuario:
+         * Nombres : GIRALDO PALLO FERNANDO RAHI
+         * Correo:  fgiraldo@pichincha.com
+         * La aplicación : CAO
+         */
+
+        public List<String> estandardInput = new List<string>() {
+            "accion",
+            "identificacion",
+            "perfil a asignar",
+            "usuario",
+            "nombres",
+            "correo"
+        };
+
+        public List<String> cabeceraFinal = new List<string>() { 
+            "idodt", 
+            "operacion", 
+            "nombres apellidos", 
+            "identificacion", 
+            "correo", 
+            "perfil", 
+            "usuario", 
+            "idpeticionhelix" 
+        };
 
 
         public void configureLog()
