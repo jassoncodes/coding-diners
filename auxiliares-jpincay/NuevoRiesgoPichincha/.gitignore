@@ -1,4 +1,5 @@
 .vs
+.vscode
 RiesgoPichinchaQuoteParser/*.csproj.user
 RiesgoPichinchaQuoteParser/bin/
 RiesgoPichinchaQuoteParser/release/.pdb

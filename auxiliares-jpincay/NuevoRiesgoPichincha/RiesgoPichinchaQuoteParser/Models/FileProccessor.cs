@@ -31,12 +31,13 @@ namespace RiesgoPichinchaQuoteParser.Models
                 else if (fileName.Contains("_L"))
                 {
                     fileName = fileName.Replace("_L", "").Trim();
+
                 }
 
 
                 Log.Information($"\tLeyendo contenido de archivo: {filePathToRead}");
 
-                using(StreamReader fileReader = new StreamReader(filePathToRead))
+                using(StreamReader fileReader = new StreamReader(filePathToRead,System.Text.Encoding.Latin1,false))
                 {
                     int counter = 0;
                     string ln;
@@ -68,7 +69,7 @@ namespace RiesgoPichinchaQuoteParser.Models
             {
                 Log.Information($"Creando archivo txt {fileToWrite.fullOutPathName}");
 
-                using (TextWriter tw = new StreamWriter(fileToWrite.fullOutPathName, true))
+                using (TextWriter tw = new StreamWriter(fileToWrite.fullOutPathName,false, System.Text.Encoding.Latin1))
                 {
 
                     for (int i = 0; i < fileToWrite.textContent.Count; i++)

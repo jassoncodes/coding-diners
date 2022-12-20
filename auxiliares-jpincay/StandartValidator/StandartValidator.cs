@@ -21,6 +21,10 @@ using System.Reflection;
 using static System.Net.Mime.MediaTypeNames;
 using Serilog;
 
+/*
+Autor: Jasson Pincay
+*/
+
 namespace StandartValidator
 {
     class ErrorEnArchivo : Exception
