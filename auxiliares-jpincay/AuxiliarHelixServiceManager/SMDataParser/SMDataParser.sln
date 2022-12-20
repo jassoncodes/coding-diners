@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMDataParser", "SMDataParser.csproj", "{8DCF4980-FE40-4D11-90F7-3E1E13EAE0A4}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMDataParser", "SMDataParser.csproj", "{8DCF4980-FE40-4D11-90F7-3E1E13EAE0A4}"
+>>>>>>> f6b205f433eccd338129c2fa0cf4a5ca1c3d5e5a
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

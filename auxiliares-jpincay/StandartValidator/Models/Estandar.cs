@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,12 +58,15 @@ namespace StandartValidator.Models
             data.Add(this.estandar);
 
             if (this.estandar == "SI")
+            {
                 ///data.ForEach(e => { Console.WriteLine(e.ToString()); });
-                Console.WriteLine(string.Format("{0}",string.Join(" ",data)));
-
+                Console.WriteLine(string.Format("{0}", string.Join(" ", data)));
+                Log.Information("Escribiendo: " + string.Format("{0}", string.Join(" ", data)));
+            }
             else
             {
                 Console.WriteLine("{0} {1} {2}", this.numerorf, this.ticket, this.estandar);
+                Log.Information("Escribiendo: " + "{0} {1} {2}", this.numerorf, this.ticket, this.estandar);
             }
         }
 
