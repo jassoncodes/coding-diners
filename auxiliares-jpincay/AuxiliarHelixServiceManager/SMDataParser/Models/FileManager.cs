@@ -7,12 +7,12 @@ namespace SMDataParser.Models
 {
     internal class FileManager
     {
-        ProccessHandler proccessHandler = new ProccessHandler();
+        readonly ProccessHandler proccessHandler = new();
 
         //busca archivo, valida nomeclatura de nombre, devuelve archivo más reciente
-        public string ValidarArchivo(String path)
+        public static string ValidarArchivo(String path)
         {
-            AppConfig appConfig = new AppConfig();
+            AppConfig appConfig = new();
             string recentFileDir = "";
 
             try
@@ -20,7 +20,7 @@ namespace SMDataParser.Models
 
                 //Lee directorio en busqueda de archivo mas reciente
                 var directory = new DirectoryInfo(path);
-                
+
                 return recentFileDir = (from f in directory.GetFiles() where f.Name == appConfig.inputFileName orderby f.LastWriteTime descending select f).First().ToString();
 
             }
@@ -44,11 +44,15 @@ namespace SMDataParser.Models
             if (!folderOutput)
                 System.IO.Directory.CreateDirectory(outputPath);
 
+
+
             try
             {
                 //new instance excel app
-                Excel.Application xlApp = new Excel.Application();
-                xlApp.Visible = false;
+                Excel.Application xlApp = new()
+                {
+                    Visible = false
+                };
 
                 Log.Information("Instanciando Excel App: " + xlApp.Path.ToString());
 
@@ -60,21 +64,21 @@ namespace SMDataParser.Models
                 //new worksheet
                 Worksheet xlWorksheet = (Worksheet)xlWorkbook.Worksheets.get_Item(1);
 
-                Log.Information("Nueva hoja de excel: " + xlWorksheet.Name.ToString()); ;
+                Log.Information("Nueva hoja de excel: " + xlWorksheet.Name.ToString());
 
+                //escribe cabeceras de columnas
                 foreach (String cabecera in cabeceraFinal)
                 {
                     xlWorksheet.Cells[1, cabeceraFinal.IndexOf(cabecera) + 1] = cabecera.ToUpper();
                     xlWorksheet.Cells[1, cabeceraFinal.Count].EntireRow.Font.Bold = true;
                 }
 
-
                 //recorrer lista de objetos DataEstandar
                 for (int r = 0; r < dataToWrite.Count; r++)
                 {
                     for (int c = 1; c < cabeceraFinal.Count; c++)
                     {
-                        if (dataToWrite[r].estandar == "SI")
+                        if (Estandar.ValidateFieldsComplete(dataToWrite[r]))
                         {
                             var value = dataToWrite[r].GetIndexFieldValue(c - 1).ToUpper();
                             xlWorksheet.Cells[r + 2, c] = value;
@@ -82,17 +86,13 @@ namespace SMDataParser.Models
                         }
                         else
                         {
-                            //xlWorksheet.Cells[r + 2, 2] = dataToWrite[r].ticket;
-                            //xlWorksheet.Cells[r + 2, 2].NumberFormat = "@";
-
-                            xlWorksheet.Cells[r + 2, 10] = dataToWrite[r].numerorf;
-                            xlWorksheet.Cells[r + 2, 10].NumberFormat = "@";
-
-                            xlWorksheet.Cells[r + 2, 11] = dataToWrite[r].estandar;
-                            xlWorksheet.Cells[r + 2, 11].NumberFormat = "@";
+                            //escribe solo el rf
+                            xlWorksheet.Cells[r + 2, 1] = dataToWrite[r].idot;
                         }
                     }
-                    dataToWrite[r].PrintDataEstandar();
+
+                    Log.Information(dataToWrite[r].LogData());
+
                 }
 
                 Log.Information("Guardando archivo: " + outputPath + "ArchivoFinal.xls");
@@ -102,7 +102,6 @@ namespace SMDataParser.Models
 
                 proccessHandler.KillExcelProccess();
 
-
             }
             catch (Exception e)
             {
@@ -111,9 +110,7 @@ namespace SMDataParser.Models
                 throw;
             }
 
-
         }
-
 
     }
 }

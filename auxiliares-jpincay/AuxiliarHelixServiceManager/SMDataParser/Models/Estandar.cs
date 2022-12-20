@@ -1,76 +1,46 @@
 ﻿
 using Serilog;
+using System;
+using System.Reflection;
+using System.Text;
 
 namespace SMDataParser.Models
 {
     public class Estandar
     {
 
+        public string idot;
         public string operacion;
-        public string perfil;
-        public string banco = "PICHINCHA";
-        public string usuario;
-        public string identificacion;
         public string nombres;
+        public string identificacion;
         public string correo;
-        public string area = "CT";
-        public string numerorf;
-        public string estandar;
+        public string perfil;
+        public string usuario;
+        
 
-        public Estandar()
-        {
-            //List<string> dataEstandar = new List<string>();
+        public Estandar(){
 
-            //dataEstandar.Add(this.operacion);
-            //dataEstandar.Add(this.ticket);
-            //dataEstandar.Add(this.perfil);
-            //dataEstandar.Add(this.banco);
-            //dataEstandar.Add(this.usuario);
-            //dataEstandar.Add(this.identificacion);
-            //dataEstandar.Add(this.nombres);
-            //dataEstandar.Add(this.correo);
-            //dataEstandar.Add(this.area);
-            //dataEstandar.Add(this.numerorf);
-            //dataEstandar.Add(this.estandar);
-
-        }
-
-        public string EstandarParsed()
-        {
-            List<string> dataEstandar = new List<string>();
-
-            dataEstandar.Add(this.operacion);
-            dataEstandar.Add(this.perfil);
-            dataEstandar.Add(this.banco);
-            dataEstandar.Add(this.usuario);
-            dataEstandar.Add(this.identificacion);
-            dataEstandar.Add(this.nombres);
-            dataEstandar.Add(this.correo);
-            dataEstandar.Add(this.area);
-            dataEstandar.Add(this.numerorf);
-            dataEstandar.Add(this.estandar);
-
-
-            string dataParsed = string.Join(", ", dataEstandar);
-
-            return dataParsed;
-
+            this.idot = "";
+            this.operacion = "";
+            this.nombres = "";
+            this.identificacion = "";
+            this.correo = "";
+            this.perfil = "";
+            this.usuario = "";
         }
 
         public string GetIndexFieldValue(int indice)
         {
-            List<string> data = new List<string>();
-
-            data.Add(this.operacion);
-            data.Add(this.perfil);
-            data.Add(this.banco);
-            data.Add(this.usuario);
-            data.Add(this.identificacion);
-            data.Add(this.nombres);
-            data.Add(this.correo);
-            data.Add(this.area);
-            data.Add(this.numerorf);
-            data.Add(this.estandar);
+            List<string> data = new()
+            {
+                this.idot,
+                this.operacion,
+                this.nombres,
+                this.identificacion,
+                this.correo,
+                this.perfil,
+                this.usuario
+            };
 
             return data[indice];
 
@@ -78,35 +48,49 @@ namespace SMDataParser.Models
 
         public void PrintDataEstandar()
         {
-            List<string> data = new List<string>();
-            data.Add(this.operacion);
-            data.Add(this.perfil);
-            data.Add(this.banco);
-            data.Add(this.usuario);
-            data.Add(this.identificacion);
-            data.Add(this.nombres);
-            data.Add(this.correo);
-            data.Add(this.area);
-            data.Add(this.numerorf);
-            data.Add(this.estandar);
+            List<string> data = new()
+            {
+                this.idot,
+                this.operacion,
+                this.nombres,
+                this.identificacion,
+                this.correo,
+                this.perfil,
+                this.usuario
+            };
 
-            if (this.estandar == "SI")
-            {
-                Console.WriteLine();
-                Log.Information($"Escribiendo: {string.Format($"{string.Join(" ", data)}")}");
-            }
-            else
-            {
-                Console.WriteLine($" RF: {this.numerorf} ESTANDARD: {this.estandar}");
-                Log.Information($"Escribiendo RF: {this.numerorf} ESTANDARD: {this.estandar}");
-            }
+            Log.Information($"Escribiendo: {string.Format($"{string.Join(" ", data)}")}");
         }
 
+        public string LogData()
+        {
+            string logData = $"Escribiendo {this.idot} {this.operacion} ";
 
+            return logData;
+        }
 
+        public static bool ValidateFieldsComplete(Estandar dataList)
+        {
+            bool val = false;
+            int c = 0;
+            
+            Type type = dataList.GetType();
+            
+            foreach (var f in type.GetFields().Where(f => f.IsPublic))
+            {
+                
+                if ( f.GetValue(dataList).ToString() == "" )
+                {
+                    c++;
+                }
+            }
 
+            if(c == 0)
+                val = true;
+
+            return val;
+        }
 
     }
-
 
 }

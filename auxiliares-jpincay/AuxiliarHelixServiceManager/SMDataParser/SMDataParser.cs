@@ -1,6 +1,5 @@
 ﻿using AppConfig = SMDataParser.Config.AppConfig;
 using Estandar = SMDataParser.Models.Estandar;
-using DirManager = SMDataParser.Models.DirManager;
 using FileManager = SMDataParser.Models.FileManager;
 using DataManipulator = SMDataParser.Models.DataManipulator;
 using ProccessHandler = SMDataParser.Models.ProccessHandler;
@@ -27,10 +26,6 @@ namespace SMDataParser
                 List<string> dataList = dataManipulator.GetData(appConfig.inputPath);
                 List<Estandar> dataToWrite = dataManipulator.ParseData(dataList);
                 fileManager.WriteFile(dataToWrite);
-
-                Log.Information($"\n ******* Registros válidos: {dataManipulator.ContarEstandarSi(dataToWrite)}");
-                Log.Information($"\n ******* Registros no válidos: {dataManipulator.ContarEstandarNo(dataToWrite)}");
-
                 Log.Information($"\n ******* Registros procesados: {dataToWrite.Count}");
 
             }

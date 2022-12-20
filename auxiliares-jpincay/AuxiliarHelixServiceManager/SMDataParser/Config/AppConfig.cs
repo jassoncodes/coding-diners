@@ -22,16 +22,6 @@ namespace SMDataParser.Config
 
         public string inputFileName = "export.csv";
 
-        /*
-         * Acción: C
-         * Identificación: 1727010496
-         * Perfil a asignar:   PERFIL 6
-         * Usuario:
-         * Nombres : GIRALDO PALLO FERNANDO RAHI
-         * Correo:  fgiraldo@pichincha.com
-         * La aplicación : CAO
-         */
-
         public List<String> estandardInput = new List<string>() {
             "accion",
             "identificacion",

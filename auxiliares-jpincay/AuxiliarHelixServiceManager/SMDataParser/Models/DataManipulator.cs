@@ -14,8 +14,7 @@ namespace SMDataParser.Models
 
 
         //obtiene email de una cadena
-        //public string[] ExtractEmails(string str)
-        private string ExtractEmails(string str)
+        private string ExtractEmail(string str)
         {
             string RegexPattern = @"\b[A-Z0-9._-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z.]{2,6}\b";
 
@@ -23,19 +22,8 @@ namespace SMDataParser.Models
             System.Text.RegularExpressions.MatchCollection matches
                 = System.Text.RegularExpressions.Regex.Matches(str, RegexPattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
-            string matchedEmail = matches[matches.Count].Value;
+            string matchedEmail = matches[0].Value;
 
-            //string[] MatchList = new string[matches.Count];
-
-            // add each match
-            //int c = 0;
-            //foreach (System.Text.RegularExpressions.Match match in matches)
-            //{
-            //    MatchList[c] = match.ToString();
-            //    c++;
-            //}
-
-            //return MatchList;
             return matchedEmail;
         }
 
@@ -54,40 +42,39 @@ namespace SMDataParser.Models
                 Excel.Application xlApp = new Excel.Application();
                 xlApp.Visible = false;
 
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(fileManager.ValidarArchivo(filePath));
+                //recibe como parametro una ruta al archivo csv
+                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(FileManager.ValidarArchivo(filePath));
 
+                //recorre cada hoja
                 foreach (Excel._Worksheet sheet in xlWorkbook.Worksheets)
                 {
-                    foreach (Excel.Range row in sheet.UsedRange.Rows)
+                    //recorre las filas desde la fila 2
+                    for (int i = 2; i < sheet.UsedRange.Rows.Count; i++)
                     {
-                        //obtiene cadena descripcion
-                        string cadena = sheet.Cells[row.Row, 2].Value2.ToString().ToLower();
 
-                        //string[] emailExtract = ExtractEmails(cadena);
-                        string emailExtract = ExtractEmails(cadena);
+                        //obtiene cadena completa
+                        string cadena = sheet.Cells[i, 1].Value2.ToString().ToLower();
 
-                        if (emailExtract.Length > 0)
-                        {
-                            //string correo = emailExtract[0];
-                            string correo = emailExtract;
-                            string c1 = NormalizeString(cadena.Substring(0, cadena.IndexOf(correo)));
-                            string c2 = cadena.Substring(cadena.IndexOf(correo));
+                        //quita comillas
+                        cadena.Replace(@"""", string.Empty);
 
-                            cadena = string.Concat(c1, c2);
+                        string rf = cadena.Split(';')[0];
 
-                            //agrega candena a la lista de retorno y concatena valor de campo numero rf
-                            data.Add(cadena
-                                        + " rf " + sheet.Cells[row.Row, 1].Value2.ToString());
-                        }
-                        else
-                        {
-                            data.Add(NormalizeString(cadena)
-                                        + " rf " + sheet.Cells[row.Row, 1].Value2.ToString());
-                        }
+                        cadena = cadena.Split(';')[1];
+
+                        string correo = ExtractEmail(cadena);
+
+                        //remueve tildes y caracteres especiales
+                        string c1 = NormalizeString(cadena.Substring(0, cadena.IndexOf(correo)));
+                        string c2 = cadena.Substring(cadena.IndexOf(correo));
+
+                        cadena = string.Concat($"{rf};", c1, c2);
+
+                        data.Add(cadena);
 
                     }
                 }
-
+                xlWorkbook.Close(false);
                 proccessHandler.KillExcelProccess();
 
                 return data;
@@ -148,6 +135,9 @@ namespace SMDataParser.Models
             bool compare = false;
             string compareData = StringDataToCompare(dataEstandar);
 
+            Log.Information($"\tData recibida: {data}");
+            Log.Information($"\tData resultado: {compareData}");
+
             if (compareData == data)
             {
                 compare = true;
@@ -163,135 +153,86 @@ namespace SMDataParser.Models
 
             List<string> standart = new AppConfig().estandardInput;
 
-
             List<Estandar> datToWrite = new List<Estandar>();
 
-            foreach (String item in dataList)
+            //recibe RF01269370;Acción: C Identificación: TCS566395 Perfil a asignar CAO: PERFIL 6 Usuario: Nombres:ZAMBRANO PULUPA JOHANNA ESTEFANIA Correo: jzambrap@pichincha.com	
+
+            try
             {
 
-                int c = 0;
-
-                List<string> values = item.Split().ToList();
-
-                Estandar dataEstandar = new Estandar();
-
-                try
+                foreach (string item in dataList)
                 {
-                    //guarda ticket
-                    //dataEstandar.ticket = values.SkipWhile(x => x != "ticket").Skip(1).DefaultIfEmpty(values[0]).FirstOrDefault();
+
+                    int c = 0;
+
+
+                    Estandar dataEstandar = new Estandar();
 
                     //guarda numero rf
-                    dataEstandar.numerorf = values.SkipWhile(x => x != "rf").Skip(1).DefaultIfEmpty(values[0]).FirstOrDefault();
+                    dataEstandar.idot = item.Substring(0, item.IndexOf(";"));
 
+                    string dataItem = item.Split(";")[1];
 
                     foreach (string e in standart)
                     {
-                        if (item.Contains(e))
+                        if (dataItem.Contains(e))
                             c++;
                     }
 
                     if (c == standart.Count)
                     {
-                        if (item.Contains("accion"))
+                        if (dataItem.Contains("accion"))
                         {
-                            string accion = GetDataBetween(item, "accion", "identificacion");
+                            string accion = GetDataBetween(dataItem, "accion", "identificacion");
                             if (accion == "b")
                                 dataEstandar.operacion = "borrar";
                             if (accion == "c")
                                 dataEstandar.operacion = "crear";
                             if (accion == "a")
                                 dataEstandar.operacion = "modificar";
-                            c++;
                         }
 
-                        if (item.Contains("perfil a asignar"))
+                        if (dataItem.Contains("perfil a asignar"))
                         {
-                            dataEstandar.perfil = GetDataBetween(item, "perfil a asignar", "usuario");
-                            c++;
+                            dataEstandar.perfil = GetDataBetween(dataItem, "perfil a asignar", "usuario");
                         }
 
-                        if (item.Contains("usuario"))
+                        if (dataItem.Contains("usuario"))
                         {
-                            dataEstandar.usuario = GetDataBetween(item, "usuario", "nombres");
-                            c++;
+                            dataEstandar.usuario = GetDataBetween(dataItem, "usuario", "nombres");
                         }
 
-                        if (item.Contains("identificacion"))
+                        if (dataItem.Contains("identificacion"))
                         {
-                            dataEstandar.identificacion = GetDataBetween(item, "identificacion", "perfil a asignar");
-                            c++;
+                            dataEstandar.identificacion = GetDataBetween(dataItem, "identificacion", "perfil a asignar");
                         }
 
-                        if (item.Contains("nombres"))
+                        if (dataItem.Contains("nombres"))
                         {
-                            dataEstandar.nombres = GetDataBetween(item, "nombres", "correo");
-                            c++;
+                            dataEstandar.nombres = GetDataBetween(dataItem, "nombres", "correo");
                         }
 
-                        if (item.Contains("correo"))
+                        if (dataItem.Contains("correo"))
                         {
-                            dataEstandar.correo = GetDataBetween(item, "correo", "rf");
-                            c++;
+                            dataEstandar.correo = ExtractEmail(dataItem);
                         }
 
-                        if (!Compare(dataEstandar, item.Substring(0, item.IndexOf(" rf "))))
-                        {
-                            dataEstandar.estandar = "MANUAL";
-                        }
-                        else
-                        {
-                            dataEstandar.estandar = "SI";
-                        }
-                    }
-                    else
-                    {
-                        dataEstandar.estandar = "MANUAL";
                     }
 
-
-                    Log.Information($"Data procesada y agregada para escritura: {dataEstandar.EstandarParsed}");
+                    //dataEstandar.EstandarParsed();
                     datToWrite.Add(dataEstandar);
 
                 }
-                catch (Exception e)
-                {
-                    Log.Error($"Error en el procesamiento de los datos: {e.ToString()}");
-                }
 
-
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Error en el procesamiento de los datos: {e.ToString()}");
             }
 
             return datToWrite;
 
         }
-
-
-        public int ContarEstandarSi(List<Estandar> lista)
-        {
-            int c = 0;
-
-            lista.ForEach(e =>
-            {
-                if (e.estandar == "SI")
-                    c++;
-            });
-
-            return c;
-        }
-
-
-        public int ContarEstandarNo(List<Estandar> lista)
-        {
-            int c = 0;
-            lista.ForEach(e =>
-            {
-                if (e.estandar != "SI")
-                    c++;
-            });
-            return c;
-        }
-
-
 
     }
 
