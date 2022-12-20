@@ -1,0 +1,2 @@
+C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\release\StandartValidator.pdb
+C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\StandartValidator\release\StandartValidator.exe
