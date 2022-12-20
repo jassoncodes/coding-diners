@@ -87,7 +87,7 @@ namespace SMDataParser.Models
                         else
                         {
                             //escribe solo el rf
-                            xlWorksheet.Cells[r + 2, 1] = dataToWrite[r].idot;
+                            xlWorksheet.Cells[r + 2, 1] = dataToWrite[r].idot.ToUpper();
                         }
                     }
 
