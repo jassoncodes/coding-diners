@@ -7,6 +7,7 @@ namespace SMDataParser.Models
 {
     internal class FileManager
     {
+
         readonly ProccessHandler proccessHandler = new();
 
         //busca archivo, valida nomeclatura de nombre, devuelve archivo más reciente
@@ -21,11 +22,19 @@ namespace SMDataParser.Models
                 //Lee directorio en busqueda de archivo mas reciente
                 var directory = new DirectoryInfo(path);
 
-                return recentFileDir = (from f in directory.GetFiles() where f.Name == appConfig.inputFileName orderby f.LastWriteTime descending select f).First().ToString();
+                Log.Information($"ValidarArchivo(): Leyendo directorio {directory} ...");
+
+                recentFileDir = (from f in directory.GetFiles() where f.Name == appConfig.inputFileName orderby f.LastWriteTime descending select f).First().ToString();
+
+                Log.Information($"ValidarArchivo(): Archivo encontrado: {recentFileDir}");
+
+                return recentFileDir;
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error($"ValidarArchivo() Error: Error en la lectura de directorio ({path}) \n" +
+                    $"\nError: {e.ToString()}");
                 throw;
             }
 
@@ -44,7 +53,7 @@ namespace SMDataParser.Models
             if (!folderOutput)
                 System.IO.Directory.CreateDirectory(outputPath);
 
-
+            Log.Information($"Ruta de ArchivoFinal.xls configurada: {outputPath}");
 
             try
             {
@@ -54,17 +63,17 @@ namespace SMDataParser.Models
                     Visible = false
                 };
 
-                Log.Information("Instanciando Excel App: " + xlApp.Path.ToString());
+                Log.Information($"WriteFile(): Instanciando Excel App {xlApp.Path.ToString()} ");
 
                 //new workbook
                 Workbook xlWorkbook = xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
 
-                Log.Information("Nuevo archivo excel: " + xlWorkbook.Name.ToString());
+                Log.Information($"WriteFile(): Nuevo archivo excel: {xlWorkbook.Name.ToString()}");
 
                 //new worksheet
                 Worksheet xlWorksheet = (Worksheet)xlWorkbook.Worksheets.get_Item(1);
 
-                Log.Information("Nueva hoja de excel: " + xlWorksheet.Name.ToString());
+                Log.Information($"WriteFile(): Nueva hoja de excel: {xlWorksheet.Name.ToString()}");
 
                 //escribe cabeceras de columnas
                 foreach (String cabecera in cabeceraFinal)
@@ -78,24 +87,24 @@ namespace SMDataParser.Models
                 {
                     for (int c = 1; c < cabeceraFinal.Count; c++)
                     {
-                        if (Estandar.ValidateFieldsComplete(dataToWrite[r]))
-                        {
-                            var value = dataToWrite[r].GetIndexFieldValue(c - 1).ToUpper();
+                        //if (Estandar.ValidateFieldsComplete(dataToWrite[r]))
+                        //{
+                            var value = dataToWrite[r].GetIndexFieldValue(c - 1);
                             xlWorksheet.Cells[r + 2, c] = value;
                             xlWorksheet.Cells[r + 2, c].NumberFormat = "@";
-                        }
-                        else
-                        {
+                        //}
+                        //else
+                        //{
                             //escribe solo el rf
-                            xlWorksheet.Cells[r + 2, 1] = dataToWrite[r].idot.ToUpper();
-                        }
+                        //    xlWorksheet.Cells[r + 2, 1] = dataToWrite[r].idot.ToUpper();
+                        //}
                     }
 
                     Log.Information(dataToWrite[r].LogData());
 
                 }
 
-                Log.Information("Guardando archivo: " + outputPath + "ArchivoFinal.xls");
+                Log.Information($"WriteFile(): Guardando archivo ArchivoFinal.xls en : {outputPath}");
 
                 xlWorkbook.SaveAs(outputPath + "ArchivoFinal.xls", Excel.XlFileFormat.xlWorkbookNormal);
                 xlWorkbook.Close(true);
@@ -106,10 +115,24 @@ namespace SMDataParser.Models
             catch (Exception e)
             {
                 proccessHandler.KillExcelProccess();
-                Log.Error(e.ToString());
+                Log.Error($"WriteFile(): Error al escribir ArchivoFinal.xls" +
+                    $"\nError: {e.ToString()}");
                 throw;
             }
 
+        }
+
+        public void DeleteInput(String path)
+        {
+            Log.Warning($"DeleteInput(): Borrando arhivo input {path}");
+            try 
+            {
+                System.IO.File.Delete(path);
+            }
+            catch(Exception e)
+            {
+                Log.Error($"DeleteInput() Error: \n{e}");
+            }
         }
 
     }

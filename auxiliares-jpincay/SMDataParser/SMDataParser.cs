@@ -26,12 +26,15 @@ namespace SMDataParser
                 List<string> dataList = dataManipulator.GetData(appConfig.inputPath);
                 List<Estandar> dataToWrite = dataManipulator.ParseData(dataList);
                 fileManager.WriteFile(dataToWrite);
+                
+                Log.Information($"\n ******* PROCESO TERMINADO CON ÉXITO ******* ");
                 Log.Information($"\n ******* Registros procesados: {dataToWrite.Count}");
+                fileManager.DeleteInput(string.Concat(appConfig.inputPath,appConfig.inputFileName));
 
             }
             catch(Exception e)
             {
-                Log.Error($"Error: \n {e.ToString()}");
+                Log.Error($"SMDataParser Error: {e.ToString()}");
             }
         }
     }
