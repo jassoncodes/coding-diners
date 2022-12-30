@@ -210,7 +210,16 @@ namespace SMDataParser.Models
 
                         if (dataItem.Contains("usuario"))
                         {
-                            dataEstandar.usuario = GetDataBetween(dataItem, "usuario", "nombres").ToUpper();
+                            string nombreUsuario = GetDataBetween(dataItem, "usuario", "nombres").ToUpper();
+
+                            if(nombreUsuario == "")
+                            {
+                                dataEstandar.usuario = "NA";
+                            }
+                            else
+                            {
+                                dataEstandar.usuario = nombreUsuario;
+                            }
                         }
 
                         if (dataItem.Contains("identificacion"))

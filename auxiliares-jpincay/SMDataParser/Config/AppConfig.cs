@@ -10,18 +10,29 @@ namespace SMDataParser.Config
 {
     internal class AppConfig
     {
-        public AppConfig() { }
+        public string inputPath;
+        public string outputPath;
+        public string logPath;
+        public string inputFileName;
+        public string outputFileName;
 
-        public string inputPath = "E:\\NUEVO RIESGO PICHINCHA\\Exportaciones.ILB\\";
-        //public string inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
 
-        public string outputPath = "E:\\NUEVO RIESGO PICHINCHA\\Archivos fuente.ILB\\";
-        //public string outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\output\\";
+        public AppConfig() { 
+        
+            //this.inputPath = "E:\\NUEVO RIESGO PICHINCHA\\Exportaciones.ILB\\";
+            this.inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
 
-        public string logPath = "E:\\RECURSOS ROBOT\\LOGS\\";
-        //public string logPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
+            //this.outputPath = "E:\\NUEVO RIESGO PICHINCHA\\Archivos fuente.ILB\\";
+            this.outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\output\\";
 
-        public string inputFileName = "export.csv";
+            //this.logPath = "E:\\RECURSOS ROBOT\\LOGS\\";
+            this.logPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
+
+            this.inputFileName = "export.csv";
+
+            this.outputFileName = "ArchivoFinal.xls";
+        }
+
 
         public List<String> estandardInput = new List<string>() {
             "accion",

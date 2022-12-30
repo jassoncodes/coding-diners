@@ -2,25 +2,32 @@
 using Estandar = SMDataParser.Models.Estandar;
 using FileManager = SMDataParser.Models.FileManager;
 using DataManipulator = SMDataParser.Models.DataManipulator;
-using ProccessHandler = SMDataParser.Models.ProccessHandler;
 using Log = Serilog.Log;
 
 namespace SMDataParser
 {
     internal class SMDataParser
     {
-
-
         static void Main(string[] args)
         {
-
-            AppConfig appConfig = new AppConfig();
-            DataManipulator dataManipulator = new DataManipulator();
-            Estandar dataEstandar = new Estandar();
-            FileManager fileManager = new FileManager();
+            
+            AppConfig appConfig = new();
+            DataManipulator dataManipulator = new();
+            Estandar dataEstandar = new();
+            FileManager fileManager = new();
 
             try
-            {
+            {                    
+
+                if (args.Length == 5)
+                {
+                    appConfig.inputPath = args[0];
+                    appConfig.outputPath = args[1];
+                    appConfig.logPath = args[2];
+                    appConfig.inputFileName = args[3];
+                    appConfig.outputFileName = args[4];
+                }
+                
                 appConfig.configureLog();
 
                 List<string> dataList = dataManipulator.GetData(appConfig.inputPath);

@@ -22,7 +22,7 @@ namespace SMDataParser.Models
                 //Lee directorio en busqueda de archivo mas reciente
                 var directory = new DirectoryInfo(path);
 
-                Log.Information($"ValidarArchivo(): Leyendo directorio {directory} ...");
+                Log.Information($"ValidarArchivo(): Leyendo directorio {directory} en busca de {appConfig.inputPath}...");
 
                 recentFileDir = (from f in directory.GetFiles() where f.Name == appConfig.inputFileName orderby f.LastWriteTime descending select f).First().ToString();
 
