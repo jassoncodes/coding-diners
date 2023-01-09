@@ -13,7 +13,6 @@ namespace SMDataParser
             
             AppConfig appConfig = new();
             DataManipulator dataManipulator = new();
-            Estandar dataEstandar = new();
             FileManager fileManager = new();
 
             try
@@ -41,7 +40,7 @@ namespace SMDataParser
             }
             catch(Exception e)
             {
-                Log.Error($"SMDataParser Error: {e.ToString()}");
+                Log.Error($"SMDataParser Error: {e}");
             }
         }
     }

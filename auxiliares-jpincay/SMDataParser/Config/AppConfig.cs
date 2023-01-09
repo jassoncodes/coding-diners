@@ -34,7 +34,7 @@ namespace SMDataParser.Config
         }
 
 
-        public List<String> estandardInput = new List<string>() {
+        public List<String> estandardInput = new() {
             "accion",
             "identificacion",
             "perfil a asignar",
@@ -43,7 +43,7 @@ namespace SMDataParser.Config
             "correo"
         };
 
-        public List<String> cabeceraFinal = new List<string>() { 
+        public List<String> cabeceraFinal = new() { 
             "idodt", 
             "operacion", 
             "nombres apellidos", 
@@ -59,7 +59,7 @@ namespace SMDataParser.Config
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
-                .WriteTo.File($"{this.logPath}{System.AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now.ToString("yyyyMMdd-HHmm")}.log",
+                .WriteTo.File($"{this.logPath}{System.AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:yyyyMMdd-HHmm}.log",
                                  outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 

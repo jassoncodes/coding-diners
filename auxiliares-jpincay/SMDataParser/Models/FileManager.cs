@@ -34,7 +34,7 @@ namespace SMDataParser.Models
             catch (Exception e)
             {
                 Log.Error($"ValidarArchivo() Error: Error en la lectura de directorio ({path}) \n" +
-                    $"\nError: {e.ToString()}");
+                    $"\nError: {e}");
                 throw;
             }
 
@@ -121,7 +121,7 @@ namespace SMDataParser.Models
             {
                 proccessHandler.KillExcelProccess();
                 Log.Error($"WriteFile(): Error al escribir ArchivoFinal.xls" +
-                    $"\nError: {e.ToString()}");
+                    $"\nError: {e}");
                 throw;
             }
 
