@@ -63,17 +63,17 @@ namespace SMDataParser.Models
                     Visible = false
                 };
 
-                Log.Information($"WriteFile(): Instanciando Excel App {xlApp.Path.ToString()} ");
+                //Log.Information($"WriteFile(): Instanciando Excel App {xlApp.Path.ToString()} ");
 
                 //new workbook
                 Workbook xlWorkbook = xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
 
-                Log.Information($"WriteFile(): Nuevo archivo excel: {xlWorkbook.Name.ToString()}");
+                //Log.Information($"WriteFile(): Nuevo archivo excel: {xlWorkbook.Name.ToString()}");
 
                 //new worksheet
                 Worksheet xlWorksheet = (Worksheet)xlWorkbook.Worksheets.get_Item(1);
 
-                Log.Information($"WriteFile(): Nueva hoja de excel: {xlWorksheet.Name.ToString()}");
+                //Log.Information($"WriteFile(): Nueva hoja de excel: {xlWorksheet.Name.ToString()}");
 
                 //escribe cabeceras de columnas
                 foreach (String cabecera in cabeceraFinal)
@@ -95,8 +95,12 @@ namespace SMDataParser.Models
                         //}
                         //else
                         //{
-                            //escribe solo el rf
-                        //    xlWorksheet.Cells[r + 2, 1] = dataToWrite[r].idot.ToUpper();
+                            //escribe solo rf
+                            //xlWorksheet.Cells[r + 2, 1] = dataToWrite[r].idot.ToUpper();
+
+                            //escribe en el log
+                        //    string logData = dataToWrite[r].idot.ToUpper();
+                        //    Log.Information($"\t{logData} no registrado, campos incompletos...");
                         //}
                     }
 
@@ -110,6 +114,7 @@ namespace SMDataParser.Models
                 xlWorkbook.Close(true);
 
                 proccessHandler.KillExcelProccess();
+
 
             }
             catch (Exception e)
@@ -125,11 +130,11 @@ namespace SMDataParser.Models
         public void DeleteInput(String path)
         {
             Log.Warning($"DeleteInput(): Borrando arhivo input {path}");
-            try 
+            try
             {
                 System.IO.File.Delete(path);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Error($"DeleteInput() Error: \n{e}");
             }

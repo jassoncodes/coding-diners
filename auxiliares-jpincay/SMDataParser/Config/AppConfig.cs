@@ -59,9 +59,8 @@ namespace SMDataParser.Config
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
-                .WriteTo.File(this.logPath + System.AppDomain.CurrentDomain.FriendlyName + "_" + ".log",
-                    rollingInterval: RollingInterval.Hour,
-                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+                .WriteTo.File($"{this.logPath}{System.AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now.ToString("yyyyMMdd-HHmm")}.log",
+                                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 
             Log.Information("Log configurado...");

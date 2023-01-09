@@ -26,7 +26,7 @@ namespace SMDataParser.Models
             this.identificacion = "";
             this.correo = "";
             this.perfil = "";
-            this.usuario = "";
+            this.usuario = "NA";
         }
 
         public string GetIndexFieldValue(int indice)

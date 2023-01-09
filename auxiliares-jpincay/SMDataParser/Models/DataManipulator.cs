@@ -16,15 +16,27 @@ namespace SMDataParser.Models
         //obtiene email de una cadena
         private static string ExtractEmail(string str)
         {
-            string RegexPattern = @"\b[A-Z0-9._-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z.]{2,6}\b";
+            string matchedEmail = "";
 
-            // Find matches
-            System.Text.RegularExpressions.MatchCollection matches
-                = System.Text.RegularExpressions.Regex.Matches(str, RegexPattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            try
+            {
+                string RegexPattern = @"\b[A-Z0-9._-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z.]{2,6}\b";
 
-            string matchedEmail = matches[0].Value;
+                // Find matches
+                System.Text.RegularExpressions.MatchCollection matches
+                    = System.Text.RegularExpressions.Regex.Matches(str, RegexPattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
+                if (matches.Count > 0) { 
+                    matchedEmail = matches[0].Value;
+                }
+
+            }catch(Exception e)
+            {
+                Log.Error($"ExtractEmail() Error: {e}\n\t   Cadena recibida: {str}");
+            }
+            
             return matchedEmail;
+
         }
 
 
@@ -154,15 +166,12 @@ namespace SMDataParser.Models
 
         public List<Estandar> ParseData(List<string> dataList)
         {
-            //string[] standart = { "accion", "identificacion", "perfil a asignar", "usuario", "nombres", "correo" };
 
             List<string> standart = new AppConfig().estandardInput;
 
             List<Estandar> datToWrite = new();
 
-            //recibe RF01269370;Acción: C Identificación: TCS566395 Perfil a asignar CAO: PERFIL 6 Usuario: Nombres:ZAMBRANO PULUPA JOHANNA ESTEFANIA Correo: jzambrap@pichincha.com	
-
-            Log.Information($"Tabulando datos leídos (Total: {dataList.Count}");
+            Log.Information($"Tabulando datos leídos (Total: {dataList.Count})");
 
             try
             {
@@ -175,7 +184,7 @@ namespace SMDataParser.Models
                     Estandar dataEstandar = new()
                     {
                         //guarda numero rf
-                        idot = item.Substring(0, item.IndexOf(";"))
+                        idot = item.Substring(0, item.IndexOf(";")).ToUpper()
                     };
 
                     string dataItem = item.Split(";")[1];
@@ -198,7 +207,7 @@ namespace SMDataParser.Models
                             else if (accion == "a")
                                 dataEstandar.operacion = "modificar".ToUpper();
                             else {
-                                datToWrite.Add(dataEstandar);
+                                //datToWrite.Add(dataEstandar);
                                 continue;
                             }
                         }
@@ -208,19 +217,19 @@ namespace SMDataParser.Models
                             dataEstandar.perfil = GetDataBetween(dataItem, "perfil a asignar", "usuario").ToUpper();
                         }
 
-                        if (dataItem.Contains("usuario"))
-                        {
-                            string nombreUsuario = GetDataBetween(dataItem, "usuario", "nombres").ToUpper();
+                        //if (dataItem.Contains("usuario"))
+                        //{
+                        //    string nombreUsuario = GetDataBetween(dataItem, "usuario", "nombres").ToUpper();
 
-                            if(nombreUsuario == "")
-                            {
-                                dataEstandar.usuario = "NA";
-                            }
-                            else
-                            {
-                                dataEstandar.usuario = nombreUsuario;
-                            }
-                        }
+                        //    if(nombreUsuario == "")
+                        //    {
+                        //        dataEstandar.usuario = "NA";
+                        //    }
+                        //    else
+                        //    {
+                        //        dataEstandar.usuario = nombreUsuario;
+                        //    }
+                        //}
 
                         if (dataItem.Contains("identificacion"))
                         {
@@ -239,7 +248,17 @@ namespace SMDataParser.Models
 
                     }
 
-                    datToWrite.Add(dataEstandar);
+                    if (Estandar.ValidateFieldsComplete(dataEstandar))
+                    {
+                        datToWrite.Add(dataEstandar);
+                    }
+                    else
+                    {
+                        string logData = dataEstandar.idot.ToUpper();
+                        Log.Information($"\t{logData} no registrado, campos incompletos...");
+                    }
+
+                    //datToWrite.Add(dataEstandar);
 
                 }
             
