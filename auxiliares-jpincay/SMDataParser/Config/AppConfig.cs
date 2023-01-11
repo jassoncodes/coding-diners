@@ -19,14 +19,14 @@ namespace SMDataParser.Config
 
         public AppConfig() { 
         
-            //this.inputPath = "E:\\NUEVO RIESGO PICHINCHA\\Exportaciones.ILB\\";
-            this.inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
+            this.inputPath = "E:\\RECURSOS ROBOT\\DATA\\SM_HELIX\\MESA_SERVICIO\\GESTIONDEUSUARIOS\\AUXILIAR\\";
+            //this.inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
 
-            //this.outputPath = "E:\\NUEVO RIESGO PICHINCHA\\Archivos fuente.ILB\\";
-            this.outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\output\\";
+            this.outputPath = "E:\\RECURSOS ROBOT\\DATA\\SM_HELIX\\MESA_SERVICIO\\GESTIONDEUSUARIOS\\ARCHIVOFINAL\\";
+            //this.outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\output\\";
 
-            //this.logPath = "E:\\RECURSOS ROBOT\\LOGS\\";
-            this.logPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
+            this.logPath = "E:\\RECURSOS ROBOT\\LOGS\\MESA_SERVICIO\\";
+            //this.logPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
 
             this.inputFileName = "export.csv";
 

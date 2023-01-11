@@ -201,11 +201,11 @@ namespace SMDataParser.Models
                         {
                             string accion = GetDataBetween(dataItem, "accion", "identificacion");
                             if (accion == "b")
-                                dataEstandar.operacion = "borrar".ToUpper();
+                                dataEstandar.operacion = "eliminacion".ToUpper();
                             else if (accion == "c")
-                                dataEstandar.operacion = "crear".ToUpper();
+                                dataEstandar.operacion = "creacion".ToUpper();
                             else if (accion == "a")
-                                dataEstandar.operacion = "modificar".ToUpper();
+                                dataEstandar.operacion = "modificacion".ToUpper();
                             else {
                                 //datToWrite.Add(dataEstandar);
                                 continue;
