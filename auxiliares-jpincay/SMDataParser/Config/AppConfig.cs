@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,20 +10,31 @@ namespace SMDataParser.Config
 {
     internal class AppConfig
     {
-        public AppConfig() { }
+        public string inputPath;
+        public string outputPath;
+        public string logPath;
+        public string inputFileName;
+        public string outputFileName;
 
-        //public string inputPath = "E:\\NUEVO RIESGO PICHINCHA\\Exportaciones.ILB\\";
-        public string inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
 
-        //public string outputPath = "E:\\NUEVO RIESGO PICHINCHA\\Archivos fuente.ILB\\";
-        public string outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\output\\";
+        public AppConfig() { 
+        
+            this.inputPath = "E:\\RECURSOS ROBOT\\DATA\\SM_HELIX\\MESA_SERVICIO\\GESTIONDEUSUARIOS\\AUXILIAR\\";
+            //this.inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
 
-        //public string logPath = "E:\\RECURSOS ROBOT\\LOGS\\NUEVORIESGO_CTLINT\\";
-        public string logPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
+            this.outputPath = "E:\\RECURSOS ROBOT\\DATA\\SM_HELIX\\MESA_SERVICIO\\GESTIONDEUSUARIOS\\ARCHIVOFINAL\\";
+            //this.outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\output\\";
 
-        public string inputFileName = "export.csv";
+            this.logPath = "E:\\RECURSOS ROBOT\\LOGS\\MESA_SERVICIO\\";
+            //this.logPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
 
-        public List<String> estandardInput = new List<string>() {
+            this.inputFileName = "export.csv";
+
+            this.outputFileName = "ArchivoFinal.xls";
+        }
+
+
+        public List<String> estandardInput = new() {
             "accion",
             "identificacion",
             "perfil a asignar",
@@ -31,7 +43,7 @@ namespace SMDataParser.Config
             "correo"
         };
 
-        public List<String> cabeceraFinal = new List<string>() { 
+        public List<String> cabeceraFinal = new() { 
             "idodt", 
             "operacion", 
             "nombres apellidos", 
@@ -47,9 +59,8 @@ namespace SMDataParser.Config
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
-                .WriteTo.File(this.logPath + System.AppDomain.CurrentDomain.FriendlyName + "_" + ".log",
-                    rollingInterval: RollingInterval.Hour,
-                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+                .WriteTo.File($"{this.logPath}{System.AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:yyyyMMdd-HHmm}.log",
+                                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 
             Log.Information("Log configurado...");

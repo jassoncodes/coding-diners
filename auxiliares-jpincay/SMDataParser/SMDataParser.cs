@@ -2,36 +2,45 @@
 using Estandar = SMDataParser.Models.Estandar;
 using FileManager = SMDataParser.Models.FileManager;
 using DataManipulator = SMDataParser.Models.DataManipulator;
-using ProccessHandler = SMDataParser.Models.ProccessHandler;
 using Log = Serilog.Log;
 
 namespace SMDataParser
 {
     internal class SMDataParser
     {
-
-
         static void Main(string[] args)
         {
-
-            AppConfig appConfig = new AppConfig();
-            DataManipulator dataManipulator = new DataManipulator();
-            Estandar dataEstandar = new Estandar();
-            FileManager fileManager = new FileManager();
+            
+            AppConfig appConfig = new();
+            DataManipulator dataManipulator = new();
+            FileManager fileManager = new();
 
             try
-            {
+            {                    
+
+                if (args.Length == 5)
+                {
+                    appConfig.inputPath = args[0];
+                    appConfig.outputPath = args[1];
+                    appConfig.logPath = args[2];
+                    appConfig.inputFileName = args[3];
+                    appConfig.outputFileName = args[4];
+                }
+                
                 appConfig.configureLog();
 
                 List<string> dataList = dataManipulator.GetData(appConfig.inputPath);
                 List<Estandar> dataToWrite = dataManipulator.ParseData(dataList);
                 fileManager.WriteFile(dataToWrite);
-                Log.Information($"\n ******* Registros procesados: {dataToWrite.Count}");
+                
+                Log.Information($"\t******* PROCESO TERMINADO CON ÉXITO ******* ");
+                Log.Information($"\t******* Registros escritos: {dataToWrite.Count}");
+                fileManager.DeleteInput(string.Concat(appConfig.inputPath,appConfig.inputFileName));
 
             }
             catch(Exception e)
             {
-                Log.Error($"Error: \n {e.ToString()}");
+                Log.Error($"SMDataParser Error: {e}");
             }
         }
     }
