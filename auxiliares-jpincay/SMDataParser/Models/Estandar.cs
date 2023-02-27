@@ -15,6 +15,7 @@ namespace SMDataParser.Models
         public string identificacion;
         public string correo;
         public string perfil;
+        public string opcionSistema;
         public string usuario;
         
 
@@ -26,7 +27,8 @@ namespace SMDataParser.Models
             this.identificacion = "";
             this.correo = "";
             this.perfil = "";
-            this.usuario = "NA";
+            this.opcionSistema = "";
+            this.usuario = "";
         }
 
         public string GetIndexFieldValue(int indice)
@@ -39,6 +41,7 @@ namespace SMDataParser.Models
                 this.identificacion,
                 this.correo,
                 this.perfil,
+                this.opcionSistema,
                 this.usuario
             };
 
@@ -56,6 +59,7 @@ namespace SMDataParser.Models
                 this.identificacion,
                 this.correo,
                 this.perfil,
+                this.opcionSistema,
                 this.usuario
             };
 
@@ -83,6 +87,11 @@ namespace SMDataParser.Models
                 {
                     c++;
                 }
+            }
+
+            if (c > 0 && dataList.usuario == "" && dataList.operacion == "CREAR")
+            {
+                c=0;
             }
 
             if(c == 0)

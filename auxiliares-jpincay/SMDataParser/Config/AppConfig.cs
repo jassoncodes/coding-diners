@@ -12,25 +12,38 @@ namespace SMDataParser.Config
     {
         public string inputPath;
         public string outputPath;
+        public string odtNoGestionados;
         public string logPath;
         public string inputFileName;
-        public string outputFileName;
 
+        public AppConfig() {
 
-        public AppConfig() { 
-        
-            this.inputPath = "E:\\RECURSOS ROBOT\\DATA\\SM_HELIX\\MESA_SERVICIO\\GESTIONDEUSUARIOS\\AUXILIAR\\";
-            //this.inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
+            /*
+             * Rutas pruebas
+             */
+            //inputPath = @"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\input\";
 
-            this.outputPath = "E:\\RECURSOS ROBOT\\DATA\\SM_HELIX\\MESA_SERVICIO\\GESTIONDEUSUARIOS\\ARCHIVOFINAL\\";
-            //this.outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\output\\";
+            //outputPath = @"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\output\";
 
-            this.logPath = "E:\\RECURSOS ROBOT\\LOGS\\MESA_SERVICIO\\";
-            //this.logPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
+            //logPath = Path.Combine(@"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\input\",
+            //              new string($@"{DateTime.Now:yyyy-M-d}\"));
 
-            this.inputFileName = "export.csv";
+            //odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HHmm}.csv"));
 
-            this.outputFileName = "ArchivoFinal.xls";
+            /*
+             * Rutas produccion
+            */
+
+            inputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
+
+            outputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
+
+            logPath = Path.Combine(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\",
+                        new string($@"{DateTime.Now:yyyy-M-d}\"));
+            
+            odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_hhmm}.csv"));
+
+            inputFileName = "export.csv";
         }
 
 
@@ -49,7 +62,8 @@ namespace SMDataParser.Config
             "nombres apellidos", 
             "identificacion", 
             "correo", 
-            "perfil", 
+            "perfil",
+            "opcionSistema",
             "usuario", 
             "idpeticionhelix" 
         };
@@ -59,7 +73,7 @@ namespace SMDataParser.Config
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
-                .WriteTo.File($"{this.logPath}{System.AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:yyyyMMdd-HHmm}.log",
+                .WriteTo.File($"{logPath}{System.AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:yyyyMMdd-HHmm}.log",
                                  outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 
