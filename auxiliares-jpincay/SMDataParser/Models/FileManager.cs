@@ -162,7 +162,7 @@ namespace SMDataParser.Models
                     File.Move(filePath,
                         Path.Combine(
                             newLocation,
-                            new string($@"{Path.GetFileNameWithoutExtension(filePath)}_{DateTime.Now:yyyy-M-d_HHmm}.csv")
+                            new string($@"{Path.GetFileNameWithoutExtension(filePath)}_{DateTime.Now:yyyy-M-d_HH}.csv")
                             )
                         );
                 }

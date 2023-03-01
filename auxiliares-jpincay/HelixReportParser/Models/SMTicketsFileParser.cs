@@ -191,7 +191,7 @@ namespace HelixTicketsReportParser.Models
 
                 Log.Information($"WriteFile(): Guardando archivo ArchivoFinal.xls en : {outputPath}");
 
-                xlWorkbook.SaveAs(outputPath + "ArchivoFinal.xls", Excel.XlFileFormat.xlWorkbookNormal);
+                xlWorkbook.SaveAs(outputPath + "ArchivoFinal.xlsx");
                 xlWorkbook.Close(true);
                 xlApp.Quit();
 

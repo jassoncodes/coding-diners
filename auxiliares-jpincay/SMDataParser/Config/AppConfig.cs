@@ -41,7 +41,7 @@ namespace SMDataParser.Config
             logPath = Path.Combine(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\",
                         new string($@"{DateTime.Now:yyyy-M-d}\"));
             
-            odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_hhmm}.csv"));
+            odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HH}.csv"));
 
             inputFileName = "export.csv";
         }
