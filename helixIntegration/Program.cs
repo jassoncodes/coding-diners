@@ -74,9 +74,12 @@ namespace helixIntegration
 
   
                 web.Close();
+       
+               
                 Thread.Sleep(1000);
                 Process.GetCurrentProcess().Kill();
                 Environment.Exit(0);
+                
                 //Fin del tiempo de proceso
             }
             else

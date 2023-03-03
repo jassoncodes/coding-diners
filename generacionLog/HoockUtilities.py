@@ -87,14 +87,20 @@ class hoock_utilities():
             is_valid = False
         return is_valid
 
-    def rest_minute(self, date_complet_now, minor_minute):
-        time = date_complet_now - timedelta(hours=0, minutes=minor_minute)
+    def rest_minute(self, date_complete_now, minor_minute):
+        time = date_complete_now - timedelta(hours=0, minutes=minor_minute) 
         hour_minor = time.strftime('%H:%M:%S')
         day_minor = time.strftime('%Y-%m-%d')    
         return {
             "day_minor": day_minor,
             "hour_minor": hour_minor
         }
+    
+    def sustract_day(self, date_now, day_minor):
+        date_sustract = date_now - timedelta(days=day_minor)
+        return date_sustract.strftime('%Y-%m-%d')
+
+
 
     #Debe obtener la lista de parametros de configutracion
     def params_config(self, ruta_file_json):

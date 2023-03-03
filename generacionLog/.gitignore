@@ -5,3 +5,4 @@ htmlcov
 log_bot
 dist
 build
+*.spec
