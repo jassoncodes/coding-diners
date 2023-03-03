@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jay\\Coding\\diners\\HelixNavigate\\HelixNavigate.csproj": {}
+    "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jay\\Coding\\diners\\HelixNavigate\\HelixNavigate.csproj": {
+    "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jay\\Coding\\diners\\HelixNavigate\\HelixNavigate.csproj",
+        "projectUniqueName": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj",
         "projectName": "HelixNavigate",
-        "projectPath": "C:\\Users\\Jay\\Coding\\diners\\HelixNavigate\\HelixNavigate.csproj",
+        "projectPath": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj",
         "packagesPath": "C:\\Users\\Jay\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jay\\Coding\\diners\\HelixNavigate\\obj\\",
+        "outputPath": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jay\\AppData\\Roaming\\NuGet\\NuGet.Config",

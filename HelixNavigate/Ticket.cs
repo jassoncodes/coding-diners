@@ -1,9 +1,12 @@
 ﻿using OpenQA.Selenium;
 using Serilog;
+<<<<<<< HEAD
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+=======
+>>>>>>> origin/developer
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace helixIntegration
@@ -136,10 +139,13 @@ namespace helixIntegration
                     
 
                     Log.Error($"Error al crear {ticket.idOdt}: {e}");
+<<<<<<< HEAD
 
                     Process.GetCurrentProcess().Kill();
                     Environment.Exit(0);
 
+=======
+>>>>>>> origin/developer
                     return false;
                 }
             }
@@ -195,9 +201,12 @@ namespace helixIntegration
                 catch (Exception ex)
                 {
                     Log.Error($"Error al modificar {ticket.idOdt}:  {ex}");
+<<<<<<< HEAD
 
                     Process.GetCurrentProcess().Kill();
                     Environment.Exit(0);
+=======
+>>>>>>> origin/developer
                     return false;
                 }
             }
@@ -247,8 +256,11 @@ namespace helixIntegration
                 {
                     Log.Error($"Error en gestion eliminacion ticekt {ticket.idOdt}: {ex}");
 
+<<<<<<< HEAD
                     Process.GetCurrentProcess().Kill();
                     Environment.Exit(0);
+=======
+>>>>>>> origin/developer
                     return false;
                 }
             }

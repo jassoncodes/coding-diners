@@ -6,9 +6,6 @@ pyinstaller
 uuid
 pytest
 coverage
-socket
 pytest-mock
 pywin32
-freezegun
 email-to
-subprocess.run

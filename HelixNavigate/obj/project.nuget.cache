@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IR95ixjCfQZXZD1XB+ekqKbBBgJVmAirCnWDKcqEyOjHZ0rgMw/W0X46t6B3LkzfTrTa0phKpL3gPq73VSjUnA==",
+  "dgSpecHash": "scWixbVu8mpI+p+bYofAcSmaBCVWHRF2lvVb5mkN7K3lmjk3vp8fYhuLcXiGJJK/rYOWNE1Ztzp5VayF2otTyA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Jay\\Coding\\diners\\HelixNavigate\\HelixNavigate.csproj",
+  "projectFilePath": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jay\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\selenium.webdriver\\4.8.1\\selenium.webdriver.4.8.1.nupkg.sha512",

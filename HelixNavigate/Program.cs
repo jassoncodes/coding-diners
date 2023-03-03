@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+<<<<<<< HEAD
 using System;
 using System.Threading;
 using System.Collections.Generic;
@@ -7,6 +8,11 @@ using System.Diagnostics;
 using Serilog;
 using System.IO;
 using System.Data.SqlTypes;
+=======
+using System.Diagnostics;
+using Serilog;
+using HelixNavigate;
+>>>>>>> origin/developer
 
 namespace helixIntegration
 {
@@ -40,6 +46,10 @@ namespace helixIntegration
 
                 Login login = new Login();
                 IWebDriver web = execute.initWeb();
+<<<<<<< HEAD
+=======
+                ReporteHelix reporte= new ReporteHelix(web);
+>>>>>>> origin/developer
 
                 try
                 {
@@ -81,6 +91,13 @@ namespace helixIntegration
 
 
                     }
+<<<<<<< HEAD
+=======
+                    Thread.Sleep(2000);
+                    Log.Information("Debemos ingresar para sacar le reporte");
+                    reporte.accessReport(web);
+                   
+>>>>>>> origin/developer
                     
 
                 }
@@ -90,14 +107,35 @@ namespace helixIntegration
                 }
                 Thread.Sleep(2000);
 
+<<<<<<< HEAD
   
                 web.Close();
+<<<<<<<< HEAD:HelixNavigate/Program.cs
+=======
+
+  
+                web.Close();
+>>>>>>> origin/developer
 
                 foreach (Process process in processes)
                 {
                     process.CloseMainWindow();
                 }
+<<<<<<< HEAD
+========
+       
+               
+                Thread.Sleep(1000);
+                Process.GetCurrentProcess().Kill();
+                Environment.Exit(0);
+                
+>>>>>>>> origin/developer:helixIntegration/Program.cs
                 //Fin del tiempo de proceso
+=======
+
+                //Fin del tiempo de proceso
+
+>>>>>>> origin/developer
             }
             else
             {
@@ -123,6 +161,11 @@ namespace helixIntegration
             ChromeOptions options = new ChromeOptions();
             //Set the argument 
             options.AddArguments("--start-maximized");
+<<<<<<< HEAD
+=======
+            options.AddArguments("--ignore-certificate-errors");
+            options.AddArguments("--ignore-ssl-errors");
+>>>>>>> origin/developer
             options.AddUserProfilePreference("credentials_enable_service", false);
             options.AddUserProfilePreference("profile.password_manager_enabled", false);
             options.AddExcludedArgument("enable-automation");
