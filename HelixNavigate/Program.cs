@@ -38,83 +38,88 @@ namespace helixIntegration
 
             execute.ConfigLog();
            
-
-            if (args.Length > 0)
-            {
-                List<tikets> tickets = new List<tikets>();
-
-                Login login = new Login();
                 IWebDriver web = execute.initWeb();
+                reporte.accessReport(web);
 
-                ReporteHelix reporte = new ReporteHelix(web);
-
-                try
-                {
-                    String pathReport = @args[0];
-
-                    tickets = execute.getTickets(web, pathReport);
-
-                    Ticket ticketHelix = new Ticket(web);
-                    GestionUsuarios servicePageTicket = new GestionUsuarios(web);
-
-                    String catalogoUrl = "https://dceservice-dwp.onbmc.com/dwp/app/#/catalog";
-
-                    bool isAccess = login.access(web);
-                    Thread.Sleep(4000);
-
-                    int numeroTicktes = tickets.Count;
-                    message_tikets = "Ticktes a procesar: " + numeroTicktes.ToString();
-
-                    Log.Information($"{message_tikets}");
-
-
-                    foreach (var ticket in tickets)
-                    {
-
-                        Thread.Sleep(5000);
-                        message_tikets = "Procesar ticket: " + ticket.idOdt.ToString();
-
-                        Log.Information($"{message_tikets}");
-
-                        servicePageTicket.gestionUsuario(web, isAccess);
-                        ticketHelix.crear(ticket);
-                        ticketHelix.modificar(ticket);
-                        ticketHelix.eliminar(ticket);
-                        Thread.Sleep(5000);
-                        Console.WriteLine("siguiente ticket");
-                        web.Navigate().GoToUrl(catalogoUrl);
-
-                        message_tikets = "Fin del ticket: " + ticket.idOdt.ToString();
-                        Log.Information($"{message_tikets}");
-
-
-                    }
-                    Thread.Sleep(2000);
-                    Log.Information("Debemos ingresar para sacar le reporte");
-
-                    reporte.accessReport(web);
-                                       
-
-                }
-                catch (Exception e)
-                {
-                    Log.Error($"{e.Message}");
-                }
-                Thread.Sleep(2000);
-
-  
                 web.Close();
                 web.Quit();
+
+            // if (args.Length > 0)
+            // {
+            //     List<tikets> tickets = new List<tikets>();
+
+            //     Login login = new Login();
+            //     IWebDriver web = execute.initWeb();
+
+            //     ReporteHelix reporte = new ReporteHelix(web);
+
+            //     try
+            //     {
+            //         String pathReport = @args[0];
+
+            //         tickets = execute.getTickets(web, pathReport);
+
+            //         Ticket ticketHelix = new Ticket(web);
+            //         GestionUsuarios servicePageTicket = new GestionUsuarios(web);
+
+            //         String catalogoUrl = "https://dceservice-dwp.onbmc.com/dwp/app/#/catalog";
+
+            //         bool isAccess = login.access(web);
+            //         Thread.Sleep(4000);
+
+            //         int numeroTicktes = tickets.Count;
+            //         message_tikets = "Ticktes a procesar: " + numeroTicktes.ToString();
+
+            //         Log.Information($"{message_tikets}");
+
+
+            //         foreach (var ticket in tickets)
+            //         {
+
+            //             Thread.Sleep(5000);
+            //             message_tikets = "Procesar ticket: " + ticket.idOdt.ToString();
+
+            //             Log.Information($"{message_tikets}");
+
+            //             servicePageTicket.gestionUsuario(web, isAccess);
+            //             ticketHelix.crear(ticket);
+            //             ticketHelix.modificar(ticket);
+            //             ticketHelix.eliminar(ticket);
+            //             Thread.Sleep(5000);
+            //             Console.WriteLine("siguiente ticket");
+            //             web.Navigate().GoToUrl(catalogoUrl);
+
+            //             message_tikets = "Fin del ticket: " + ticket.idOdt.ToString();
+            //             Log.Information($"{message_tikets}");
+
+
+            //         }
+            //         Thread.Sleep(2000);
+            //         Log.Information("Debemos ingresar para sacar le reporte");
+
+            //         reporte.accessReport(web);
+                                       
+
+            //     }
+            //     catch (Exception e)
+            //     {
+            //         Log.Error($"{e.Message}");
+            //     }
+            //     Thread.Sleep(2000);
+
+  
+            //     web.Close();
+            //     web.Quit();
                 
 
-                //Fin del tiempo de proceso
+            //     //Fin del tiempo de proceso
 
-            }
-            else
-            {
-                message_tikets = "No ingreso la ruta del archivo base";
-                Log.Error($"{message_tikets}");
-            }
+            // }
+            // else
+            // {
+            //     message_tikets = "No ingreso la ruta del archivo base";
+            //     Log.Error($"{message_tikets}");
+            // }
         }
         
         internal List<tikets> getTickets(IWebDriver driver, string pathFile)
