@@ -21,27 +21,27 @@ namespace SMDataParser.Config
             /*
              * Rutas pruebas
              */
-            //inputPath = @"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\input\";
+            inputPath = @"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\input\";
 
-            //outputPath = @"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\output\";
+            outputPath = @"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\output\";
 
-            //logPath = Path.Combine(@"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\input\",
-            //              new string($@"{DateTime.Now:yyyy-M-d}\"));
+            logPath = Path.Combine(@"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\input\",
+                          new string($@"{DateTime.Now:yyyy-M-d}\"));
 
-            //odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HHmm}.csv"));
+            odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HHmm}.csv"));
 
             /*
              * Rutas produccion
             */
 
-            inputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
+            //inputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
 
-            outputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
+            //outputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
 
-            logPath = Path.Combine(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\",
-                        new string($@"{DateTime.Now:yyyy-M-d}\"));
-            
-            odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HH}.csv"));
+            //logPath = Path.Combine(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\",
+            //            new string($@"{DateTime.Now:yyyy-M-d}\"));
+
+            //odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HH}.csv"));
 
             inputFileName = "export.csv";
         }
