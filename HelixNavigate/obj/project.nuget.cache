@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "IR95ixjCfQZXZD1XB+ekqKbBBgJVmAirCnWDKcqEyOjHZ0rgMw/W0X46t6B3LkzfTrTa0phKpL3gPq73VSjUnA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Jay\\Coding\\diners\\HelixNavigate\\HelixNavigate.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Jay\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Jay\\.nuget\\packages\\selenium.webdriver\\4.8.1\\selenium.webdriver.4.8.1.nupkg.sha512",
+    "C:\\Users\\Jay\\.nuget\\packages\\selenium.webdriver.chromedriver\\108.0.5359.7100\\selenium.webdriver.chromedriver.108.0.5359.7100.nupkg.sha512",
+    "C:\\Users\\Jay\\.nuget\\packages\\serilog\\2.12.0\\serilog.2.12.0.nupkg.sha512",
+    "C:\\Users\\Jay\\.nuget\\packages\\serilog.sinks.console\\4.1.0\\serilog.sinks.console.4.1.0.nupkg.sha512",
+    "C:\\Users\\Jay\\.nuget\\packages\\serilog.sinks.file\\5.0.0\\serilog.sinks.file.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
