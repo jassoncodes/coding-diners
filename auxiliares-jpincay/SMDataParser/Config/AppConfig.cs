@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,20 +10,44 @@ namespace SMDataParser.Config
 {
     internal class AppConfig
     {
-        public AppConfig() { }
+        public string inputPath;
+        public string outputPath;
+        public string odtNoGestionados;
+        public string logPath;
+        public string inputFileName;
 
-        //public string inputPath = "E:\\NUEVO RIESGO PICHINCHA\\Exportaciones.ILB\\";
-        public string inputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
+        public AppConfig() {
 
-        //public string outputPath = "E:\\NUEVO RIESGO PICHINCHA\\Archivos fuente.ILB\\";
-        public string outputPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\output\\";
+            /*
+             * Rutas pruebas
+             */
+            //inputPath = @"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\input\";
 
-        //public string logPath = "E:\\RECURSOS ROBOT\\LOGS\\NUEVORIESGO_CTLINT\\";
-        public string logPath = "C:\\Users\\Jay\\Desktop\\Diners\\4 TicketParser ServiceManagerHelix\\input\\";
+            //outputPath = @"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\output\";
 
-        public string inputFileName = "export.csv";
+            //logPath = Path.Combine(@"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\input\",
+            //              new string($@"{DateTime.Now:yyyy-M-d}\"));
 
-        public List<String> estandardInput = new List<string>() {
+            //odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HHmm}.csv"));
+
+            /*
+             * Rutas produccion
+            */
+
+            inputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
+
+            outputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
+
+            logPath = Path.Combine(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\",
+                        new string($@"{DateTime.Now:yyyy-M-d}\"));
+            
+            odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HH}.csv"));
+
+            inputFileName = "export.csv";
+        }
+
+
+        public List<String> estandardInput = new() {
             "accion",
             "identificacion",
             "perfil a asignar",
@@ -31,13 +56,14 @@ namespace SMDataParser.Config
             "correo"
         };
 
-        public List<String> cabeceraFinal = new List<string>() { 
+        public List<String> cabeceraFinal = new() { 
             "idodt", 
             "operacion", 
             "nombres apellidos", 
             "identificacion", 
             "correo", 
-            "perfil", 
+            "perfil",
+            "opcionSistema",
             "usuario", 
             "idpeticionhelix" 
         };
@@ -47,9 +73,8 @@ namespace SMDataParser.Config
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
-                .WriteTo.File(this.logPath + System.AppDomain.CurrentDomain.FriendlyName + "_" + ".log",
-                    rollingInterval: RollingInterval.Hour,
-                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+                .WriteTo.File($"{logPath}{System.AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:yyyyMMdd-HHmm}.log",
+                                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 
             Log.Information("Log configurado...");
