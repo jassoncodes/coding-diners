@@ -5,3 +5,5 @@ obj/Debug/*
 obj/publish/*
 obj/Release/*
 Properties/
+release/
+release/*
