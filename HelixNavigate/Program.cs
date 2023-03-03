@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-<<<<<<< HEAD
 using System;
 using System.Threading;
 using System.Collections.Generic;
@@ -8,11 +7,8 @@ using System.Diagnostics;
 using Serilog;
 using System.IO;
 using System.Data.SqlTypes;
-=======
-using System.Diagnostics;
-using Serilog;
 using HelixNavigate;
->>>>>>> origin/developer
+
 
 namespace helixIntegration
 {
@@ -35,21 +31,22 @@ namespace helixIntegration
         static void Main(string[] args)
         {
             string message_tikets = "";
+
             Program execute = new Program();
+
             tikets tikets = new tikets();
+
             execute.ConfigLog();
            
-            Process[] processes = Process.GetProcessesByName("cmd");
+
             if (args.Length > 0)
             {
                 List<tikets> tickets = new List<tikets>();
 
                 Login login = new Login();
                 IWebDriver web = execute.initWeb();
-<<<<<<< HEAD
-=======
-                ReporteHelix reporte= new ReporteHelix(web);
->>>>>>> origin/developer
+
+                ReporteHelix reporte = new ReporteHelix(web);
 
                 try
                 {
@@ -59,6 +56,7 @@ namespace helixIntegration
 
                     Ticket ticketHelix = new Ticket(web);
                     GestionUsuarios servicePageTicket = new GestionUsuarios(web);
+
                     String catalogoUrl = "https://dceservice-dwp.onbmc.com/dwp/app/#/catalog";
 
                     bool isAccess = login.access(web);
@@ -66,13 +64,13 @@ namespace helixIntegration
 
                     int numeroTicktes = tickets.Count;
                     message_tikets = "Ticktes a procesar: " + numeroTicktes.ToString();
-      
+
                     Log.Information($"{message_tikets}");
 
-                    
+
                     foreach (var ticket in tickets)
                     {
-                        
+
                         Thread.Sleep(5000);
                         message_tikets = "Procesar ticket: " + ticket.idOdt.ToString();
 
@@ -91,14 +89,11 @@ namespace helixIntegration
 
 
                     }
-<<<<<<< HEAD
-=======
                     Thread.Sleep(2000);
                     Log.Information("Debemos ingresar para sacar le reporte");
+
                     reporte.accessReport(web);
-                   
->>>>>>> origin/developer
-                    
+                                       
 
                 }
                 catch (Exception e)
@@ -107,35 +102,13 @@ namespace helixIntegration
                 }
                 Thread.Sleep(2000);
 
-<<<<<<< HEAD
   
                 web.Close();
-<<<<<<<< HEAD:HelixNavigate/Program.cs
-=======
-
-  
-                web.Close();
->>>>>>> origin/developer
-
-                foreach (Process process in processes)
-                {
-                    process.CloseMainWindow();
-                }
-<<<<<<< HEAD
-========
-       
-               
-                Thread.Sleep(1000);
-                Process.GetCurrentProcess().Kill();
-                Environment.Exit(0);
+                web.Quit();
                 
->>>>>>>> origin/developer:helixIntegration/Program.cs
-                //Fin del tiempo de proceso
-=======
 
                 //Fin del tiempo de proceso
 
->>>>>>> origin/developer
             }
             else
             {
@@ -161,11 +134,8 @@ namespace helixIntegration
             ChromeOptions options = new ChromeOptions();
             //Set the argument 
             options.AddArguments("--start-maximized");
-<<<<<<< HEAD
-=======
             options.AddArguments("--ignore-certificate-errors");
             options.AddArguments("--ignore-ssl-errors");
->>>>>>> origin/developer
             options.AddUserProfilePreference("credentials_enable_service", false);
             options.AddUserProfilePreference("profile.password_manager_enabled", false);
             options.AddExcludedArgument("enable-automation");

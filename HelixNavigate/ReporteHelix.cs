@@ -26,7 +26,8 @@ namespace HelixNavigate
             Program execute = new Program();
             execute.ConfigLog();
             string reportInit = "https://dceservice-smartit.onbmc.com/smartit/app/#/";
-            string reportPageDowload = "https://dceservice-sr.onbmc.com/RunDashboard.i4;cb259454-e228-4b80-9f4b-85fdbcc38e4a=9e7d6644-bd62-444f-aaed-17e339e093e1?dashUUID=b47f4f74-87df-4777-8f34-88f3c7ca247e&primaryOrg=1&clientOrg=13001&arhost=onbmc-s&port=46262&midtier=dceservice-qa.onbmc.com&protocol=https";
+            //string reportPageDowload = "https://dceservice-sr.onbmc.com/RunDashboard.i4;cb259454-e228-4b80-9f4b-85fdbcc38e4a=9e7d6644-bd62-444f-aaed-17e339e093e1?dashUUID=b47f4f74-87df-4777-8f34-88f3c7ca247e&primaryOrg=1&clientOrg=13001&arhost=onbmc-s&port=46262&midtier=dceservice-qa.onbmc.com&protocol=https";
+            string reportPageDowload = @"https://dceservice-sr.onbmc.com/RunDashboard.i4%d3cb259454-e228-4b80-9f4b-85fdbcc38e4a=9e7d6644-bd62-444f-aaed-17e339e093e1?dashUUID=b47f4f74-87df-4777-8f34-88f3c7ca247e&primaryOrg=1&clientOrg=13001&arhost=onbmc-s&port=46262&midtier=dceservice-qa.onbmc.com&protocol=https";
             string message = "";
             message = "Ingresando a la pagina de reporte";
             Log.Information($"{message}");

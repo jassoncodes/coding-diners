@@ -40,17 +40,29 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "OpenQA.Selenium.Chrome.Fiddler": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "OpenQA.Selenium.Winium": {
+              "target": "Package",
+              "version": "[1.0.0.4, )"
+            },
             "Selenium.WebDriver": {
               "target": "Package",
               "version": "[4.8.1, )"
             },
             "Selenium.WebDriver.ChromeDriver": {
               "target": "Package",
-              "version": "[108.0.5359.7100, )"
+              "version": "[108.0.5359.2200-beta, )"
             },
             "Serilog": {
               "target": "Package",
               "version": "[2.12.0, )"
+            },
+            "Serilog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[3.1.0, )"
             },
             "Serilog.Sinks.Console": {
               "target": "Package",
