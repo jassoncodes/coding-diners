@@ -3,6 +3,7 @@ using Estandar = SMDataParser.Models.Estandar;
 using FileManager = SMDataParser.Models.FileManager;
 using DataManipulator = SMDataParser.Models.DataManipulator;
 using Log = Serilog.Log;
+using SMDataParser.Models;
 
 namespace SMDataParser
 {
@@ -14,28 +15,31 @@ namespace SMDataParser
             AppConfig appConfig = new();
             DataManipulator dataManipulator = new();
             FileManager fileManager = new();
+            ProccessHandler proccessHandler = new();
 
             try
             {                    
-
-                if (args.Length == 5)
-                {
-                    appConfig.inputPath = args[0];
-                    appConfig.outputPath = args[1];
-                    appConfig.logPath = args[2];
-                    appConfig.inputFileName = args[3];
-                    appConfig.outputFileName = args[4];
-                }
-                
+               
                 appConfig.configureLog();
 
                 List<string> dataList = dataManipulator.GetData(appConfig.inputPath);
-                List<Estandar> dataToWrite = dataManipulator.ParseData(dataList);
-                fileManager.WriteFile(dataToWrite);
+
+                (List<Estandar> dataToWrite, List<string> dataNoRegistrados) = dataManipulator.ParseData(dataList);
                 
-                Log.Information($"\t******* PROCESO TERMINADO CON ÉXITO ******* ");
-                Log.Information($"\t******* Registros escritos: {dataToWrite.Count}");
-                fileManager.DeleteInput(string.Concat(appConfig.inputPath,appConfig.inputFileName));
+                fileManager.WriteArchivoBase(dataToWrite, Path.Combine(appConfig.outputPath,"ArchivoBase.xls"));
+
+                fileManager.WriteNoGestionados(dataNoRegistrados, appConfig.odtNoGestionados);
+
+                
+                Log.Information($"******* PROCESO TERMINADO CON ÉXITO ******* ");
+
+                
+                //BORRA EL ARCHIVO INPUT> REEMPLAZAR POR MOVERLO A CARPETA DE LOG Y RENOMBRARLO CON TIMESTAMP
+                //fileManager.DeleteInput(Path.Combine(appConfig.inputPath,appConfig.inputFileName));
+
+                fileManager.BackUpInput(Path.Combine(appConfig.inputPath, appConfig.inputFileName),appConfig.logPath);
+
+                proccessHandler.KillExcelProccess();
 
             }
             catch(Exception e)

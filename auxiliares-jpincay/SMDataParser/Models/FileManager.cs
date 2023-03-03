@@ -40,20 +40,59 @@ namespace SMDataParser.Models
 
         }
 
-        public void WriteFile(List<Estandar> dataToWrite)
+        public void WriteNoGestionados(List<string> listaNoGestionados, string outPath)
         {
-            String outPath = new AppConfig().outputPath;
+            try
+            {
+                //new instance excel app
+                Excel.Application xlApp = new()
+                {
+                    Visible = false,
+                    DefaultSaveFormat = XlFileFormat.xlCSV
+                };
+
+
+                //new workbook
+                Workbook xlWorkbook = xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
+
+                //new worksheet
+                Worksheet xlWorksheet = (Worksheet)xlWorkbook.Worksheets.get_Item(1);
+
+                //escribe cabeceras
+                xlWorksheet.Cells[1, 1] = "Número";
+                xlWorksheet.Cells[1, 2] = "Descripción";
+
+                //recorrer lista de objetos DataEstandar
+                for (int r = 0; r < listaNoGestionados.Count; r++)
+                {
+                    
+                    xlWorksheet.Cells[r + 2 , 1] = listaNoGestionados[r].ToUpper();
+                }
+
+                Log.Information($"WriteNoGestionados(): Guardando archivo {outPath}");
+
+                xlWorkbook.SaveAs(outPath, Excel.XlFileFormat.xlCSV);
+                xlWorkbook.Close(true);
+
+                Log.Information($"******* Registros no válidos: {listaNoGestionados.Count}");
+
+
+            }
+            catch (Exception e)
+            {
+                proccessHandler.KillExcelProccess();
+                Log.Error($"WriteNoGestionados(): Error al escribir {outPath}" +
+                    $"\nError: {e}");
+                throw;
+            }
+
+
+        }
+
+        public void WriteArchivoBase(List<Estandar> dataToWrite, string outPath)
+        {
+
             List<String> cabeceraFinal = new AppConfig().cabeceraFinal;
-
-            string folderName = DateTime.Now.ToString("yyyy-M-d");
-
-            string outputPath = outPath + folderName + "\\";
-
-            bool folderOutput = System.IO.Directory.Exists(outputPath);
-            if (!folderOutput)
-                System.IO.Directory.CreateDirectory(outputPath);
-
-            Log.Information($"Ruta de ArchivoFinal.xls configurada: {outputPath}");
 
             try
             {
@@ -63,17 +102,12 @@ namespace SMDataParser.Models
                     Visible = false
                 };
 
-                //Log.Information($"WriteFile(): Instanciando Excel App {xlApp.Path.ToString()} ");
 
                 //new workbook
                 Workbook xlWorkbook = xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
 
-                //Log.Information($"WriteFile(): Nuevo archivo excel: {xlWorkbook.Name.ToString()}");
-
                 //new worksheet
                 Worksheet xlWorksheet = (Worksheet)xlWorkbook.Worksheets.get_Item(1);
-
-                //Log.Information($"WriteFile(): Nueva hoja de excel: {xlWorksheet.Name.ToString()}");
 
                 //escribe cabeceras de columnas
                 foreach (String cabecera in cabeceraFinal)
@@ -89,45 +123,61 @@ namespace SMDataParser.Models
                     {
                         //if (Estandar.ValidateFieldsComplete(dataToWrite[r]))
                         //{
-                            var value = dataToWrite[r].GetIndexFieldValue(c - 1);
-                            xlWorksheet.Cells[r + 2, c] = value;
-                            xlWorksheet.Cells[r + 2, c].NumberFormat = "@";
-                        //}
-                        //else
-                        //{
-                            //escribe solo rf
-                            //xlWorksheet.Cells[r + 2, 1] = dataToWrite[r].idot.ToUpper();
-
-                            //escribe en el log
-                        //    string logData = dataToWrite[r].idot.ToUpper();
-                        //    Log.Information($"\t{logData} no registrado, campos incompletos...");
-                        //}
+                        var value = dataToWrite[r].GetIndexFieldValue(c - 1);
+                        xlWorksheet.Cells[r + 2, c] = value;
+                        xlWorksheet.Cells[r + 2, c].NumberFormat = "@";
                     }
 
                     Log.Information(dataToWrite[r].LogData());
 
                 }
 
-                Log.Information($"WriteFile(): Guardando archivo ArchivoFinal.xls en : {outputPath}");
+                Log.Information($"WriteArchivoBase(): Guardando archivo {outPath}");
 
-                xlWorkbook.SaveAs(outputPath + "ArchivoFinal.xls", Excel.XlFileFormat.xlWorkbookNormal);
+                xlWorkbook.SaveAs(outPath, Excel.XlFileFormat.xlWorkbookNormal);
                 xlWorkbook.Close(true);
 
-                proccessHandler.KillExcelProccess();
+                Log.Information($"******* Registros válidos: {dataToWrite.Count}");
 
 
             }
             catch (Exception e)
             {
                 proccessHandler.KillExcelProccess();
-                Log.Error($"WriteFile(): Error al escribir ArchivoFinal.xls" +
+                Log.Error($"WriteArchivoBase(): Error al escribir ArchivoBase.xls" +
                     $"\nError: {e}");
                 throw;
             }
 
         }
 
-        public void DeleteInput(String path)
+        public void BackUpInput(string filePath, string newLocation)
+        {
+            Log.Information($"BackUpInput(): Respaldando archivo input {filePath}...");
+            try
+            {
+                if (Directory.Exists(newLocation))
+                {
+
+                    File.Move(filePath,
+                        Path.Combine(
+                            newLocation,
+                            new string($@"{Path.GetFileNameWithoutExtension(filePath)}_{DateTime.Now:yyyy-M-d_HH}.csv")
+                            )
+                        );
+                }
+                else
+                {
+                    throw new Exception($"BackUpInput(): Ruta de nueva ubicacion de archivo no existe {newLocation}");
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error($"BackUpInput(): No se ha podido mover archivo input\n{e}");
+            }
+        }
+
+        public void DeleteInput(string path)
         {
             Log.Warning($"DeleteInput(): Borrando arhivo input {path}");
             try

@@ -163,13 +163,27 @@ namespace SMDataParser.Models
             return compare;
         }
 
+        private string ParsePefil(string perfil)
+        {
+            string[] res = perfil.Split(' ');
+            if (res.Length >= 2)
+            {
+                return res[0] + " " + res[1];
+            }
+            else
+            {
+                return res[0];
+            }
 
-        public List<Estandar> ParseData(List<string> dataList)
+        }
+
+        public (List<Estandar>, List<string>) ParseData(List<string> dataList)
         {
 
             List<string> standart = new AppConfig().estandardInput;
 
-            List<Estandar> datToWrite = new();
+            List<Estandar> dataArchivoBase = new();
+            List<string> dataNoRegistrados = new();
 
             Log.Information($"Tabulando datos leídos (Total: {dataList.Count})");
 
@@ -201,35 +215,51 @@ namespace SMDataParser.Models
                         {
                             string accion = GetDataBetween(dataItem, "accion", "identificacion");
                             if (accion == "b")
-                                dataEstandar.operacion = "eliminacion".ToUpper();
+                                dataEstandar.operacion = "borrar".ToUpper();
                             else if (accion == "c")
-                                dataEstandar.operacion = "creacion".ToUpper();
+                                dataEstandar.operacion = "crear".ToUpper();
                             else if (accion == "a")
-                                dataEstandar.operacion = "modificacion".ToUpper();
+                                dataEstandar.operacion = "modificar".ToUpper();
                             else {
-                                //datToWrite.Add(dataEstandar);
+                                dataNoRegistrados.Add(item);
                                 continue;
                             }
                         }
 
                         if (dataItem.Contains("perfil a asignar"))
                         {
-                            dataEstandar.perfil = GetDataBetween(dataItem, "perfil a asignar", "usuario").ToUpper();
+                            string perfil = GetDataBetween(dataItem, "perfil a asignar", "usuario").ToUpper();
+                            
+                            dataEstandar.perfil = ParsePefil(perfil);
+
+                            if (!string.IsNullOrEmpty(dataEstandar.perfil))
+                            {
+                                //valida si solo es letras define opcionSistema Sistema Gestos
+                                if(Regex.IsMatch(dataEstandar.perfil, @"^[a-zA-Z]+$"))
+                                {
+                                    dataEstandar.opcionSistema = "SISTEMA GESTOR";
+                                }
+                                else
+                                {
+                                    dataEstandar.opcionSistema = "SISTEMA CAO";
+                                }
+
+                            }
                         }
 
-                        //if (dataItem.Contains("usuario"))
-                        //{
-                        //    string nombreUsuario = GetDataBetween(dataItem, "usuario", "nombres").ToUpper();
+                        if (dataItem.Contains("usuario"))
+                        {
+                            string nombreUsuario = GetDataBetween(dataItem, "usuario", "nombres").ToUpper();
 
-                        //    if(nombreUsuario == "")
-                        //    {
-                        //        dataEstandar.usuario = "NA";
-                        //    }
-                        //    else
-                        //    {
-                        //        dataEstandar.usuario = nombreUsuario;
-                        //    }
-                        //}
+                            if (nombreUsuario == "")
+                            {
+                              dataEstandar.usuario = "";
+                            }
+                            else
+                            {
+                                dataEstandar.usuario = nombreUsuario;
+                            }
+                        }
 
                         if (dataItem.Contains("identificacion"))
                         {
@@ -250,15 +280,14 @@ namespace SMDataParser.Models
 
                     if (Estandar.ValidateFieldsComplete(dataEstandar))
                     {
-                        datToWrite.Add(dataEstandar);
+                        dataArchivoBase.Add(dataEstandar);
                     }
                     else
                     {
                         string logData = dataEstandar.idot.ToUpper();
                         Log.Information($"\t{logData} no registrado, campos incompletos...");
+                        dataNoRegistrados.Add(item);
                     }
-
-                    //datToWrite.Add(dataEstandar);
 
                 }
             
@@ -271,7 +300,7 @@ namespace SMDataParser.Models
                     $"\nError: {e}");
             }
 
-            return datToWrite;
+            return (dataArchivoBase, dataNoRegistrados);
 
         }
 
