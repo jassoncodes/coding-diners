@@ -23,7 +23,7 @@ namespace helixIntegration
         public string getPathLog()
         {
             string path = @"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\\";
-            string fecha_log = $@"{DateTime.Now:yyyy-M-d}\\log_navigate_helix,txt";
+            string fecha_log = $@"{DateTime.Now:yyyy-M-d}\\log_navigate_helix.txt";
             string logPathFinal = Path.Combine(path, fecha_log);
             return logPathFinal;
         }

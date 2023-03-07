@@ -141,11 +141,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jay\\Coding\\diners\\RPA_Fraudes_CDI\\auxiliares-jpincay\\HelixReportParser\\HelixReportParser.csproj",
+      "projectUniqueName": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\auxiliares-jpincay\\HelixReportParser\\HelixReportParser.csproj",
       "projectName": "HelixReportParser",
-      "projectPath": "C:\\Users\\Jay\\Coding\\diners\\RPA_Fraudes_CDI\\auxiliares-jpincay\\HelixReportParser\\HelixReportParser.csproj",
+      "projectPath": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\auxiliares-jpincay\\HelixReportParser\\HelixReportParser.csproj",
       "packagesPath": "C:\\Users\\Jay\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jay\\Coding\\diners\\RPA_Fraudes_CDI\\auxiliares-jpincay\\HelixReportParser\\obj\\",
+      "outputPath": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\auxiliares-jpincay\\HelixReportParser\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Jay\\AppData\\Roaming\\NuGet\\NuGet.Config",

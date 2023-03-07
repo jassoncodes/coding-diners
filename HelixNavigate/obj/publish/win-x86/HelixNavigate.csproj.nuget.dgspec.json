@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj": {}
+    "C:\\Users\\Jay\\Desktop\\Diners\\HelixNavigate\\HelixNavigate.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj": {
+    "C:\\Users\\Jay\\Desktop\\Diners\\HelixNavigate\\HelixNavigate.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj",
+        "projectUniqueName": "C:\\Users\\Jay\\Desktop\\Diners\\HelixNavigate\\HelixNavigate.csproj",
         "projectName": "HelixNavigate",
-        "projectPath": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj",
+        "projectPath": "C:\\Users\\Jay\\Desktop\\Diners\\HelixNavigate\\HelixNavigate.csproj",
         "packagesPath": "C:\\Users\\Jay\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\obj\\publish\\win-x86\\",
+        "outputPath": "C:\\Users\\Jay\\Desktop\\Diners\\HelixNavigate\\obj\\publish\\win-x86\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jay\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -51,6 +51,10 @@
             "Selenium.WebDriver": {
               "target": "Package",
               "version": "[4.8.1, )"
+            },
+            "Selenium.WebDriver.ChromeDriver": {
+              "target": "Package",
+              "version": "[108.0.5359.7100, )"
             },
             "Serilog": {
               "target": "Package",

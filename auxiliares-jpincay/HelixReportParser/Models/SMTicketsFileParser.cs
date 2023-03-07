@@ -38,14 +38,14 @@ namespace HelixTicketsReportParser.Models
 
                     SMTicket sMTicket = new()
                     {
-                        idOdt           = (sheet.Cells[row, 1].Value != null) ? sheet.Cells[row, 1].Value2.ToString() : "",
-                        operacion       = (sheet.Cells[row, 2].Value != null) ? sheet.Cells[row, 2].Value2.ToString() : "",
-                        nombres         = (sheet.Cells[row, 3].Value != null) ? sheet.Cells[row, 3].Value2.ToString() : "",
-                        identificacion  = (sheet.Cells[row, 4].Value != null) ? sheet.Cells[row, 4].Value2.ToString() : "",
-                        correo          = (sheet.Cells[row, 5].Value != null) ? sheet.Cells[row, 5].Value2.ToString() : "",
-                        perfil          = (sheet.Cells[row, 6].Value != null) ? sheet.Cells[row, 6].Value2.ToString() : "",
-                        opcionsistema   = (sheet.Cells[row, 7].Value != null) ? sheet.Cells[row, 7].Value2.ToString() : "",
-                        usuario         = (sheet.Cells[row, 8].Value != null) ? sheet.Cells[row, 8].Value2.ToString() : ""
+                        idOdt           = (sheet.Cells[row, 1].Value != null) ? Convert.ToString(sheet.Cells[row, 1].Value2) : "",
+                        operacion       = (sheet.Cells[row, 2].Value != null) ? Convert.ToString(sheet.Cells[row, 2].Value2) : "",
+                        nombres         = (sheet.Cells[row, 3].Value != null) ? Convert.ToString(sheet.Cells[row, 3].Value2) : "",
+                        identificacion  = (sheet.Cells[row, 4].Value != null) ? Convert.ToString(sheet.Cells[row, 4].Value2) : "",
+                        correo          = (sheet.Cells[row, 5].Value != null) ? Convert.ToString(sheet.Cells[row, 5].Value2) : "",
+                        perfil          = (sheet.Cells[row, 6].Value != null) ? Convert.ToString(sheet.Cells[row, 6].Value2) : "",
+                        opcionsistema   = (sheet.Cells[row, 7].Value != null) ? Convert.ToString(sheet.Cells[row, 7].Value2) : "",
+                        usuario         = (sheet.Cells[row, 8].Value != null) ? Convert.ToString(sheet.Cells[row, 8].Value2) : ""
                     };
 
                     smTickets.Add(sMTicket);
@@ -94,6 +94,7 @@ namespace HelixTicketsReportParser.Models
                 }
                 workbook.Save();
                 workbook.Close();
+                excel.Quit();
 
             }
             catch (Exception e)
@@ -132,7 +133,7 @@ namespace HelixTicketsReportParser.Models
 
         public bool GenerateArchivoFinal(List<SMTicket> dataList, string outputPath)
         {
-            Log.Information($"Generando ArchivoFinal.xls...");
+            Log.Information($"Generando ArchivoFinal.xlsx...");
             try
             {
 
@@ -145,7 +146,8 @@ namespace HelixTicketsReportParser.Models
 
                 Excel.Application xlApp = new()
                 {
-                    Visible = false
+                    Visible = false,
+                    DisplayAlerts = false
                 };
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
                 Excel.Worksheet sheet = xlWorkbook.Worksheets.Item[1];
@@ -189,13 +191,15 @@ namespace HelixTicketsReportParser.Models
 
                 }
 
-                Log.Information($"WriteFile(): Guardando archivo ArchivoFinal.xls en : {outputPath}");
+                Log.Information($"GenerateArchivoFinal(): Guardando archivo ArchivoFinal.xlsx en : {outputPath}");
 
-                xlWorkbook.SaveAs(outputPath + "ArchivoFinal.xlsx");
+                xlWorkbook.SaveAs(outputPath + "ArchivoFinal.xlsx",
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlNoChange,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
                 xlWorkbook.Close(true);
                 xlApp.Quit();
 
-                return File.Exists(Path.Combine(outputPath, "ArchivoFinal.xls"));
+                return File.Exists(Path.Combine(outputPath, "ArchivoFinal.xlsx"));
 
 
 

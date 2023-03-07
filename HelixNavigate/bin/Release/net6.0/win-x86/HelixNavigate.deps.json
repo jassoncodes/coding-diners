@@ -12,6 +12,7 @@
           "OpenQA.Selenium.Chrome.Fiddler": "1.0.0",
           "OpenQA.Selenium.Winium": "1.0.0.4",
           "Selenium.WebDriver": "4.8.1",
+          "Selenium.WebDriver.ChromeDriver": "108.0.5359.7100",
           "Serilog": "2.12.0",
           "Serilog.Extensions.Logging": "3.1.0",
           "Serilog.Sinks.Console": "4.1.0",
@@ -955,6 +956,7 @@
           }
         }
       },
+      "Selenium.WebDriver.ChromeDriver/108.0.5359.7100": {},
       "Serilog/2.12.0": {
         "runtime": {
           "lib/net6.0/Serilog.dll": {
@@ -1073,6 +1075,13 @@
       "sha512": "sha512-h4H7pEyr41Xf+IgmhNqrbF3I24SV02x2G1INS82pycNltg1q15/qVV/aRKu/MbMFKtqy1mVoNEE/4/p7T/4Ngw==",
       "path": "selenium.webdriver/4.8.1",
       "hashPath": "selenium.webdriver.4.8.1.nupkg.sha512"
+    },
+    "Selenium.WebDriver.ChromeDriver/108.0.5359.7100": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wrDUVsoQHQct9BodCFgRi1LMKGhwv27ANuS8l7ZXcOn/VS2NqcxxBhSAkcucx4CoZgidny0+ifnFS95nTmnVvg==",
+      "path": "selenium.webdriver.chromedriver/108.0.5359.7100",
+      "hashPath": "selenium.webdriver.chromedriver.108.0.5359.7100.nupkg.sha512"
     },
     "Serilog/2.12.0": {
       "type": "package",
