@@ -48,8 +48,12 @@ namespace SMDataParser.Models
                 Excel.Application xlApp = new()
                 {
                     Visible = false,
+<<<<<<< HEAD
                     DefaultSaveFormat = XlFileFormat.xlCSV,
                     DisplayAlerts = false
+=======
+                    DefaultSaveFormat = XlFileFormat.xlCSV
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
                 };
 
 
@@ -72,9 +76,13 @@ namespace SMDataParser.Models
 
                 Log.Information($"WriteNoGestionados(): Guardando archivo {outPath}");
 
+<<<<<<< HEAD
                 xlWorkbook.SaveAs(outPath, Excel.XlFileFormat.xlCSV,
                     Type.Missing, Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlNoChange,
                     Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+=======
+                xlWorkbook.SaveAs(outPath, Excel.XlFileFormat.xlCSV);
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
                 xlWorkbook.Close(true);
 
                 Log.Information($"******* Registros no válidos: {listaNoGestionados.Count}");
@@ -102,8 +110,12 @@ namespace SMDataParser.Models
                 //new instance excel app
                 Excel.Application xlApp = new()
                 {
+<<<<<<< HEAD
                     Visible = false,
                     DisplayAlerts = false
+=======
+                    Visible = false
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
                 };
 
 
@@ -138,9 +150,13 @@ namespace SMDataParser.Models
 
                 Log.Information($"WriteArchivoBase(): Guardando archivo {outPath}");
 
+<<<<<<< HEAD
                 xlWorkbook.SaveAs(outPath, Excel.XlFileFormat.xlWorkbookNormal,
                     Type.Missing, Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlNoChange,
                     Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+=======
+                xlWorkbook.SaveAs(outPath, Excel.XlFileFormat.xlWorkbookNormal);
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
                 xlWorkbook.Close(true);
 
                 Log.Information($"******* Registros válidos: {dataToWrite.Count}");

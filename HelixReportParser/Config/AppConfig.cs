@@ -20,20 +20,34 @@ namespace HelixTicketsReportParser.Config
              * Rutas pruebas 
              *
              */
+<<<<<<< HEAD
             //inputPath = @"C:\Users\Jay\Desktop\Diners\6 HelixTicketsReportParser\input\";
             //outputPath = @"C:\Users\Jay\Desktop\Diners\6 HelixTicketsReportParser\output\";
             //archivoFinalPath = @"C:\Users\Jay\Desktop\Diners\6 HelixTicketsReportParser\output\";
             //logPath = @"C:\Users\Jay\Desktop\Diners\6 HelixTicketsReportParser\input\";
+=======
+            inputPath = @"C:\Users\Jay\Desktop\Diners\6 HelixTicketsReportParser\input\";
+            outputPath = @"C:\Users\Jay\Desktop\Diners\6 HelixTicketsReportParser\output\";
+            archivoFinalPath = @"C:\Users\Jay\Desktop\Diners\6 HelixTicketsReportParser\output\";
+            logPath = @"C:\Users\Jay\Desktop\Diners\6 HelixTicketsReportParser\input\";
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
 
 
             /*
              * Rutas produccion
              * 
              */
+<<<<<<< HEAD
             inputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\HELIX\";
             outputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
             archivoFinalPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHIVOFINAL\";
             logPath = @"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\";
+=======
+            //inputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\HELIX\";
+            //outputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
+            //archivoFinalPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHIVOFINAL\";
+            //logPath = @"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\";
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
 
 
             inputFileName = "helixticketsreport.csv";

@@ -1,6 +1,10 @@
 .vs
 .vscode
 RPA_Fraudes_CDI/
+<<<<<<< HEAD
 RPA_Fraudes_CDI/*
 **/*.exe
 **/*.zip
+=======
+RPA_Fraudes_CDI/*
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8

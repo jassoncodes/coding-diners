@@ -22,16 +22,27 @@ namespace SMDataParser.Config
              * Rutas pruebas
              */
             //inputPath = @"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\input\";
+<<<<<<< HEAD
             //outputPath = @"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\output\";
             //logPath = Path.Combine(@"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\input\",
             //              new string($@"{DateTime.Now:yyyy-M-d}\"));
             //odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HH}.csv"));
+=======
+
+            //outputPath = @"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\output\";
+
+            //logPath = Path.Combine(@"C:\Users\Jay\Desktop\Diners\4 TicketParser ServiceManagerHelix\input\",
+            //              new string($@"{DateTime.Now:yyyy-M-d}\"));
+
+            //odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HHmm}.csv"));
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
 
             /*
              * Rutas produccion
             */
 
             inputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
+<<<<<<< HEAD
             outputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
             logPath = Path.Combine(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\",
                         new string($@"{DateTime.Now:yyyy-M-d}\"));
@@ -39,6 +50,17 @@ namespace SMDataParser.Config
 
             inputFileName = "export.csv";
 
+=======
+
+            outputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
+
+            logPath = Path.Combine(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\",
+                        new string($@"{DateTime.Now:yyyy-M-d}\"));
+            
+            odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HH}.csv"));
+
+            inputFileName = "export.csv";
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
         }
 
 

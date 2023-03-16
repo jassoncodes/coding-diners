@@ -133,9 +133,13 @@ namespace HelixTicketsReportParser.Models
 
         public bool GenerateArchivoFinal(List<SMTicket> dataList, string outputPath)
         {
+<<<<<<< HEAD
             string archivoFinalFullPath = Path.Combine(outputPath, "ArchivoFinal.xlsx");
 
             Log.Information($"Generando ArchivoFinal.xlsx...");
+=======
+            Log.Information($"Generando ArchivoFinal.xls...");
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
             try
             {
 
@@ -148,8 +152,12 @@ namespace HelixTicketsReportParser.Models
 
                 Excel.Application xlApp = new()
                 {
+<<<<<<< HEAD
                     Visible = false,
                     DisplayAlerts = false
+=======
+                    Visible = false
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
                 };
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
                 Excel.Worksheet sheet = xlWorkbook.Worksheets.Item[1];
@@ -193,6 +201,7 @@ namespace HelixTicketsReportParser.Models
 
                 }
 
+<<<<<<< HEAD
                 Log.Information($"GenerateArchivoFinal(): Guardando archivo ArchivoFinal.xlsx en : {archivoFinalFullPath}");
 
                 xlWorkbook.SaveAs(archivoFinalFullPath,
@@ -202,13 +211,26 @@ namespace HelixTicketsReportParser.Models
                 xlApp.Quit();
 
                 return File.Exists(archivoFinalFullPath);
+=======
+                Log.Information($"WriteFile(): Guardando archivo ArchivoFinal.xls en : {outputPath}");
+
+                xlWorkbook.SaveAs(outputPath + "ArchivoFinal.xlsx");
+                xlWorkbook.Close(true);
+                xlApp.Quit();
+
+                return File.Exists(Path.Combine(outputPath, "ArchivoFinal.xls"));
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
 
 
 
             }
             catch (Exception e)
             {
+<<<<<<< HEAD
                 Log.Error($@"GenerateArchivoFinal() Error: No se pudo generar {archivoFinalFullPath}" +
+=======
+                Log.Error($@"GenerateArchivoFinal() Error: No se pudo generar {outputPath}\ArchivoFinal.xls" +
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
                     $"Exception: {e}\n");
                 return false;
             }

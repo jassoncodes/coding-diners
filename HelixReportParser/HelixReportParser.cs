@@ -47,6 +47,7 @@ namespace HelixTicketsReportParser
 
                 if(smTicketsFileParser.GenerateArchivoFinal(smTickets, pathArchivoFinal))
                 {
+<<<<<<< HEAD
                     Log.Information($@"Se ha generado ArchivoFinal.xlsx {pathArchivoFinal}\ArchivoFinal.xlsx");
                     //bk archivo final en log 
                     string pathBkArchivoFinal = Path.Combine(appConfig.logPath, new string($@"{DateTime.Now:yyyy-M-d}\ArchivoFinal_{DateTime.Now:yyyy-M-d_HH}.xlsx"));
@@ -54,6 +55,9 @@ namespace HelixTicketsReportParser
 
                     File.Copy(Path.Combine(pathArchivoFinal,"ArchivoFinal.xlsx"), pathBkArchivoFinal);
 
+=======
+                    Log.Information($@"Se ha generado ArchivoFinal.xls {pathArchivoFinal}\ArchivoFinal.xls");
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
                 };
 
                 Log.Information($"Proceso terminado con éxito!...");

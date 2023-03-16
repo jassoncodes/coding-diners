@@ -4,4 +4,10 @@ obj/*
 obj/Debug/*
 obj/publish/*
 obj/Release/*
+<<<<<<< HEAD
 Properties/
+=======
+Properties/
+release/
+release/*
+>>>>>>> 8fdd8b8cf6c6a2ab79119bd3a63fd79fa57ef6f8
