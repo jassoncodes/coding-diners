@@ -1,0 +1,14 @@
+[
+    {
+        "nombre": "credito",
+        "area": "credito"
+    },
+    {
+        "nombre": "riesgos",
+        "area": "riesgos"
+    },
+    {
+        "nombre": "legal",
+        "area": "legal"
+    }
+]
