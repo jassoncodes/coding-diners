@@ -1,0 +1,6 @@
+.vs
+.vscode
+RPA_Fraudes_CDI/
+RPA_Fraudes_CDI/*
+**/*.exe
+**/*.zip
