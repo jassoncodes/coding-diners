@@ -15,6 +15,7 @@ namespace ActualizarReqSM.NavigatorSM
         {
             ChromeOptions options = new ChromeOptions();
             //Set the argument 
+            //options.AddArgument("--headless");
             options.AddArgument("--silent");
             options.AddArgument("--log-level=3");
             options.AddArguments("--start-maximized");
@@ -67,13 +68,18 @@ namespace ActualizarReqSM.NavigatorSM
 
             wait.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(WebDriverTimeoutException));
 
-            element = wait.Until(drv =>
-            drv.FindElement(By.XPath(field)).Displayed);
+            var waitedElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(field)));
 
-            if(element)
-            {
-                driverInterface.FindElement(By.XPath(field)).Click();
-            }
+            waitedElement.Click();
+
+            
+            //element = wait.Until(drv =>
+            //drv.FindElement(By.XPath(field)).Displayed);
+
+            //if(element)
+            //{
+            //    driverInterface.FindElement(By.XPath(field)).Click();
+            //}
 
 
         }

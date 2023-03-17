@@ -59,10 +59,12 @@ namespace ActualizarReqSM.NavigatorSM
                 //helperRpa.ClickWaitField("/[@id=\"ext-gen-top240\"]", defaultWaitTime);
                 //helperRpa.findFieldClickWait("//*[@id=\"ROOT/Cumplimiento de peticiones\"]", 5);
 
+                Thread.Sleep(1000);
                 //opcion buscar peticiones
                 helperRpa.ClickWaitField("//*[@id=\"ROOT/Cumplimiento de peticiones/Buscar peticiones\"]", defaultWaitTime);
                 //helperRpa.ClickWaitField("//*[@id=\"ext-gen-top243\"]/span", defaultWaitTime);
                 //helperRpa.findFieldClickWait("//*[@id=\"ROOT/Cumplimiento de peticiones/Buscar peticiones\"]", 5);
+                Thread.Sleep(1000);
 
 
 
@@ -90,8 +92,10 @@ namespace ActualizarReqSM.NavigatorSM
 
             try
             {
-            
+                Thread.Sleep(5000);
+
                 displayed = driver.FindElement(By.XPath(xPathElement)).Displayed;
+                Thread.Sleep(5000);
 
                 return displayed;
 
@@ -106,12 +110,17 @@ namespace ActualizarReqSM.NavigatorSM
         {
             try
             {
+                //Thread.Sleep(5000);
+
                 //espera input para buscar peticion
                 if (ElementDisplayed(inputBuscarPeticion))
                 {
                     Log.Information($"Buscando peticion {ticket.idOdt}...");
-                    
-                    Thread.Sleep(2000);
+                   
+
+                    helperRpa.ClickWaitField(inputBuscarPeticion, defaultWaitTime);
+
+                    Log.Information($"click en: {inputBuscarPeticion} ...");
 
                     //ingres idodt a buscar
                     helperRpa.FindFieldClearSetText(inputBuscarPeticion, ticket.idOdt);
@@ -120,11 +129,17 @@ namespace ActualizarReqSM.NavigatorSM
 
                     //clic boton buscar o send keys enter
                     var input = driver.FindElement(By.XPath(inputBuscarPeticion));
+                    
+                    Thread.Sleep(2000);
 
                     input.SendKeys(Keys.Control + Keys.Shift + Keys.F6);
 
                     Thread.Sleep(2000);
 
+                }
+                else
+                {
+                    Log.Error($"BuscarPeticion() Error: Elemento inputBuscarPeticion no se encontro..");
                 }
 
             }
@@ -157,6 +172,7 @@ namespace ActualizarReqSM.NavigatorSM
                     Thread.Sleep(2000);
 
                     string actualizacion = "Actualizacion RPA " + ticket.noReq;
+
                     Log.Information($"Actualizando peticion: {actualizacion}");
 
                     // clic text area actualizacion

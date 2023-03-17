@@ -41,12 +41,13 @@ namespace ActualizarReqSM
 
                 bool loggedIn = webSM.LogInSM(webSM.urlSM, webSM.userSM, webSM.passSM);
 
-                webSM.AbrirPanelBusquedaPeticion();
 
                 DateTime timeIni = DateTime.Now;
 
                 if (loggedIn)
                 {
+                    webSM.AbrirPanelBusquedaPeticion();
+
                     Log.Information($"Logged In Service Manager ");
                     
                     foreach (HelixTicket ticket in helixTicketList)
