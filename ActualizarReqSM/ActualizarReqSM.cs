@@ -47,6 +47,8 @@ namespace ActualizarReqSM
                 if (loggedIn)
                 {
                     webSM.AbrirPanelBusquedaPeticion();
+                    
+                    //webSM.SwitchFrame();
 
                     Log.Information($"Logged In Service Manager ");
                     
