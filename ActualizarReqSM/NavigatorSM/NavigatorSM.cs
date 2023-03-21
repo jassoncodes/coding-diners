@@ -50,7 +50,7 @@ namespace ActualizarReqSM.NavigatorSM
         {
             try
             {
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
 
                 Log.Information($"Ingresando a Panel Buscar peticiones...");
 
@@ -59,12 +59,12 @@ namespace ActualizarReqSM.NavigatorSM
                 //helperRpa.ClickWaitField("/[@id=\"ext-gen-top240\"]", defaultWaitTime);
                 //helperRpa.findFieldClickWait("//*[@id=\"ROOT/Cumplimiento de peticiones\"]", 5);
 
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
                 //opcion buscar peticiones
                 helperRpa.ClickWaitField("//*[@id=\"ROOT/Cumplimiento de peticiones/Buscar peticiones\"]", defaultWaitTime);
                 //helperRpa.ClickWaitField("//*[@id=\"ext-gen-top243\"]/span", defaultWaitTime);
                 //helperRpa.findFieldClickWait("//*[@id=\"ROOT/Cumplimiento de peticiones/Buscar peticiones\"]", 5);
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
 
 
 
@@ -92,10 +92,10 @@ namespace ActualizarReqSM.NavigatorSM
 
             try
             {
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
 
                 displayed = driver.FindElement(By.XPath(xPathElement)).Displayed;
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
 
                 return displayed;
 
@@ -113,8 +113,8 @@ namespace ActualizarReqSM.NavigatorSM
                 //Thread.Sleep(5000);
 
                 //espera input para buscar peticion
-                if (ElementDisplayed(inputBuscarPeticion))
-                {
+                //if (ElementDisplayed(inputBuscarPeticion))
+                //{
                     Log.Information($"Buscando peticion {ticket.idOdt}...");
                    
 
@@ -136,11 +136,11 @@ namespace ActualizarReqSM.NavigatorSM
 
                     Thread.Sleep(2000);
 
-                }
-                else
-                {
-                    Log.Error($"BuscarPeticion() Error: Elemento inputBuscarPeticion no se encontro..");
-                }
+                //}
+                //else
+                //{
+                //    Log.Error($"BuscarPeticion() Error: Elemento inputBuscarPeticion no se encontro..");
+                //}
 
             }
             catch (Exception e)
@@ -160,12 +160,13 @@ namespace ActualizarReqSM.NavigatorSM
                 {
                     Log.Information($"Ingresando a panel actividades...");
                     
-                    Thread.Sleep(2000);
+                    //Thread.Sleep(2000);
+                    // clic tab actividades
+                    helperRpa.ClickWaitField("//*[@id=\"X104_t\"]",defaultWaitTime);
 
-                    helperRpa.findFieldClick("//*[@id=\"X104_t\"]");
+                    //Thread.Sleep(2000);
 
-                    Thread.Sleep(2000);
-
+                    helperRpa.ClickWaitField("//*[@id=\"X108\"]", defaultWaitTime);
                     //registra palabra actualizar
                     helperRpa.findFieldSetText("//*[@id=\"X108\"]", "Actualizar");
 
@@ -195,21 +196,32 @@ namespace ActualizarReqSM.NavigatorSM
                 }
                 else if (ElementDisplayed("//*[@id=\"X108_t\"]"))
                 {
-
                     Log.Warning($"Peticion no disponible para actualizar (Estado: Revisar)...");
 
+                    Thread.Sleep(2000);
 
                     Log.Warning($"Siguiente peticion...");
 
                     var frameAct = driver.FindElement(By.TagName("body"));
 
                     //cierra panel actualizacion
+
                     frameAct.SendKeys(Keys.Alt + Keys.F3);
 
                 }
                 else
                 {
-                    throw new Exception($"ActualizarPeticion() Error: Error en la actualizacion de la peticion...");
+                    Thread.Sleep(2000);
+                    
+                    var frameAct = driver.FindElement(By.TagName("body"));
+
+                    Thread.Sleep(2000);
+                    //cierra panel actualizacion
+                    frameAct.SendKeys(Keys.Alt + Keys.F3);
+
+                    Thread.Sleep(2000);
+
+                    throw new Exception($"ActualizarPeticion() Error: No se pudo actualizar la peticion...");
                 }
 
 
@@ -217,7 +229,7 @@ namespace ActualizarReqSM.NavigatorSM
 
             }catch (Exception e)
             {
-                Log.Error($"ActualizarPeticion() Error: No se pudo actualizar peticion {ticket.idOdt}\n{e}");
+                Log.Error($"ActualizarPeticion() Error: Error en la actualizacion de la peticion {ticket.idOdt}\n{e}");
             }
 
         }
@@ -226,14 +238,16 @@ namespace ActualizarReqSM.NavigatorSM
         {
             try {
 
-                var frameAct = driver.FindElement(By.TagName("body"));
+                //var frameAct = driver.FindElement(By.TagName("body"));
 
                 //cierra panel actualizacion
-                frameAct.SendKeys(Keys.Alt + Keys.F3);
+                //frameAct.SendKeys(Keys.Alt + Keys.F3);
 
                 Log.Information($"Cerrando sesion...");
 
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
+
+                driver.SwitchTo().Frame(0);
 
                 helperRpa.findFieldClick("//*[@id=\"ext-gen-top104\"]");
 
