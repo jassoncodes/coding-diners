@@ -20,7 +20,7 @@ namespace ActualizarReqSM.NavigatorSM
             
         }
 
-        public IWebElement FluentWait(ChromeDriver driver, string elementXpath)
+        public static IWebElement FluentWait(ChromeDriver driver, string elementXpath)
         {
             DefaultWait<IWebDriver> fluentWait = new DefaultWait<IWebDriver>(driver){
             Timeout = TimeSpan.FromSeconds(10),

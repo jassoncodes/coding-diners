@@ -41,24 +41,40 @@ namespace ActualizarReqSM
 
                 bool loggedIn = webSM.LogInSM(webSM.urlSM, webSM.userSM, webSM.passSM);
 
+                if (loggedIn)
+                {
+                    Log.Information($"Logged In Service Manager ");
+                    Thread.Sleep(10000);
+                }
+
 
                 DateTime timeIni = DateTime.Now;
 
                 if (loggedIn)
                 {
+                    //1	Abrir panel de busqueda:
                     webSM.AbrirPanelBusquedaPeticion();
-                    
-                    //webSM.SwitchFrame();
 
-                    Log.Information($"Logged In Service Manager ");
-                    
-                    foreach (HelixTicket ticket in helixTicketList)
-                    {
-                        Log.Information($"Ticket leido: IDODT {ticket.idOdt} REQ: {ticket.noReq}");
-                        webSM.BuscarPeticion(ticket);
-                        webSM.ActualizarPeticion(ticket);
+                    //2	Verificar que existe iFrame que contiene panel de busqueda y switch a es iFrame: 
+                    //if (webSM.ValidarPanelBusqueda())
+                    //{
 
-                    }
+                    //Log.Information($"Panel de busqueda de peticiones abierto");
+
+                    // hacer> webSM.SwitchFrame();
+
+                    //foreach (HelixTicket ticket in helixTicketList)
+                    //{
+                    //    Log.Information($"Ticket leido: IDODT {ticket.idOdt} REQ: {ticket.noReq}");
+                    webSM.BuscarPeticion(helixTicketList[0]);
+                    //    webSM.ActualizarPeticion(ticket);
+
+                    //}
+
+                    //}
+
+
+
 
                 }
 
@@ -67,7 +83,7 @@ namespace ActualizarReqSM
                 string tiempoTranscurrido = (timeFin - timeIni).ToString();
 
 
-                webSM.LogOutSM();
+                //webSM.LogOutSM();
 
                 Log.Information($"Proceso terminado...\nTiempo de ejecucion: {tiempoTranscurrido}");
 
