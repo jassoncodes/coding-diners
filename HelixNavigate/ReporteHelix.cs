@@ -64,7 +64,7 @@ namespace HelixNavigate
                 Thread.Sleep(2000);
                 findFieldClickWait("/html/body/div[2]/div/table/tbody/tr/td[2]/table/tbody/tr/td/a", 20);
                 Thread.Sleep(5000);
-                Log.Information("Cerra ventana");
+                Log.Information("Cerrar ventana");
 
                 return true;
             }
