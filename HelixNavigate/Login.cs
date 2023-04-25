@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Serilog;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System.Threading;
+
 
 namespace helixIntegration
 {
      class Login
     {
-   
-        internal bool access(IWebDriver driver)
+
+        internal bool access(IWebDriver driver, string urlAccess ="")
         {
-            String catalogoUrl = "https://dceservice-dwp.onbmc.com/dwp/app/#/catalog";
+            HelperRpa help = new HelperRpa(driver);
+            //help.ConfigLog(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\\");
+
             String user = "usrbotrunner";
             String password = "BotInterdin.2002";
+            if(string.IsNullOrEmpty(urlAccess))
+            {
+                driver.Navigate().GoToUrl(urlAccess);
+            }
 
-            driver.Navigate().GoToUrl(catalogoUrl);
             Thread.Sleep(3000);
+            Log.Information("Ingresando al Login");
             try
             {
                 string loginUrl = "https://or-rsso1.onbmc.com/rsso/start";
@@ -39,8 +40,14 @@ namespace helixIntegration
 
                     return true;
 
+                }else
+                {
+                    Console.WriteLine("No pudo accesder");
+
                 }
-            }catch(WebDriverException error) {
+            }
+            catch (WebDriverException error)
+            {
 
                 Console.WriteLine(error.ToString());
                 return false;
@@ -48,5 +55,7 @@ namespace helixIntegration
             return false;
 
         }
+
+
     }
 }

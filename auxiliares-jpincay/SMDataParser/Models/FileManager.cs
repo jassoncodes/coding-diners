@@ -48,7 +48,8 @@ namespace SMDataParser.Models
                 Excel.Application xlApp = new()
                 {
                     Visible = false,
-                    DefaultSaveFormat = XlFileFormat.xlCSV
+                    DefaultSaveFormat = XlFileFormat.xlCSV,
+                    DisplayAlerts = false
                 };
 
 
@@ -71,7 +72,9 @@ namespace SMDataParser.Models
 
                 Log.Information($"WriteNoGestionados(): Guardando archivo {outPath}");
 
-                xlWorkbook.SaveAs(outPath, Excel.XlFileFormat.xlCSV);
+                xlWorkbook.SaveAs(outPath, Excel.XlFileFormat.xlCSV,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlNoChange,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
                 xlWorkbook.Close(true);
 
                 Log.Information($"******* Registros no válidos: {listaNoGestionados.Count}");
@@ -99,7 +102,8 @@ namespace SMDataParser.Models
                 //new instance excel app
                 Excel.Application xlApp = new()
                 {
-                    Visible = false
+                    Visible = false,
+                    DisplayAlerts = false
                 };
 
 
@@ -134,7 +138,9 @@ namespace SMDataParser.Models
 
                 Log.Information($"WriteArchivoBase(): Guardando archivo {outPath}");
 
-                xlWorkbook.SaveAs(outPath, Excel.XlFileFormat.xlWorkbookNormal);
+                xlWorkbook.SaveAs(outPath, Excel.XlFileFormat.xlWorkbookNormal,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlNoChange,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
                 xlWorkbook.Close(true);
 
                 Log.Information($"******* Registros válidos: {dataToWrite.Count}");

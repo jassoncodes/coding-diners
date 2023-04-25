@@ -8,42 +8,72 @@ namespace HelixNavigate
     {
         private IWebDriver driverInterface;
         public ReporteHelix(IWebDriver driver) : base(driver) => driverInterface = driver;
-        public void ConfigLog()
-        {
-            string path = @"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\\";
-            string fecha_log = $@"{DateTime.Now:yyyy-M-d}\";
-            string logPathFinal = Path.Combine(path, fecha_log);
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .WriteTo.File($"{logPathFinal}{System.AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:yyyyMMdd-HHmm}.log",
-                                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
-                .CreateLogger();
-
-            Log.Information("Log configurado...");
-        }
+    
         internal bool accessReport(IWebDriver web)
         {
-            Program execute = new Program();
-            execute.ConfigLog();
-            string reportInit = "https://dceservice-smartit.onbmc.com/smartit/app/#/";
-            //string reportPageDowload = "https://dceservice-sr.onbmc.com/RunDashboard.i4;cb259454-e228-4b80-9f4b-85fdbcc38e4a=9e7d6644-bd62-444f-aaed-17e339e093e1?dashUUID=b47f4f74-87df-4777-8f34-88f3c7ca247e&primaryOrg=1&clientOrg=13001&arhost=onbmc-s&port=46262&midtier=dceservice-qa.onbmc.com&protocol=https";
-            string reportPageDowload = @"https://dceservice-sr.onbmc.com/RunDashboard.i4%d3cb259454-e228-4b80-9f4b-85fdbcc38e4a=9e7d6644-bd62-444f-aaed-17e339e093e1?dashUUID=b47f4f74-87df-4777-8f34-88f3c7ca247e&primaryOrg=1&clientOrg=13001&arhost=onbmc-s&port=46262&midtier=dceservice-qa.onbmc.com&protocol=https";
-            string message = "";
-            message = "Ingresando a la pagina de reporte";
-            Log.Information($"{message}");
-            web.Navigate().GoToUrl(reportInit);
-            Thread.Sleep(3000);
-            web.Navigate().GoToUrl(reportPageDowload);
-            Thread.Sleep(3000);
+            try
+            {
+                Program execute = new Program();
+                HelperRpa help = new HelperRpa(web);
+                //help.ConfigLog(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\\");
 
-            findFieldClick("//li[@id='fave']/div[1]");
-            Thread.Sleep(3000);
-            findFieldClick("//div[@id='myFavouritesScrollableArea']/div[1]/div[1]/ul[1]/li[1]/p[1]");
-            Thread.Sleep(3000);
-            findFieldClick("//div[@id='pagecontent']/div[2]/div[3]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/img[1]\r\n");
+                (string fechaInicio, string fechaFin) = help.getFechasReporte();
+                string reportPageDowload = "https://dceservice.onbmc.com/arsys/smartreporting";
 
 
+                Log.Information("Login smart reporting");
+                web.Navigate().GoToUrl(reportPageDowload);
+                Thread.Sleep(3000);
+                Login login = new Login();
+                login.access(web, "https://or-rsso1.onbmc.com/rsso/start");
+                Log.Information("Abriendo la pagina de reporte");
+                Thread.Sleep(10000);
+
+                Log.Information("Click boton fav panel de reporte");
+                findFieldClickWait("//li[@id='fave']/div[1]", 10);
+                Thread.Sleep(5000);
+                Log.Information("Click de myFavouritesScrollableArea");
+                findFieldClick("//div[@id='myFavouritesScrollableArea']/div[1]/div[1]/ul[1]/li[1]/p[1]");
+                Thread.Sleep(10000);
+
+                findFieldClickWait("//*[@id=\"108566\"]/div/div[4]/div/div/div[1]/div/input", 20);
+                Log.Information("Ingresar la fecha");
+                Thread.Sleep(4000);
+
+                FindFieldClearSetText("/html/body/div[7]/div[2]/div[2]/div[1]/div[1]/input[1]", fechaInicio);
+                Thread.Sleep(1000);
+
+                FindFieldClearSetText("/html/body/div[7]/div[2]/div[2]/div[1]/div[2]/input[1]", fechaFin);
+                Thread.Sleep(4000);
+
+                Log.Information("Click de aplicar");
+                findFieldClickWait("/html/body/div[7]/div[2]/div[2]/div[2]/div[2]/table/tbody/tr/td/div/table/tbody/tr/td[2]/span", 20);
+                Thread.Sleep(5000);
+
+                findFieldClickWait("//*[@id=\"pagecontent\"]/div[2]/div[3]/div[1]/div/div/div[3]/div[1]/table/tbody/tr/td/div/table/tbody/tr/td[2]", 20);
+                Log.Information("Click de abrir");
+                Thread.Sleep(4000);
+                findFieldClickWait("//*[@id=\"reportexport\"]/img", 20);
+                Log.Information("Click de reporte exportar");
+                Thread.Sleep(3000);
+                findFieldClickWait("//*[@id=\"rptDataOverlayPanelContent\"]/div/div[1]/table/tbody/tr[1]/td[2]/a", 20);
+                Log.Information("Click selecionar CSV");
+                Thread.Sleep(2000);
+                findFieldClickWait("//*[@id=\"csvExportBtnContainer\"]/button", 20);
+                Log.Information("Click de export");
+                Thread.Sleep(2000);
+                findFieldClickWait("/html/body/div[2]/div/table/tbody/tr/td[2]/table/tbody/tr/td/a", 20);
+                Thread.Sleep(5000);
+                Log.Information("Cerra ventana");
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex.ToString());
+            }
             return false;
+
         }
     }
 }

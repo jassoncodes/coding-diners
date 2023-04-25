@@ -131,7 +131,7 @@
           "build/Selenium.WebDriver.targets": {}
         }
       },
-      "Selenium.WebDriver.ChromeDriver/108.0.5359.2200-beta": {
+      "Selenium.WebDriver.ChromeDriver/108.0.5359.7100": {
         "type": "package",
         "build": {
           "build/Selenium.WebDriver.ChromeDriver.targets": {}
@@ -358,10 +358,10 @@
         "selenium.webdriver.nuspec"
       ]
     },
-    "Selenium.WebDriver.ChromeDriver/108.0.5359.2200-beta": {
-      "sha512": "zJ/OLf+rn8HYijk3frFP3fvAh2ZA5u+0qPnq7j1AygXxWpwbwF2Ux4g326lKpC0ewwS18lCoS++mPG9+g7S2Sw==",
+    "Selenium.WebDriver.ChromeDriver/108.0.5359.7100": {
+      "sha512": "wrDUVsoQHQct9BodCFgRi1LMKGhwv27ANuS8l7ZXcOn/VS2NqcxxBhSAkcucx4CoZgidny0+ifnFS95nTmnVvg==",
       "type": "package",
-      "path": "selenium.webdriver.chromedriver/108.0.5359.2200-beta",
+      "path": "selenium.webdriver.chromedriver/108.0.5359.7100",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -373,7 +373,7 @@
         "driver/mac64arm/chromedriver",
         "driver/win32/chromedriver.exe",
         "nupkg-icon.png",
-        "selenium.webdriver.chromedriver.108.0.5359.2200-beta.nupkg.sha512",
+        "selenium.webdriver.chromedriver.108.0.5359.7100.nupkg.sha512",
         "selenium.webdriver.chromedriver.nuspec"
       ]
     },
@@ -497,7 +497,7 @@
       "OpenQA.Selenium.Chrome.Fiddler >= 1.0.0",
       "OpenQA.Selenium.Winium >= 1.0.0.4",
       "Selenium.WebDriver >= 4.8.1",
-      "Selenium.WebDriver.ChromeDriver >= 108.0.5359.2200-beta",
+      "Selenium.WebDriver.ChromeDriver >= 108.0.5359.7100",
       "Serilog >= 2.12.0",
       "Serilog.Extensions.Logging >= 3.1.0",
       "Serilog.Sinks.Console >= 4.1.0",
@@ -510,11 +510,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj",
+      "projectUniqueName": "C:\\Users\\Jay\\Desktop\\Diners\\HelixNavigate\\HelixNavigate.csproj",
       "projectName": "HelixNavigate",
-      "projectPath": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj",
+      "projectPath": "C:\\Users\\Jay\\Desktop\\Diners\\HelixNavigate\\HelixNavigate.csproj",
       "packagesPath": "C:\\Users\\Jay\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\obj\\",
+      "outputPath": "C:\\Users\\Jay\\Desktop\\Diners\\HelixNavigate\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Jay\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -557,7 +557,7 @@
           },
           "Selenium.WebDriver.ChromeDriver": {
             "target": "Package",
-            "version": "[108.0.5359.2200-beta, )"
+            "version": "[108.0.5359.7100, )"
           },
           "Serilog": {
             "target": "Package",

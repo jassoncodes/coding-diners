@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9NaPS8IITEEoRb8NYtu0qUvQZAe+zxt1VFj+8B/m0EsTAPtyar2ROfBNFYt49KHhofVFauv+vsTCfjA/jBEmQg==",
+  "dgSpecHash": "wKHNtr942Dqj5F63XDKA66kqzF4VoiYeFu58MLGDPEVBxv3JVN42bzPeI1QLndiR/b054s91DntpL8Rhtc/4Mg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\HelixNavigate\\HelixNavigate.csproj",
+  "projectFilePath": "C:\\Users\\Jay\\Desktop\\Diners\\HelixNavigate\\HelixNavigate.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jay\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.0.0\\microsoft.extensions.dependencyinjection.abstractions.2.0.0.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\microsoft.extensions.logging\\2.0.0\\microsoft.extensions.logging.2.0.0.nupkg.sha512",
@@ -13,7 +13,7 @@
     "C:\\Users\\Jay\\.nuget\\packages\\openqa.selenium.chrome.fiddler\\1.0.0\\openqa.selenium.chrome.fiddler.1.0.0.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\openqa.selenium.winium\\1.0.0.4\\openqa.selenium.winium.1.0.0.4.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\selenium.webdriver\\4.8.1\\selenium.webdriver.4.8.1.nupkg.sha512",
-    "C:\\Users\\Jay\\.nuget\\packages\\selenium.webdriver.chromedriver\\108.0.5359.2200-beta\\selenium.webdriver.chromedriver.108.0.5359.2200-beta.nupkg.sha512",
+    "C:\\Users\\Jay\\.nuget\\packages\\selenium.webdriver.chromedriver\\108.0.5359.7100\\selenium.webdriver.chromedriver.108.0.5359.7100.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\serilog\\2.12.0\\serilog.2.12.0.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\serilog.extensions.logging\\3.1.0\\serilog.extensions.logging.3.1.0.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\serilog.sinks.console\\4.1.0\\serilog.sinks.console.4.1.0.nupkg.sha512",
