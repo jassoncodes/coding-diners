@@ -1,11 +1,7 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using OpenQA.Selenium.Support.UI;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using Serilog;
 
 namespace helixIntegration
 {
@@ -22,12 +18,31 @@ namespace helixIntegration
             enviarPeticionButton.Click();
             Thread.Sleep(timefisnish);
         }
+
+        internal void findFieldClickWait(string field, int secondsWait)
+        {
+            WebDriverWait wait = new WebDriverWait(driverInterface, TimeSpan.FromSeconds(secondsWait));
+            var fieldSearch = field;
+            var optionOperation = driverInterface.FindElement(By.XPath(fieldSearch));
+            wait.Until(driverInterface => optionOperation);
+            optionOperation.Click();
+        }
         internal void findFieldClick(string field)
         {
             var fieldSearch = field;
             var optionOperation = driverInterface.FindElement(By.XPath(fieldSearch));
             optionOperation.Click();
         }
+
+        internal void FindFieldClearSetText(string field, string valueField) {
+
+            var fieldSearch = field;
+            var optionOperation = driverInterface.FindElement(By.XPath(fieldSearch));
+            optionOperation.Click();
+            optionOperation.Clear();
+            optionOperation.SendKeys(valueField);
+        }
+
         internal void findFieldSetText(string field, string valueField)
         {
             var fieldSearch = field;
@@ -46,6 +61,28 @@ namespace helixIntegration
             }
             return sb.ToString();
         }
+
+        public (string,  string) getFechasReporte()
+        {
+            string fechaReport = $@"{DateTime.Now:d/M/yyyy}";
+            string fechaInicio = fechaReport + " 00:00:00";
+            string fechaFin = fechaReport + " 23:59:00";
+            return (fechaInicio, fechaFin);
+        }
+
+        public void ConfigLog(string path)
+        {
+            string fecha_log = $@"{DateTime.Now:yyyy-M-d}\";
+            string logPathFinal = Path.Combine(path, fecha_log);
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File($"{logPathFinal}{System.AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:yyyyMMdd-HHmm}.log",
+                                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+                .CreateLogger();
+
+            Log.Information("Log configurado...");
+        }
+
 
         public static string ValidateInputFilePath(String path)
         {

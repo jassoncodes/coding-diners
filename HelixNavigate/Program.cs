@@ -5,8 +5,8 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Serilog;
-using System.IO;
-using System.Data.SqlTypes;
+using HelixNavigate;
+
 
 namespace helixIntegration
 {
@@ -29,10 +29,15 @@ namespace helixIntegration
         static void Main(string[] args)
         {
             string message_tikets = "";
+
+
             Program execute = new Program();
+
             tikets tikets = new tikets();
-            execute.ConfigLog();
+
+ 
            
+
             Process[] processes = Process.GetProcessesByName("cmd");
             if (args.Length > 0)
             {
@@ -40,6 +45,10 @@ namespace helixIntegration
 
                 Login login = new Login();
                 IWebDriver web = execute.initWeb();
+
+                ReporteHelix reporte = new ReporteHelix(web);
+                HelperRpa help = new HelperRpa(web);
+                help.ConfigLog(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\\");
 
                 try
                 {
@@ -49,21 +58,24 @@ namespace helixIntegration
 
                     Ticket ticketHelix = new Ticket(web);
                     GestionUsuarios servicePageTicket = new GestionUsuarios(web);
-                    String catalogoUrl = "https://dceservice-dwp.onbmc.com/dwp/app/#/catalog";
 
-                    bool isAccess = login.access(web);
-                    Thread.Sleep(4000);
+                    String catalogoUrl = "https://dceservice-dwp.onbmc.com/dwp/app/#/catalog";
+                    web.Navigate().GoToUrl(catalogoUrl);
+                    Thread.Sleep(3000);
+                    bool isAccess = login.access(web, "https://or-rsso1.onbmc.com/rsso/start");
+                    Thread.Sleep(5000);
 
                     int numeroTicktes = tickets.Count;
                     message_tikets = "Ticktes a procesar: " + numeroTicktes.ToString();
-      
+
                     Log.Information($"{message_tikets}");
+
 
                     
                     foreach (var ticket in tickets)
                     {
-                        
-                        Thread.Sleep(5000);
+
+                        Thread.Sleep(10000);
                         message_tikets = "Procesar ticket: " + ticket.idOdt.ToString();
 
                         Log.Information($"{message_tikets}");
@@ -73,7 +85,8 @@ namespace helixIntegration
                         ticketHelix.modificar(ticket);
                         ticketHelix.eliminar(ticket);
                         Thread.Sleep(5000);
-                        Console.WriteLine("siguiente ticket");
+                        Log.Information("siguiente ticket");
+
                         web.Navigate().GoToUrl(catalogoUrl);
 
                         message_tikets = "Fin del ticket: " + ticket.idOdt.ToString();
@@ -82,6 +95,11 @@ namespace helixIntegration
 
                     }
                     
+                    Thread.Sleep(2000);
+                    Log.Information("Debemos ingresar para sacar el reporte");
+
+                    reporte.accessReport(web);
+                                       
 
                 }
                 catch (Exception e)
@@ -92,12 +110,11 @@ namespace helixIntegration
 
   
                 web.Close();
+                web.Quit();
+                
 
-                foreach (Process process in processes)
-                {
-                    process.CloseMainWindow();
-                }
                 //Fin del tiempo de proceso
+
             }
             else
             {
@@ -123,6 +140,8 @@ namespace helixIntegration
             ChromeOptions options = new ChromeOptions();
             //Set the argument 
             options.AddArguments("--start-maximized");
+            options.AddArguments("--ignore-certificate-errors");
+            options.AddArguments("--ignore-ssl-errors");
             options.AddUserProfilePreference("credentials_enable_service", false);
             options.AddUserProfilePreference("profile.password_manager_enabled", false);
             options.AddExcludedArgument("enable-automation");
