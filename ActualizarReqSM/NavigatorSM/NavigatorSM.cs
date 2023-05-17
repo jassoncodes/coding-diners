@@ -11,6 +11,7 @@ using RPAHelper = ActualizarReqSM.NavigatorSM.HelperRpa;
 using OpenQA.Selenium.Chrome;
 using ActualizarReqSM.Models;
 using DriverWeb = ActualizarReqSM.NavigatorSM.DriverWeb;
+using SeleniumExtras.WaitHelpers;
 
 namespace ActualizarReqSM.NavigatorSM
 {
@@ -39,108 +40,199 @@ namespace ActualizarReqSM.NavigatorSM
             mainPanel = "//*[@id='ext-gen-top53']/em/span/span";
             //inputBuscarPeticion = "//*[@id=\"X21\"]";
             inputBuscarPeticion = "//*[@id=\"X21\"]";
-            defaultWaitTime = 10;
+            defaultWaitTime = 60;
 
             driver = new DriverWeb().GetChromeDriver();
             helperRpa = new(driver);
 
         }
 
-        public void AbrirPanelBusquedaPeticion()
+        public void AbrirPeticion(HelixTicket ticket)
         {
             try
             {
-                //Thread.Sleep(1000);
+                
+                BuscarPeticion(ticket);
 
-                Log.Information($"Ingresando a Panel Buscar peticiones...");
+            }catch (Exception e)
+            {
+                throw new Exception($"AbrirPeticion() Error: No se pudo abrir panel y buscar peticion...");
+            }
+        }
 
-                //opcion cumplimiento peticiones
-                helperRpa.ClickWaitField("//*[@id=\"ROOT/Cumplimiento de peticiones\"]", defaultWaitTime);
-                //helperRpa.ClickWaitField("/[@id=\"ext-gen-top240\"]", defaultWaitTime);
-                //helperRpa.findFieldClickWait("//*[@id=\"ROOT/Cumplimiento de peticiones\"]", 5);
+        private IWebElement FluentWaitElement(string elementXpath)
+        {
+            DefaultWait<IWebDriver> fluentWait = new DefaultWait<IWebDriver>(driver)
+            {
+                Timeout = TimeSpan.FromSeconds(defaultWaitTime),
+                PollingInterval = TimeSpan.FromMilliseconds(250),
+                Message = "Elemento no encontrado"
+            };
 
-                //Thread.Sleep(1000);
-                //opcion buscar peticiones
-                helperRpa.ClickWaitField("//*[@id=\"ROOT/Cumplimiento de peticiones/Buscar peticiones\"]", defaultWaitTime);
-                //helperRpa.ClickWaitField("//*[@id=\"ext-gen-top243\"]/span", defaultWaitTime);
-                //helperRpa.findFieldClickWait("//*[@id=\"ROOT/Cumplimiento de peticiones/Buscar peticiones\"]", 5);
-                //Thread.Sleep(1000);
+            fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
+            fluentWait.IgnoreExceptionTypes(typeof(TimeoutException));
+
+            //IWebElement iwelement = fluentWait.Until(x => x.FindElement(By.XPath(elementXpath)));
+            IWebElement iwelement = fluentWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(elementXpath)));
+
+            return iwelement;
+
+        }
+
+        private void ClicElement(string elementXpath)
+        {
+            bool displayed;
+            IWebElement element = FluentWaitElement(elementXpath);
+            displayed = false;
+            while (displayed == false)
+            {
+                element = FluentWaitElement(elementXpath);
+                if (element.Displayed)
+                {
+                    displayed = true;
+                    break;
+                }
+                Log.Information("Esperando elemento...");
+            }
+
+            element.Click();
+
+            Log.Information($"Element {elementXpath} clicked...");
+
+        }
 
 
+        private void SetTextElement(string elementXpath, string text)
+        {
+            ClicElement(elementXpath);
+            IWebElement element = FluentWaitElement(elementXpath);
+            element.Clear();
+            Log.Information($"Element {elementXpath} cleared...");
 
-                List<IWebElement> iFrames = driver.FindElements(By.TagName("iframe")).ToList<IWebElement>();
+            element.SendKeys(text);
+            Log.Information($"Text set to element {elementXpath}");
 
-                Log.Warning($"iFrames: {iFrames.Count}");
 
-                IWebElement iFrame = iFrames.Last();
+        }
 
-                driver.SwitchTo().Frame(iFrames.Last());
+        public void AbrirPanelBusquedaPeticion()
+        {
+            bool displayed;
+            try
+            {
 
-                Log.Warning($"Switched to frame: {iFrames.IndexOf(iFrames.Last())}");
+                //// clic en panel cumplimiento peticiones xpath: //*[@id=\"ROOT/Cumplimiento de peticiones\"]
+                IWebElement btnCumplimientoPeticiones = FluentWaitElement("//*[@id=\"ROOT/Cumplimiento de peticiones\"]");
+                displayed = false;
+                while (displayed == false)
+                {
+                    btnCumplimientoPeticiones = FluentWaitElement("//*[@id=\"ROOT/Cumplimiento de peticiones\"]");
+                    if (btnCumplimientoPeticiones.Displayed)
+                    {
+                        displayed = true;
+                        break;
+                    }
+                    Log.Information("esperando boton panel cumplimiento peticiones");
+                }
+
+                btnCumplimientoPeticiones.Click();
+
+                //// clic en opcion buscar peticiones xpath: //*[@id=\"ROOT/Cumplimiento de peticiones/Buscar peticiones\"]
+                IWebElement btnBuscarPeticiones = FluentWaitElement("//*[@id=\"ROOT/Cumplimiento de peticiones/Buscar peticiones\"]");
+                displayed = false;
+                while (!btnBuscarPeticiones.Displayed)
+                {
+                    btnBuscarPeticiones = FluentWaitElement("//*[@id=\"ROOT/Cumplimiento de peticiones/Buscar peticiones\"]");
+                    if (btnBuscarPeticiones.Displayed)
+                    {
+                        displayed = true;
+                        break;
+                    }
+                    Log.Information("esperando boton buscar peticiones");
+                }
+                btnBuscarPeticiones.Click();
+
+
+                ////2	Verificar que existe iFrame que contiene panel de busqueda y switch a es iFrame: 
+                if (ElementDisplayed("//iframe[@title=\"¿Qué petición desea mostrar?\"]"))
+                {
+                    Log.Information($"Panel de busqueda de peticiones abierto");
+                }
+                else
+                {
+                    AbrirPanelBusquedaPeticion();
+
+                }
 
 
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 Log.Error($"AbrirPanelBusquedaPeticion() Error: No se pudo abrir panel de busqueda de peticiones\n{e}");
             }
         }
 
         public bool ElementDisplayed(string xPathElement)
         {
-            bool displayed = false;
+            IWebElement panelBusqueda = FluentWaitElement(xPathElement);
 
-            try
+            return panelBusqueda.Displayed;
+        }
+
+        public void SwitchFrame(string frameXpath)
+        {
+            bool displayed;
+
+            IWebElement frame = FluentWaitElement(frameXpath);
+            
+            while (!frame.Displayed)
             {
-                //Thread.Sleep(5000);
-
-                displayed = driver.FindElement(By.XPath(xPathElement)).Displayed;
-                //Thread.Sleep(5000);
-
-                return displayed;
-
+                frame = FluentWaitElement(frameXpath);
+                if (frame.Displayed)
+                {
+                    displayed = true;
+                    break;
+                }
+                Log.Information($"Esperando frame {frameXpath}");
             }
-            catch
-            {
-                return false;
-            }
+
+            driver.SwitchTo().Frame(frame);
+            Log.Information($"Switched to Frame {frameXpath}");
+
         }
 
         public void BuscarPeticion(HelixTicket ticket)
         {
             try
             {
-                //Thread.Sleep(5000);
+
+                if (ElementDisplayed("//iframe[@title=\"¿Qué petición desea mostrar?\"]"))
+                {
+                    SwitchFrame("//iframe[@title=\"¿Qué petición desea mostrar?\"]");
+                    if (ElementDisplayed(inputBuscarPeticion))
+                    {
+                        Log.Information($"Buscando peticion {ticket.idOdt}...");
+
+                        //ingresa idodt a buscar
+                        SetTextElement(inputBuscarPeticion, ticket.idOdt);
+                    
+                        IWebElement inputBuscar = FluentWaitElement(inputBuscarPeticion);
+                        inputBuscar.Submit();
+
+                    }
+                    else
+                    {
+                        Log.Error($"BuscarPeticion() Error: Elemento inputBuscarPeticion no se encontro..");
+                        
+                        BuscarPeticion(ticket);
+                    }
+
+                }
+                else
+                {
+                    Log.Error($"Panel de busqueda no seleccionado...");
+                }
 
                 //espera input para buscar peticion
-                //if (ElementDisplayed(inputBuscarPeticion))
-                //{
-                    Log.Information($"Buscando peticion {ticket.idOdt}...");
-                   
-
-                    helperRpa.ClickWaitField(inputBuscarPeticion, defaultWaitTime);
-
-                    Log.Information($"click en: {inputBuscarPeticion} ...");
-
-                    //ingres idodt a buscar
-                    helperRpa.FindFieldClearSetText(inputBuscarPeticion, ticket.idOdt);
-
-                    Thread.Sleep(2000);
-
-                    //clic boton buscar o send keys enter
-                    var input = driver.FindElement(By.XPath(inputBuscarPeticion));
-                    
-                    Thread.Sleep(2000);
-
-                    input.SendKeys(Keys.Control + Keys.Shift + Keys.F6);
-
-                    Thread.Sleep(2000);
-
-                //}
-                //else
-                //{
-                //    Log.Error($"BuscarPeticion() Error: Elemento inputBuscarPeticion no se encontro..");
-                //}
 
             }
             catch (Exception e)
@@ -156,13 +248,13 @@ namespace ActualizarReqSM.NavigatorSM
             {
 
                 //espera tab actividades
-                if (ElementDisplayed("//*[@id=\"X104_t\"]"))
+                if (ElementDisplayed("//*[@id=\"X104_t\"]") || ElementDisplayed("//*[@id=\"X110_t\"]"))
                 {
                     Log.Information($"Ingresando a panel actividades...");
-                    
+
                     //Thread.Sleep(2000);
                     // clic tab actividades
-                    helperRpa.ClickWaitField("//*[@id=\"X104_t\"]",defaultWaitTime);
+                    helperRpa.ClickWaitField("//*[@id=\"X104_t\"]", defaultWaitTime);
 
                     //Thread.Sleep(2000);
 
@@ -212,7 +304,7 @@ namespace ActualizarReqSM.NavigatorSM
                 else
                 {
                     Thread.Sleep(2000);
-                    
+
                     var frameAct = driver.FindElement(By.TagName("body"));
 
                     Thread.Sleep(2000);
@@ -227,7 +319,8 @@ namespace ActualizarReqSM.NavigatorSM
 
                 Thread.Sleep(2000);
 
-            }catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Log.Error($"ActualizarPeticion() Error: Error en la actualizacion de la peticion {ticket.idOdt}\n{e}");
             }
@@ -277,23 +370,17 @@ namespace ActualizarReqSM.NavigatorSM
 
                 driver.Navigate().GoToUrl(urlSM);
 
-                string sessionId = driver.SessionId.ToString();
-                Log.Information($"sessionId: {sessionId}");
 
-                Thread.Sleep(5000);
+                IWebElement userInput = FluentWaitElement("//*[@id=\"LoginUsername\"]");
+                userInput.SendKeys(userSM);
 
-                helperRpa.findFieldSetText("//*[@id=\"LoginUsername\"]", userSM);
-                
-                Thread.Sleep(500);
+                IWebElement passInput = FluentWaitElement("//*[@id=\"LoginPassword\"]");
+                passInput.SendKeys(passSM);
 
-                helperRpa.findFieldSetText("//*[@id=\"LoginPassword\"]", passSM);
-                Thread.Sleep(500);
+                passInput.Submit();
 
-                helperRpa.findFieldClick("//*[@id=\"loginBtn\"]");
-
-                Thread.Sleep(5000);
-
-                if (driver.Url == loggedInURL)
+                IWebElement framePrincipal = FluentWaitElement("//iframe[@title=\"Petición Cola: vPeticionesRPA_SM_H\"]");
+                if (framePrincipal.Displayed)
                 {
                     loggedIn = true;
                 }
@@ -308,7 +395,6 @@ namespace ActualizarReqSM.NavigatorSM
 
 
         }
-
 
     }
 

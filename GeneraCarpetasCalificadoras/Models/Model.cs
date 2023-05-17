@@ -5,12 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace GeneraCarpetasCalificadoras.Models
 {
     class Model
     {
-
+        //quita las tildes de una cadena
+        static string NormalizeString(string cadena) => Regex.Replace(cadena.Normalize(NormalizationForm.FormD), @"[^a-zA-z0-9 ]+", "");
+       
         private static void CrearCarpeta(string folderPath)
         {
             try
@@ -71,13 +74,13 @@ namespace GeneraCarpetasCalificadoras.Models
 
                 Excel.Workbook wb = xlApp.Workbooks.Open(xlConfigFilePath);
 
-                Excel.Worksheet sheet = wb.Worksheets["base_datos"];
+                Excel.Worksheet sheet = wb.Worksheets["checklistRPA"];
 
                 for(int row = 1; row <= sheet.UsedRange.Rows.Count; row++)
                 {
                     if(sheet.Cells[row, 1].Value2 != null)
                     {
-                        namesLists.Add(Convert.ToString(sheet.Cells[row, 1].Value2.ToLower()));
+                        namesLists.Add(NormalizeString(Convert.ToString(sheet.Cells[row, 1].Value2.ToLower())));
                     }
                     else
                     {

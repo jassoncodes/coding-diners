@@ -63,7 +63,7 @@ namespace ActualizarReqSM.NavigatorSM
 
             WebDriverWait wait = new WebDriverWait(driverInterface, TimeSpan.FromSeconds(secondsWait))
             {
-                PollingInterval = TimeSpan.FromSeconds(5)
+                PollingInterval = TimeSpan.FromMilliseconds(250)
             };
 
             wait.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(WebDriverTimeoutException));
