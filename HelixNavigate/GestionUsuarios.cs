@@ -28,16 +28,18 @@ namespace helixIntegration
                 try
                 {
                     Thread.Sleep(5000);
-                    
-                    var pageCreateService = @"/html/body/dwp-root/dwp-main-layout/div/main/dwp-immersive/div/div/div[2]/section/div/div[1]/dwp-tombstone-card/dwp-large-card/div/div[1]/dwp-icon-media/div/div/div[2]/dwp-card-title/div";
+
+                    // var pageCreateService = @"/html/body/dwp-root/dwp-main-layout/div/main/dwp-immersive/div/div/div[2]/section/div/div[1]/dwp-tombstone-card/dwp-large-card/div/div[1]/dwp-icon-media/div/div/div[2]/dwp-card-title/div";
+                    var pageCreateService = @"//*[contains(text(),'Gestión de usuarios bancos asociados (AS400)')]";
 
                     driver.FindElement(By.XPath(pageCreateService)).Click();
                     Thread.Sleep(4000);
                     return true;
 
                 }
-                catch (Exception ex) {
-                    Console.WriteLine(ex.Message); 
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
                     return false;
                 }
 
