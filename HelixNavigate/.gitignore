@@ -1,6 +1,8 @@
 .vs
 .vscode
-bin/**
-release/**
-obj/**
-Properties/**
+bin
+release
+obj
+Properties
+chromedriver
+/obj/Debug/
