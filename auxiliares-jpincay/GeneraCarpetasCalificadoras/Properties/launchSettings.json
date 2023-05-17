@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GeneraCarpetasCalificadoras": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\Jay\\Desktop\\Diners\\Proyectos RPA\\calificadoras\\checklistInputRPA.xlsx\" \"C:\\Users\\Jay\\Desktop\\Diners\\11 GeneraCarpetasCalificadoras\" \"C:\\Users\\Jay\\Desktop\\Diners\\11 GeneraCarpetasCalificadoras\\log\""
+    }
+  }
+}
