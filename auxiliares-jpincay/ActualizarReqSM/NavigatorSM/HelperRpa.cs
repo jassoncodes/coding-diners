@@ -106,6 +106,12 @@ namespace ActualizarReqSM.NavigatorSM
             var optionOperation = driverInterface.FindElement(By.XPath(fieldSearch));
             optionOperation.SendKeys(valueField);
         }
+        internal string findFieldGetText(string field)
+        {
+            var fieldSearch = field;
+            var optionOperation = driverInterface.FindElement(By.XPath(fieldSearch));
+            return optionOperation.GetAttribute("value");
+        }
 
         internal string cleanString(string imputString)
         {

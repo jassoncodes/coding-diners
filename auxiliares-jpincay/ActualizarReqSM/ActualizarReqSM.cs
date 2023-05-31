@@ -44,7 +44,7 @@ namespace ActualizarReqSM
                 if (loggedIn)
                 {
                     Log.Information($"Logged In Service Manager ");
-                    Thread.Sleep(10000);
+                    Thread.Sleep(5000);
                 }
 
 
@@ -56,27 +56,38 @@ namespace ActualizarReqSM
                     webSM.AbrirPanelBusquedaPeticion();
 
                     //2	Verificar que existe iFrame que contiene panel de busqueda y switch a es iFrame: 
-                    //if (webSM.ValidarPanelBusqueda())
+
+                    // if (webSM.ValidarPanelBusqueda())
                     //{
 
                     //Log.Information($"Panel de busqueda de peticiones abierto");
 
                     // hacer> webSM.SwitchFrame();
 
-                    //foreach (HelixTicket ticket in helixTicketList)
-                    //{
-                    //    Log.Information($"Ticket leido: IDODT {ticket.idOdt} REQ: {ticket.noReq}");
-                    webSM.BuscarPeticion(helixTicketList[0]);
-                    //    webSM.ActualizarPeticion(ticket);
+                    foreach (HelixTicket ticket in helixTicketList)
+                    {
+                       Log.Information($"Ticket leido: IDODT {ticket.idOdt} REQ: {ticket.noReq}");
+                       
+                       bool isUpdateTicket = webSM.BuscarPeticion(ticket);
+                        
+                        if(isUpdateTicket)
+                        {
+                            webSM.ActualizarPeticion(ticket);
+                        }else
+                        {
+                            Log.Information($"Siguiente ticket");
 
-                    //}
+                        }
+                       
 
-                    //}
-
-
-
+                    }
 
                 }
+
+
+
+
+              //  }
 
                 DateTime timeFin = DateTime.Now;
 

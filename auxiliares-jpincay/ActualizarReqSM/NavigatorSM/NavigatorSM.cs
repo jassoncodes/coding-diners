@@ -40,7 +40,7 @@ namespace ActualizarReqSM.NavigatorSM
             mainPanel = "//*[@id='ext-gen-top53']/em/span/span";
             //inputBuscarPeticion = "//*[@id=\"X21\"]";
             inputBuscarPeticion = "//*[@id=\"X21\"]";
-            defaultWaitTime = 60;
+            defaultWaitTime = 10;
 
             driver = new DriverWeb().GetChromeDriver();
             helperRpa = new(driver);
@@ -200,8 +200,31 @@ namespace ActualizarReqSM.NavigatorSM
 
         }
 
-        public void BuscarPeticion(HelixTicket ticket)
+        public bool isFase(HelixTicket ticket)
         {
+            bool isFase = false;
+            try
+            {
+                string faseInput = "/html/body/div[1]/div[1]/form/div[1]/div/div/div[5]/div/div[1]/div[2]/input";
+                IWebElement faseElement = FluentWaitElement(faseInput);
+                String fase = faseElement.GetAttribute("value");
+
+                if (fase == "Registro" ) isFase = true;
+            }
+            catch (Exception e)
+            {
+                Log.Error($"BuscarPeticion() Error: No se pudo buscar peticion\n{e}");
+            }finally {
+                Log.Error($"El ticket:{ticket.idOdt} es {isFase.ToString()}");
+
+            }
+            return isFase ; 
+        }
+
+
+        public bool BuscarPeticion(HelixTicket ticket)
+        {
+            bool isUpadte = false;
             try
             {
 
@@ -214,15 +237,15 @@ namespace ActualizarReqSM.NavigatorSM
 
                         //ingresa idodt a buscar
                         SetTextElement(inputBuscarPeticion, ticket.idOdt);
-                    
-                        IWebElement inputBuscar = FluentWaitElement(inputBuscarPeticion);
-                        inputBuscar.Submit();
-
+                        //Buscar información del ticket
+                       var frameAct = driver.FindElement(By.TagName("body"));
+                       frameAct.SendKeys(Keys.Control + Keys.Shift + Keys.F6);
+                       Thread.Sleep(1000);
+                       isUpadte = isFase(ticket);
                     }
                     else
                     {
                         Log.Error($"BuscarPeticion() Error: Elemento inputBuscarPeticion no se encontro..");
-                        
                         BuscarPeticion(ticket);
                     }
 
@@ -239,6 +262,7 @@ namespace ActualizarReqSM.NavigatorSM
             {
                 Log.Error($"BuscarPeticion() Error: No se pudo buscar peticion\n{e}");
             }
+            return isUpadte;
         }
 
         public void ActualizarPeticion(HelixTicket ticket)
@@ -246,78 +270,42 @@ namespace ActualizarReqSM.NavigatorSM
 
             try
             {
+                Log.Information($"Ingresando a panel actividades..."+ ticket.idOdt);
+                string actualizacion = "Actualizacion RPA " + ticket.noReq;
 
-                //espera tab actividades
-                if (ElementDisplayed("//*[@id=\"X104_t\"]") || ElementDisplayed("//*[@id=\"X110_t\"]"))
-                {
-                    Log.Information($"Ingresando a panel actividades...");
-
-                    //Thread.Sleep(2000);
-                    // clic tab actividades
-                    helperRpa.ClickWaitField("//*[@id=\"X104_t\"]", defaultWaitTime);
-
-                    //Thread.Sleep(2000);
-
-                    helperRpa.ClickWaitField("//*[@id=\"X108\"]", defaultWaitTime);
-                    //registra palabra actualizar
-                    helperRpa.findFieldSetText("//*[@id=\"X108\"]", "Actualizar");
-
-                    Thread.Sleep(2000);
-
-                    string actualizacion = "Actualizacion RPA " + ticket.noReq;
-
-                    Log.Information($"Actualizando peticion: {actualizacion}");
-
-                    // clic text area actualizacion
-                    helperRpa.findFieldClick("//*[@id=\"X112View\"]");
-
-                    Thread.Sleep(1000);
-                    // registra actualizacion
-                    helperRpa.findFieldSetText("//*[@id=\"X112\"]", actualizacion);
-
-                    Thread.Sleep(2000);
-
-                    Log.Information($"Guardando actualizacion...");
-
-                    //guardar actualizacion
-                    var input = driver.FindElement(By.XPath("//*[@id=\"X112\"]"));
-                    input.SendKeys(Keys.Control + Keys.Shift + Keys.F2);
-
-                    Thread.Sleep(2000);
-
-                }
-                else if (ElementDisplayed("//*[@id=\"X108_t\"]"))
-                {
-                    Log.Warning($"Peticion no disponible para actualizar (Estado: Revisar)...");
-
-                    Thread.Sleep(2000);
-
-                    Log.Warning($"Siguiente peticion...");
-
-                    var frameAct = driver.FindElement(By.TagName("body"));
-
-                    //cierra panel actualizacion
-
-                    frameAct.SendKeys(Keys.Alt + Keys.F3);
-
-                }
-                else
-                {
-                    Thread.Sleep(2000);
-
-                    var frameAct = driver.FindElement(By.TagName("body"));
-
-                    Thread.Sleep(2000);
-                    //cierra panel actualizacion
-                    frameAct.SendKeys(Keys.Alt + Keys.F3);
-
-                    Thread.Sleep(2000);
-
-                    throw new Exception($"ActualizarPeticion() Error: No se pudo actualizar la peticion...");
-                }
+                Thread.Sleep(1000);
+                // clic tab actividades
+                String seccionActiviades = "/html/body/div[1]/div[1]/form/div[2]/div[1]/div[2]/table/tbody/tr/td[2]/a";
+                helperRpa.ClickWaitField(seccionActiviades, defaultWaitTime);
+     
+                //registrar palabra actualizar
+                String nuevoTipoActualizacion = "/html/body/div[1]/div[1]/form/div[2]/div[3]/div/div/div[1]/div/div[1]/input";
+      
+                IWebElement tipoActualizacion = FluentWaitElement(nuevoTipoActualizacion);
+                tipoActualizacion.SendKeys("Actualizar");
 
 
+                Log.Information($"Actualizando peticion: {actualizacion}");
+
+                Thread.Sleep(1000);
+                // registra actualizacion
+                String nuevaActulizacion = "/html/body/div[1]/div[1]/form/div[2]/div[3]/div/div/div[3]/div/div";
+                IWebElement nuevaActulizacionTextArea = FluentWaitElement(nuevaActulizacion);
+                nuevaActulizacionTextArea.SendKeys(actualizacion);
                 Thread.Sleep(2000);
+
+
+
+
+                Log.Information($"Guardando actualizacion...");
+                //Buscar información del ticket
+                var frameAct = driver.FindElement(By.TagName("body"));
+                frameAct.SendKeys(Keys.Control + Keys.Shift + Keys.F2);
+   
+               
+                Thread.Sleep(2000);
+
+              
 
             }
             catch (Exception e)
