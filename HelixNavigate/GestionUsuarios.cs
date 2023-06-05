@@ -22,7 +22,10 @@ namespace helixIntegration
             if (isAccess)
             {
                 Console.WriteLine("Abrir el catalogo");
-                var tramiteUrl = @"https://dceservice-dwp.onbmc.com/dwp/app/#/catalog/section/332;type=SBE;providerSourceName=SBE";
+                //var tramiteUrl = @"https://dceservice-dwp.onbmc.com/dwp/app/#/catalog/section/332;type=SBE;providerSourceName=SBE";
+                
+                // 2023-05-22
+                var tramiteUrl = @"https://dceservice-dwp.onbmc.com/dwp/app/#/catalog/section/933;type=SBE;providerSourceName=SBE";
                 driver.Navigate().GoToUrl(tramiteUrl);
 
                 try
