@@ -1,0 +1,8 @@
+D:\repositorio\coding-diners\mergeFile\mergeFile\bin\Debug\mergeFile.exe.config
+D:\repositorio\coding-diners\mergeFile\mergeFile\bin\Debug\mergeFile.exe
+D:\repositorio\coding-diners\mergeFile\mergeFile\bin\Debug\mergeFile.pdb
+D:\repositorio\coding-diners\mergeFile\mergeFile\obj\Debug\mergeFile.csproj.AssemblyReference.cache
+D:\repositorio\coding-diners\mergeFile\mergeFile\obj\Debug\mergeFile.csproj.SuggestedBindingRedirects.cache
+D:\repositorio\coding-diners\mergeFile\mergeFile\obj\Debug\mergeFile.csproj.CoreCompileInputs.cache
+D:\repositorio\coding-diners\mergeFile\mergeFile\obj\Debug\mergeFile.exe
+D:\repositorio\coding-diners\mergeFile\mergeFile\obj\Debug\mergeFile.pdb
