@@ -51,9 +51,12 @@ row_number = 2  # Variable para llevar el conteo de filas en el nuevo archivo
 for tupla in valores_unicos:
     if "Cédula" not in tupla:
         if all(value is not None and value != '' for value in tupla):
-            new_sheet.range(f'B{row_number}').value = tupla[0]
-            new_sheet.range(f'C{row_number}').value = tupla[1]
-            new_sheet.range(f'D{row_number}').value = tupla[2]
+            new_sheet.range(f'B{row_number}').number_format = '@'
+            new_sheet.range(f'B{row_number}').value = str(tupla[0])
+            new_sheet.range(f'C{row_number}').number_format = '@'
+            new_sheet.range(f'C{row_number}').value = str(tupla[1])
+            new_sheet.range(f'D{row_number}').number_format = '@'
+            new_sheet.range(f'D{row_number}').value = str(tupla[2])
             print('RPA procesando: ', tupla)
             row_number += 1
 
