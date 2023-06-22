@@ -1,5 +1,0 @@
-C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\HelixNavigate\release\HelixNavigate.pdb
-C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\HelixNavigate\release\selenium-manager\linux\selenium-manager
-C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\HelixNavigate\release\selenium-manager\macos\selenium-manager
-C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\HelixNavigate\release\selenium-manager\windows\selenium-manager.exe
-C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\HelixNavigate\release\HelixNavigate.exe
