@@ -1,2 +1,0 @@
-C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\HelixReportParser\release\HelixReportParser.pdb
-C:\Users\Jay\Coding\diners\RPA_Fraudes_CDI\auxiliares-jpincay\HelixReportParser\release\HelixReportParser.exe

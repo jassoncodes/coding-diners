@@ -169,14 +169,14 @@ namespace HelixTicketsReportParser.Models
 
                     sheet.Cells[r + 2, 1] = dataList[r].operacion.ToUpper();
                     
-                    sheet.Cells[r + 2, 2] = GetDigitsWithoutLeadingZeros(dataList[r].idPeticion).ToUpper();
+                    sheet.Cells[r + 2, 2] = $"'{GetDigitsWithoutLeadingZeros(dataList[r].idPeticion).ToUpper()}";
                     sheet.Cells[r + 2, 2].NumberFormat = "@";
                     
                     sheet.Cells[r + 2, 3] = dataList[r].perfil.ToUpper();
                     sheet.Cells[r + 2, 4] = dataList[r].banco.ToUpper();
                     sheet.Cells[r + 2, 5] = dataList[r].usuario.ToUpper();
                     
-                    sheet.Cells[r + 2, 6] = dataList[r].identificacion.ToUpper();
+                    sheet.Cells[r + 2, 6] = $"'{dataList[r].identificacion.ToUpper()}";
                     sheet.Cells[r + 2, 6].NumberFormat = "@";
 
                     sheet.Cells[r + 2, 7] = dataList[r].nombres.ToUpper();

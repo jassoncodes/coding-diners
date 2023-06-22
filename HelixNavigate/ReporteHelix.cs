@@ -23,7 +23,7 @@ namespace HelixNavigate
 
                 Log.Information("Login smart reporting");
                 web.Navigate().GoToUrl(reportPageDowload);
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
                 Login login = new Login();
                 login.access(web, "https://or-rsso1.onbmc.com/rsso/start");
                 Log.Information("Abriendo la pagina de reporte");
@@ -41,7 +41,7 @@ namespace HelixNavigate
                 Thread.Sleep(4000);
 
                 FindFieldClearSetText("/html/body/div[7]/div[2]/div[2]/div[1]/div[1]/input[1]", fechaInicio);
-                Thread.Sleep(1000);
+                Thread.Sleep(3000);
 
                 FindFieldClearSetText("/html/body/div[7]/div[2]/div[2]/div[1]/div[2]/input[1]", fechaFin);
                 Thread.Sleep(4000);
@@ -52,18 +52,18 @@ namespace HelixNavigate
 
                 findFieldClickWait("//*[@id=\"pagecontent\"]/div[2]/div[3]/div[1]/div/div/div[3]/div[1]/table/tbody/tr/td/div/table/tbody/tr/td[2]", 20);
                 Log.Information("Click de abrir");
-                Thread.Sleep(4000);
+                Thread.Sleep(5000);
                 findFieldClickWait("//*[@id=\"reportexport\"]/img", 20);
                 Log.Information("Click de reporte exportar");
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
                 findFieldClickWait("//*[@id=\"rptDataOverlayPanelContent\"]/div/div[1]/table/tbody/tr[1]/td[2]/a", 20);
                 Log.Information("Click selecionar CSV");
-                Thread.Sleep(2000);
+                Thread.Sleep(5000);
                 findFieldClickWait("//*[@id=\"csvExportBtnContainer\"]/button", 20);
                 Log.Information("Click de export");
-                Thread.Sleep(2000);
-                findFieldClickWait("/html/body/div[2]/div/table/tbody/tr/td[2]/table/tbody/tr/td/a", 20);
                 Thread.Sleep(5000);
+                findFieldClickWait("/html/body/div[2]/div/table/tbody/tr/td[2]/table/tbody/tr/td/a", 20);
+                Thread.Sleep(7000);
                 Log.Information("Cerrar ventana");
 
                 return true;
