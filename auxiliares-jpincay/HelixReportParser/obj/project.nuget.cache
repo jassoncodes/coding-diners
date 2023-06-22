@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "T4sCc7iO1Pk7bK5kcjZPfxwlx4HQzt0EJKdOFwH2CT1IsQ3Jg5TooIscZ/HY97A8cEUp2Utmuv04YAYBmYpI0g==",
+  "dgSpecHash": "GS3NRdkvO5nlq4NZJybtaZWRJPPQywiuYnvSQZF20PjqEaQDvuaLNT00pZTLc1lvXPXEMDcBHof+QrpQn4YQCw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Jay\\Documents\\RPA_Fraudes_CDI\\auxiliares-jpincay\\HelixReportParser\\HelixReportParser.csproj",
+  "projectFilePath": "C:\\Users\\Jay\\Coding\\diners\\auxiliares-jpincay\\HelixReportParser\\HelixReportParser.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jay\\.nuget\\packages\\serilog\\2.12.0\\serilog.2.12.0.nupkg.sha512",
     "C:\\Users\\Jay\\.nuget\\packages\\serilog.sinks.console\\4.1.0\\serilog.sinks.console.4.1.0.nupkg.sha512",
