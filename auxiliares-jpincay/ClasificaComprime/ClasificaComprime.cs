@@ -55,7 +55,12 @@ namespace ClasificaComprime
             foreach (string folder in folders)
             {
                 // Create a zip file name based on the folder name
-                string zipFileName = folder + ".zip";
+                string zipFileName = folder + $" {DateTime.Now:MMMM-yyyy}" + ".zip";
+
+                if (File.Exists(Path.Combine(Path.GetFullPath(folder), zipFileName)))
+                {
+                    File.Delete(Path.Combine(Path.GetFullPath(folder), zipFileName));
+                }
 
                 try
                 {

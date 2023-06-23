@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,9 @@ namespace ProcesaHistorialesIncidecia.Models
 
         public static bool VerificarDiferenciaAniosMayorDos(string fechaString)
         {
-            if (DateTime.TryParseExact(fechaString, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateTime fecha))
+            string[] formats = { "yyyy-MM-dd", "dd/MM/yyyy" };
+
+            if (DateTime.TryParseExact(fechaString, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fecha))
             {
                 DateTime fechaActual = DateTime.Now;
 
@@ -43,6 +46,12 @@ namespace ProcesaHistorialesIncidecia.Models
         public static void ComprimirArchivos(string nombreArchivoZip, params string[] rutasArchivos)
         {
             string rutaCompleta = Path.GetFullPath(nombreArchivoZip);
+
+            //  Borrar archivo existente
+            if (File.Exists(rutaCompleta))
+            {
+                File.Delete(rutaCompleta);
+            }
 
             using (ZipArchive zip = ZipFile.Open(rutaCompleta, ZipArchiveMode.Create))
             {

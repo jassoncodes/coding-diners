@@ -22,7 +22,7 @@ namespace ValidarDatosCT
 
                 if (File.Exists(rutaArchivFinal))
                 {
-                    File.Copy(rutaArchivFinal, archivoCT);
+                    File.Copy(rutaArchivFinal, archivoCT,true);
                     
                     if (File.Exists(archivoCT))
                     {

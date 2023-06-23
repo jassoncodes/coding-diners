@@ -72,7 +72,7 @@ namespace ProcesaHistorialesIncidecia.Models
                     Excel.Range cellTipoBusq = sheet.Cells[row, 10];
                     cellTipoBusqValue = cellTipoBusq.Value != null ? Utils.NormalizeString(Convert.ToString(cellTipoBusq.Value2)).ToLower() : "";
 
-                    if (cedulaValue == cliente.Identificacion && cellTipoBusqValue != "")
+                    if (cedulaValue.Contains(cliente.Identificacion) && cellTipoBusqValue != "")
                     {
                         //identificando si es conyugue
                         if (cellPrincipalValue != cedulaValue)
@@ -195,7 +195,7 @@ namespace ProcesaHistorialesIncidecia.Models
                     Excel.Range cellTipoBusq = sheet.Cells[row, 5];
                     cellTipoBusqValue = cellTipoBusq.Value != null ? Utils.NormalizeString(Convert.ToString(cellTipoBusq.Value2)).ToLower() : "";
 
-                    if (cedulaValue == cliente.Identificacion && cellTipoBusqValue != "")
+                    if (cedulaValue.Contains(cliente.Identificacion) && cellTipoBusqValue != "")
                     {
 
                         //identificando si es conyugue
