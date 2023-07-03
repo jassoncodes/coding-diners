@@ -82,7 +82,7 @@ namespace ProcesaHistorialesIncidecia.Models
                             cellFechaVencimiento.Value = cliente.FechaVencimiento;
                             cellObservacion.Value = cliente.Observacion;
 
-                            if(cliente.DelitosCedulaCJ.Count == 0 || cliente.DelitosNombreCJ.Count == 0 || cliente.DelitosCedulaFG.Count == 0 || cliente.DelitosNombreFG.Count == 0)
+                            if( cliente.DelitosCedulaCJ.Count == 0 && cliente.DelitosNombreCJ.Count == 0 && cliente.DelitosCedulaFG.Count == 0 && cliente.DelitosNombreFG.Count == 0)
                             {
                                 cellDelitos.Value = "";
                             }
