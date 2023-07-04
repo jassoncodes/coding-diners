@@ -3,6 +3,9 @@ import sys
 import helpers
 import datetime
 
+sys.argv.extend([r"E:\RECURSOS ROBOT\DATA\BUSQUEDAJUICIOS\ARCHIVOS\BaseGeneratica\Resultado Generatica para historial BJ.xlsx",
+                 r"E:\RECURSOS ROBOT\DATA\BUSQUEDAJUICIOS\ARCHIVOS\ReporteFinal\REPORTE-RPA-BJ.xlsx"])
+
 try:
     if(len(sys.argv)>1):
         archivo_excel = sys.argv[1]
@@ -22,7 +25,7 @@ try:
 
         # Retrieving the last sheet by index
         last_sheet_index = num_sheets - 1
-        last_sheet = workbook.worksheets[last_sheet_index]
+        sheet = workbook.worksheets[last_sheet_index]
 
         # Leer los datos de la hoja de trabajo
         data = sheet.range('B3').expand().value
