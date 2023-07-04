@@ -1,6 +1,7 @@
 import xlwings as xw
 import sys
 import helpers
+import datetime
 
 try:
     if(len(sys.argv)>1):
@@ -14,9 +15,14 @@ try:
         workbook = app.books.open(archivo_excel)
 
         # Obtener la hoja de trabajo activa
-        sheet_name = "FORMATO"
-        sheet = workbook.sheets[sheet_name]
+            #sheet_name = "FORMATO"
+            #sheet = workbook.sheets[sheet_name]
+        # Accessing the number of sheets in the workbook
+        num_sheets = len(workbook.sheetnames)
 
+        # Retrieving the last sheet by index
+        last_sheet_index = num_sheets - 1
+        last_sheet = workbook.worksheets[last_sheet_index]
 
         # Leer los datos de la hoja de trabajo
         data = sheet.range('B3').expand().value
@@ -70,9 +76,10 @@ try:
         # Cerrar el archivo Excel y la aplicación
         workbook.close()
         app.quit()
+
 except IOError as error:
     except_info = sys.exc_info()
     s_message = f'({except_info[2].tb_lineno}) {except_info[0]} {str(error)}'
-    helpers.put_log(s_message,"--","bsuquedaJuicios", "bsuquedaJuicios.txt")
+    helpers.put_log(s_message,"--","bsuquedaJuicios", f"LogTech_BUSQUEDAJUICIOS_{datetime.datetime.now():%Y%m%d}.xml")
     print('Giskard: ', 'bsuquedaJuicios ')
 

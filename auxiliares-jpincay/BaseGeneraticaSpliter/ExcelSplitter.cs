@@ -57,7 +57,7 @@ public class ExcelSplitter
                 Excel.Range destinationHeadersRange = splitWorksheet.Range["A1:Z1"];
                 sourceHeadersRange.Copy(destinationHeadersRange);
 
-                int currentRow = 4; // Start writing data from row 4
+                int currentRow = 3; // Start writing data from row 3
 
                 for (int j = currentClient; j < currentClient + clientsToWrite; j++)
                 {
