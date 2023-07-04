@@ -23,9 +23,9 @@ public class ExcelSplitter
 
             // Determine the number of unique clients in the source worksheet
             HashSet<string> uniqueClients = new HashSet<string>();
-            for (int i = 2; i <= totalRecords; i++) // Assuming client ID column is in column B (index 2)
+            for (int i = 4; i <= totalRecords; i++) // Assuming client ID column is in column C (index 3) and data starts from row 4
             {
-                string clientID = sourceWorksheet.Cells[i, 2].Value?.ToString();
+                string clientID = sourceWorksheet.Cells[i, 3].Value?.ToString();
                 if (!string.IsNullOrEmpty(clientID))
                 {
                     uniqueClients.Add(clientID);
@@ -52,19 +52,27 @@ public class ExcelSplitter
 
                 int clientsToWrite = Math.Min(clientsPerFile, clientCount - currentClient);
 
+                // Write headers to the split worksheet
+                Excel.Range sourceHeadersRange = sourceWorksheet.Range["A3:Z3"]; // Assuming headers are in row 3
+                Excel.Range destinationHeadersRange = splitWorksheet.Range["A1:Z1"];
+                sourceHeadersRange.Copy(destinationHeadersRange);
+
+                int currentRow = 4; // Start writing data from row 4
+
                 for (int j = currentClient; j < currentClient + clientsToWrite; j++)
                 {
                     string clientID = uniqueClients.ElementAt(j);
 
                     // Copy the records for the current client from the source worksheet to the split worksheet
-                    for (int k = 2; k <= totalRecords; k++) // Assuming client ID column is in column B (index 2)
+                    for (int k = 4; k <= totalRecords; k++) // Assuming client ID column is in column C (index 3) and data starts from row 4
                     {
-                        string currentClientID = sourceWorksheet.Cells[k, 2].Value?.ToString();
+                        string currentClientID = sourceWorksheet.Cells[k, 3].Value?.ToString();
                         if (currentClientID == clientID)
                         {
                             Excel.Range sourceRange = sourceWorksheet.Range["A" + k.ToString(), "Z" + k.ToString()];
-                            Excel.Range destinationRange = splitWorksheet.Cells[splitWorksheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row + 1, 1];
+                            Excel.Range destinationRange = splitWorksheet.Cells[currentRow, 1];
                             sourceRange.Copy(destinationRange);
+                            currentRow++;
                         }
                     }
                 }
@@ -75,20 +83,15 @@ public class ExcelSplitter
                 // Close the split workbook
                 splitWorkbook.Close();
 
+                // Increment the current client index
                 currentClient += clientsToWrite;
 
-                // Increment the current date every 5 files
+                // Check if the date needs to be incremented
                 if ((i + 1) % filesPerDay == 0)
                 {
                     currentDate = currentDate.AddDays(daysPerIncrement);
                 }
             }
-
-            Console.WriteLine("Excel file split successfully!");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error occurred during Excel file splitting: " + ex.Message);
         }
         finally
         {
