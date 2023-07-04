@@ -95,8 +95,8 @@ namespace helixIntegration
 
                     }
                     
-                    Thread.Sleep(2000);
-                    Log.Information("Debemos ingresar para sacar el reporte");
+                    Thread.Sleep(3000);
+                    Log.Information("Descargando reporte de tickets gestionados");
 
                     reporte.accessReport(web);
                                        

@@ -33,8 +33,7 @@ namespace SMDataParser.Config
 
             inputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
             outputPath = @"E:\RECURSOS ROBOT\DATA\MESA_SERVICIO\GESTIONDEUSUARIOS\ARCHBASE\";
-            logPath = Path.Combine(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\",
-                        new string($@"{DateTime.Now:yyyy-M-d}\"));
+            logPath = Path.Combine(@"E:\RECURSOS ROBOT\LOGS\MESA_SERVICIO\GESTIONDEUSUARIOS\", new string($@"{DateTime.Now:yyyy-M-d}\"));
             odtNoGestionados = Path.Combine(logPath, new string($@"ODTNoGestionados_{DateTime.Now:yyyy-M-d_HH}.csv"));
 
             inputFileName = "export.csv";
