@@ -76,14 +76,22 @@ namespace ProcesaHistorialesIncidecia.Models
                             cellDelitos.NumberFormat = "@";
                             cellComentario.NumberFormat = "@";
 
-                            cellCasoID.Value = (cliente.CasoID != "") ? cliente.CasoID : "FICHA NO EXISTE";
+                            cellCasoID.Value = (cliente.CasoID == "") ? "FICHA NO EXISTE" : cliente.CasoID;
                             cellMitigacionActual.Value = cliente.MitigacionActual;
                             cellMitigacionNueva.Value = cliente.MitigacionNueva;
                             cellFechaVencimiento.Value = cliente.FechaVencimiento;
                             cellObservacion.Value = cliente.Observacion;
-                            cellDelitos.Value = $"Delitos encontrados: " +
-                                $"FISCALIA: {new string(string.Join(", ",cliente.DelitosCedulaFG))} {new string(string.Join(", ", cliente.DelitosNombreFG))}" +
-                                $"C JUDICATURA: {new string(string.Join(", ", cliente.DelitosCedulaCJ))} {new string(string.Join(", ", cliente.DelitosNombreCJ))}";
+
+                            if( cliente.DelitosCedulaCJ.Count == 0 && cliente.DelitosNombreCJ.Count == 0 && cliente.DelitosCedulaFG.Count == 0 && cliente.DelitosNombreFG.Count == 0)
+                            {
+                                cellDelitos.Value = "";
+                            }
+                            else
+                            {
+                                cellDelitos.Value = $"Delitos encontrados: " +
+                                    $"FISCALIA: {new string(string.Join(", ", cliente.DelitosCedulaFG))} {new string(string.Join(", ", cliente.DelitosNombreFG))}" +
+                                    $"C JUDICATURA: {new string(string.Join(", ", cliente.DelitosCedulaCJ))} {new string(string.Join(", ", cliente.DelitosNombreCJ))}";
+                            }
                             cellComentario.Value = cliente.Comentario;
 
 

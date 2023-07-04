@@ -52,7 +52,9 @@ namespace ProcesaHistorialesIncidecia.Models
 
                                 Excel.Range cellFechaMitigacion = ws.Cells[row, 11];
                                 string cellFechaMitigacionValue = cellFechaMitigacion != null ? Convert.ToString(cellFechaMitigacion.Value2) : "";
+
                                 cliente.FechaMitigacionActual = cellFechaMitigacionValue;
+
                                 bool res = Utils.VerificarDiferenciaAniosMayorDos(cellFechaMitigacionValue);
 
                                 if (res)
@@ -65,8 +67,12 @@ namespace ProcesaHistorialesIncidecia.Models
                                 }
 
                             }
-                            else
+                            else if (cellMitigacionValue == "justificado")
                             {
+                                cliente.MitigacionActual = cellMitigacionValue.ToUpper();
+                                cliente.MitigacionNueva = cellMitigacionValue.ToUpper();
+                            }
+                            else { 
                                 if (cliente.MitigacionActual == "")
                                 {
                                     continue;
