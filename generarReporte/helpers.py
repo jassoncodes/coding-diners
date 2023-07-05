@@ -30,11 +30,26 @@ def format_time(minute):
 
 
 #Deber crear un archivo de Log para los proceseos de automatización
-def put_log(mensaje:str, marca:str, script:str, pat_log:str ="senderEmail.txt"):
-    ruta = "E:\\recursosrobot\\buquedaJuicios\\busqueda_juicios"+pat_log
-    with open(ruta, 'a') as file:
+    # def put_log(mensaje:str, marca:str, script:str, pat_log:str ="senderEmail.txt"):
+    #    ruta = "E:\\recursosrobot\\buquedaJuicios\\busqueda_juicios"+pat_log
+    #    with open(ruta, 'a') as file:
+    #        file.write(f'{datetime.now()};Script - {script}.py;{mensaje};Marca: {marca}\n')
+    #        file.close()
+
+def put_log(mensaje: str, marca: str, script: str, file_name: str):
+    base_dir = "E:\\RECURSOS ROBOT\\LOGS\\BUSQUEDAJUICIOS"
+    date_folder = datetime.now().strftime("%Y%m%d")
+    folder_path = os.path.join(base_dir, date_folder)
+
+    # Create the date-based folder if it doesn't exist
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    log_file_path = os.path.join(folder_path, file_name)
+    
+    with open(log_file_path, 'a') as file:
         file.write(f'{datetime.now()};Script - {script}.py;{mensaje};Marca: {marca}\n')
-        file.close()
+
 
 #Debe limpiar la ruta que ingresa para sistemas operativos Windows
 #Debe limpiar la ruta que ingresa para sistemas operativos Windows

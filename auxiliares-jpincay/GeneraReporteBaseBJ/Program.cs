@@ -1,6 +1,6 @@
 ﻿using Serilog;
 
-namespace BaseGeneraticaSpliter
+namespace GeneraReporteBaseBJ
 {
     internal class Program
     {
@@ -8,22 +8,42 @@ namespace BaseGeneraticaSpliter
         {
             try
             {
-                string rutaBaseGeneratica = @"E:\RECURSOS ROBOT\DATA\BUSQUEDAJUICIOS\ARCHIVOS\BaseGeneratica\Resultado Generatica para historial BJ.xlsx";
 
-                string rutaBasePorCorte = @"E:\RECURSOS ROBOT\DATA\BUSQUEDAJUICIOS\ARCHIVOS\BasesPorCorte";
+                string sourceFile = "";
+                string outputFile = "";
+
+                if (args.Length == 0)
+                {
+                    sourceFile = @"E:\RECURSOS ROBOT\DATA\BUSQUEDAJUICIOS\ARCHIVOS\BaseGeneratica\Resultado Generatica para historial BJ.xlsx";
+                    outputFile = @"E:\RECURSOS ROBOT\DATA\BUSQUEDAJUICIOS\ARCHIVOS\ReporteFinal\REPORTE-RPA-BJ.xlsx";
+                }
+                else
+                {
+                    sourceFile = args[0];
+                    outputFile = args[1];
+                }
+
+
 
                 string logPath = @"E:\RECURSOS ROBOT\LOGS\BUSQUEDAJUICIOS\";
 
                 ConfigLog(logPath);
 
-                ExcelSplitter.SplitExcelFile(rutaBaseGeneratica, 10, rutaBasePorCorte);
+                if (!File.Exists(sourceFile))
+                {
+                    throw new FileNotFoundException(sourceFile);
+                }
+
+                ExcelDuplicateFilter.FilterDuplicates(sourceFile, outputFile);
 
                 GC.Collect();
 
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Log.Error($"Error: {ex.Message}\n{ex.StackTrace}");
                 GC.Collect();
+
             }
 
         }
@@ -41,6 +61,7 @@ namespace BaseGeneraticaSpliter
 
         }
 
-
     }
+
+
 }
