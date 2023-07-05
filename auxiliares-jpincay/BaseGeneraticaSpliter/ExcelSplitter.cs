@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -54,10 +55,10 @@ public class ExcelSplitter
 
                 // Write headers to the split worksheet
                 Excel.Range sourceHeadersRange = sourceWorksheet.Range["A3:Z3"]; // Assuming headers are in row 3
-                Excel.Range destinationHeadersRange = splitWorksheet.Range["A1:Z1"];
+                Excel.Range destinationHeadersRange = splitWorksheet.Range["A3:Z3"];
                 sourceHeadersRange.Copy(destinationHeadersRange);
 
-                int currentRow = 3; // Start writing data from row 3
+                int currentRow = 4; // Start writing data from row 3
 
                 for (int j = currentClient; j < currentClient + clientsToWrite; j++)
                 {
@@ -79,6 +80,11 @@ public class ExcelSplitter
 
                 // Save the split file with a unique name in the specified output directory
                 splitWorkbook.SaveAs(filePath);
+
+                if (File.Exists(filePath))
+                {
+                    Log.Information($"Archivo base corte generado: {filePath}");
+                }
 
                 // Close the split workbook
                 splitWorkbook.Close();
@@ -104,6 +110,8 @@ public class ExcelSplitter
 
             excelApp.Quit();
             System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+
+            GC.Collect();
         }
     }
 

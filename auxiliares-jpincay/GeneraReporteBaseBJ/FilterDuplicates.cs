@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -14,6 +15,8 @@ public class ExcelDuplicateFilter
 
         try
         {
+            Log.Information($"Obteniendo data de base generatica");
+
             // Open the source Excel file
             sourceWorkbook = excelApp.Workbooks.Open(sourceFilePath);
             Excel.Worksheet sourceWorksheet = sourceWorkbook.ActiveSheet;
@@ -28,7 +31,7 @@ public class ExcelDuplicateFilter
             Dictionary<string, List<string>> duplicateData = new Dictionary<string, List<string>>();
 
             // Loop through the rows in the used range starting from the second row
-            for (int row = 2; row <= lastRow; row++)
+            for (int row = 4; row <= lastRow; row++)
             {
                 // Get the value in column "C" for the current row
                 string id = sourceWorksheet.Cells[row, 3].Value?.ToString().Trim();
@@ -57,12 +60,16 @@ public class ExcelDuplicateFilter
             outputWorkbook = excelApp.Workbooks.Add();
             Excel.Worksheet outputWorksheet = outputWorkbook.ActiveSheet;
 
+            Log.Information($"Generando reporte base");
+
             // Write the headers to the output worksheet
             string[] headers = { "CasoId", "ID Principal", "Identificacion", "Nombre", "Descripcion Mitigacion (antes)", "Descripcion Mitigacion (actual)", "Fecha Vencimiento", "Observacion", "Delitos encontrados", "Comentario" };
             for (int column = 1; column <= headers.Length; column++)
             {
                 outputWorksheet.Cells[1, column] = headers[column - 1];
             }
+
+            Log.Information($"Escribiendo data");
 
             // Write the filtered data to the output worksheet
             int outputRow = 2;
@@ -82,54 +89,33 @@ public class ExcelDuplicateFilter
                     outputWorksheet.Cells[outputRow, 2] = values[0];
                     outputWorksheet.Cells[outputRow, 4] = values[1];
 
-                    //// Write the corresponding values from columns "B" and "D" in the same row
-                    //int column = 2;
-                    //foreach (string value in values)
-                    //{
-                    //    outputWorksheet.Cells[outputRow, column] = value;
-                    //    column++;
-                    //}
-
                     outputRow++;
+
                 }
             }
 
             // Save the output workbook to the specified output file
             outputWorkbook.SaveAs(outputFilePath);
 
-            Console.WriteLine("Filtered data has been written to the output file: " + outputFilePath);
+            Log.Information("Reporte base generado: " + outputFilePath);
+
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error: " + ex.Message);
+            Log.Error($"Error: {ex.Message}\n{ex.StackTrace}");
         }
         finally
         {
             // Close and release resources
-            sourceWorkbook?.Close();
-            outputWorkbook?.Close();
+            sourceWorkbook.Close();
+            outputWorkbook.Close();
             excelApp.Quit();
-            ReleaseObject(sourceWorkbook);
-            ReleaseObject(outputWorkbook);
-            ReleaseObject(excelApp);
+
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+
+            GC.Collect();
+
         }
     }
 
-    private static void ReleaseObject(object obj)
-    {
-        try
-        {
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-            obj = null;
-        }
-        catch (Exception ex)
-        {
-            obj = null;
-            Console.WriteLine("Error releasing object: " + ex.Message);
-        }
-        finally
-        {
-            GC.Collect();
-        }
-    }
 }
