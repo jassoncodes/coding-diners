@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ApplicationIcon>Assets\icons8-gear-48.ico</ApplicationIcon>
+    <AssemblyName>GeneraReporteBase</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
