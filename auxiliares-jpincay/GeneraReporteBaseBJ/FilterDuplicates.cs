@@ -25,7 +25,7 @@ public class ExcelDuplicateFilter
             Excel.Range usedRange = sourceWorksheet.UsedRange;
 
             // Get the last row in the used range
-            int lastRow = usedRange.Rows.Count;
+            int lastRow = usedRange.Rows.Count + 2;
 
             // Create a dictionary to store the unique IDs and their corresponding values
             Dictionary<string, List<string>> duplicateData = new Dictionary<string, List<string>>();
