@@ -39,7 +39,7 @@ public class ExcelSplitter
             int daysPerIncrement = 1;
             int totalFiles = filesPerID * UniqueIDs.Length;
             int currentClient = 0;
-            DateTime currentDate = DateTime.Now.Date;
+            DateTime currentDate = DateTime.Now.Date.AddDays(1);
 
             for (int i = 0; i < totalFiles; i++)
             {
