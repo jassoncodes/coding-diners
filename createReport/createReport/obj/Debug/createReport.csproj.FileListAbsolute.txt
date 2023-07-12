@@ -1,8 +1,0 @@
-D:\repositorio\coding-diners\createReport\createReport\bin\Debug\createReport.exe.config
-D:\repositorio\coding-diners\createReport\createReport\bin\Debug\createReport.exe
-D:\repositorio\coding-diners\createReport\createReport\bin\Debug\createReport.pdb
-D:\repositorio\coding-diners\createReport\createReport\obj\Debug\createReport.csproj.AssemblyReference.cache
-D:\repositorio\coding-diners\createReport\createReport\obj\Debug\createReport.csproj.SuggestedBindingRedirects.cache
-D:\repositorio\coding-diners\createReport\createReport\obj\Debug\createReport.csproj.CoreCompileInputs.cache
-D:\repositorio\coding-diners\createReport\createReport\obj\Debug\createReport.exe
-D:\repositorio\coding-diners\createReport\createReport\obj\Debug\createReport.pdb
