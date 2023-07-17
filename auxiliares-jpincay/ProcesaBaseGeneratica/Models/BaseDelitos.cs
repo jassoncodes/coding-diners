@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace ProcesaHistorialesIncidecia.Models
+namespace ProcesaBaseGeneratica.Models
 {
     public class BaseDelitos
     {

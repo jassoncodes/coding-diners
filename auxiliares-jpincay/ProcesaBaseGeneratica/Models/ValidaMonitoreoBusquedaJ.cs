@@ -5,12 +5,12 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
-using Cliente = ProcesaHistorialesIncidecia.Models.Cliente;
+using Cliente = ProcesaBaseGeneratica.Models.Cliente;
 using System.Text.RegularExpressions;
 using Serilog;
 using System.Diagnostics;
 
-namespace ProcesaHistorialesIncidecia.Models
+namespace ProcesaBaseGeneratica.Models
 {
 
     public class ValidaMonitoreoBusquedaJ

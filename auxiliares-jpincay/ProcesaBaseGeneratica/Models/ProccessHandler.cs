@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProcesaHistorialesIncidecia.Models
+namespace ProcesaBaseGeneratica.Models
 {
     public class ProccessHandler
     {

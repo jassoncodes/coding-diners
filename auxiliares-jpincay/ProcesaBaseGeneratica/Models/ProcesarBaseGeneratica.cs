@@ -2,7 +2,7 @@
 using Serilog;
 
 
-namespace ProcesaHistorialesIncidecia.Models
+namespace ProcesaBaseGeneratica.Models
 {
     class ProcesarBaseGeneratica
     {
@@ -144,7 +144,7 @@ namespace ProcesaHistorialesIncidecia.Models
 
                 if (cliente.DelitosCedulaFG.Count < 4 || cliente.DelitosNombreFG.Count < 4)
                 {
-                    cliente.Comentario += $"{new string((cliente.Conyugue == true) ? $"CONYUGUE: {cliente.IdentificacionConyugue} (Principal: {cliente.IdentificacionConyugue})- " : "")}" +
+                    cliente.Comentario += $"{new string((cliente.Conyugue == true) ? $"CNYG/ACC: {cliente.Identificacion} (Principal: {cliente.IdentificacionConyugue})- " : "")}" +
                                           $"\"BJ\" FISCALIA GENERAL: " +
                                           $"Resultado POR CEDULA: {new string((cliente.DelitosCedulaFG.Count == 0) ? "SIN COINCIDENCIAS ENCONTRADAS" : string.Join(", ", cliente.DelitosCedulaFG))}. " +
                                           $"Resultado POR NOMBRE: {new string((cliente.DelitosNombreFG.Count == 0) ? "SIN COINCIDENCIAS ENCONTRADAS" : string.Join(", ", cliente.DelitosNombreFG))}. ";
@@ -249,7 +249,7 @@ namespace ProcesaHistorialesIncidecia.Models
 
                 if (cliente.DelitosCedulaCJ.Count < 4 || cliente.DelitosNombreCJ.Count < 4)
                 {
-                    cliente.Comentario += $"{new string((cliente.Conyugue == true) ? $"CONYUGUE: {cliente.Identificacion} (Principal: {cliente.IdentificacionConyugue})- " : "")}" +
+                    cliente.Comentario += $"{new string((cliente.Conyugue == true) ? $"CNYG/ACC: {cliente.Identificacion} (Principal: {cliente.IdentificacionConyugue})- " : "")}" +
                                           $"\"BJ\" CONSEJO JUDICATURA: " +
                                           $"Resultado POR CEDULA: {new string((cliente.DelitosCedulaCJ.Count == 0) ? "SIN COINCIDENCIAS ENCONTRADAS" : string.Join(", ", cliente.DelitosCedulaCJ))}. " +
                                           $"Resultado POR NOMBRE: {new string((cliente.DelitosNombreCJ.Count == 0) ? "SIN COINCIDENCIAS ENCONTRADAS" : string.Join(", ", cliente.DelitosNombreCJ))}. ";

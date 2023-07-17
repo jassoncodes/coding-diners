@@ -1,13 +1,13 @@
 ﻿using Serilog;
-using ValidaMonitoreoBusquedaj = ProcesaHistorialesIncidecia.Models.ValidaMonitoreoBusquedaJ;
-using ProccessHandler = ProcesaHistorialesIncidecia.Models.ProccessHandler;
-using ProcesarBaseGeneratica = ProcesaHistorialesIncidecia.Models.ProcesarBaseGeneratica;
-using ProcesaHistorialesIncidecia.Models;
+using ValidaMonitoreoBusquedaj = ProcesaBaseGeneratica.Models.ValidaMonitoreoBusquedaJ;
+using ProccessHandler = ProcesaBaseGeneratica.Models.ProccessHandler;
+using ProcesarBaseGeneratica = ProcesaBaseGeneratica.Models.ProcesarBaseGeneratica;
+using ProcesaBaseGeneratica.Models;
 
-namespace ProcesaHistorialesIncidecia
+namespace ProcesaBaseGeneratica
 {
 
-    public class ProcesaHistorialesIncidecia
+    public class ProcesaBaseGeneratica
     {
         private static void ConfigLog(string logPath)
         {
@@ -67,7 +67,7 @@ namespace ProcesaHistorialesIncidecia
 
                 string[] rutasArchivosResapaldo = { archivoConsolidado, rutaBaseGeneratica, rutaArchivoReporte };
 
-                string nombreArchivoRespaldo = new string($"ARCHIVOS-RPA-BUSQUEDAJUICIOS-{new string($@"{DateTime.Now:yyyyMMdd}")}.zip");
+                string nombreArchivoRespaldo = new string($"ARCHIVOS-RPA-BUSQUEDAJUICIOS-{new string($@"{DateTime.Now:yyyyMMdd}_{DateTime.Now:HH}")}.zip");
                 string rutaRespaldo = Path.Combine(logPath, new string($@"{DateTime.Now:yyyyMMdd}\{nombreArchivoRespaldo}"));
 
                 Log.Information($"Respaldando archivos en {rutaRespaldo}");
