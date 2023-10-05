@@ -24,6 +24,7 @@ namespace ProcesaBaseGeneratica
 
         static void Main(string[] args)
         {
+            //2023-07-17
             string rutaIncidencias = @"E:\RECURSOS ROBOT\DATA\BUSQUEDAJUICIOS\ARCHIVOS\CasosIncidenciaHistorial"; // Ruta del directorio donde se encuentran los archivos Excel
 
             string archivoConsolidado = Path.Combine(rutaIncidencias, "ConsolidadoHistoriales.xlsx"); // Ruta del archivo de salida
